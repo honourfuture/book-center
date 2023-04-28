@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '7473241a38b2595abff35df61360c89d4ed63d16',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -97,6 +97,33 @@
       ),
       'reference' => '0dbf5d78455d4d6a41d186da50adc1122ec066f4',
     ),
+    'elasticsearch/elasticsearch' => 
+    array (
+      'pretty_version' => 'v7.12.0',
+      'version' => '7.12.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '25522ef4f16adcf49d7a1db149f2fcf010655b7f',
+    ),
+    'ezimuel/guzzlestreams' => 
+    array (
+      'pretty_version' => '3.1.0',
+      'version' => '3.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b4b5a025dfee70d6cd34c780e07330eb93d5b997',
+    ),
+    'ezimuel/ringphp' => 
+    array (
+      'pretty_version' => '1.2.2',
+      'version' => '1.2.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7887fc8488013065f72f977dcb281994f5fde9f4',
+    ),
     'facade/flare-client-php' => 
     array (
       'pretty_version' => '1.10.0',
@@ -186,6 +213,13 @@
       array (
       ),
       'reference' => 'b635f279edd83fc275f822a1188157ffea568ff6',
+    ),
+    'guzzlehttp/ringphp' => 
+    array (
+      'replaced' => 
+      array (
+        0 => '1.2.2',
+      ),
     ),
     'hamcrest/hamcrest-php' => 
     array (
@@ -431,12 +465,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '7473241a38b2595abff35df61360c89d4ed63d16',
     ),
     'laravel/sail' => 
     array (
@@ -772,8 +806,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0|2.0',
-        1 => '1.0.0 || 2.0.0 || 3.0.0',
+        0 => '1.0.0 || 2.0.0 || 3.0.0',
+        1 => '1.0|2.0',
       ),
     ),
     'psr/simple-cache' => 
@@ -827,6 +861,15 @@
       array (
       ),
       'reference' => 'fc9bb7fb5388691fd7373cd44dcb4d63bbcf24df',
+    ),
+    'react/promise' => 
+    array (
+      'pretty_version' => 'v2.9.0',
+      'version' => '2.9.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '234f8fd1023c9158e2314fa9d7d0e6a83db42910',
     ),
     'rhumsaa/uuid' => 
     array (
