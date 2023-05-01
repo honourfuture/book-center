@@ -34,26 +34,26 @@ class ArticleController extends Controller
             $chapter->size = $storage->size($chapter_file_path);
             $chapter_file = $storage->get($chapter_file_path);
             $chapter->content = iconv('gbk', 'utf-8//IGNORE', $chapter_file);
-
             $chapter->strlen = mb_strlen($chapter->content);
 
-            try {
-                $this->_check_chapter($chapter->content, $chapter->strlen);
-            } catch (\Exception $exception) {
-                $chapter->error_message = $exception->getMessage();
-            }
+            $chapter->error_message = $this->_check_chapter($chapter->content, $chapter->strlen);
         }
-        return view('chapter', ['chapters' => $chapters]);
+        return view('chapter', ['article' => $article, 'chapters' => $chapters]);
     }
 
-    private function _check_chapter($content, $strlen)
+    private function _check_chapter($content, $str_len)
     {
-        if (strpos("正在手打", $content) || strpos("灵魂契约", $content)) {
-            throw new \Exception('章节可能错误.', 400);
+        $error_message = [];
+        if (strpos($content, "正在手打")) {
+            $error_message[] = "正在手打";
+        }
+        if (strpos($content, "灵魂契约")) {
+            $error_message[] = "灵魂契约";
+        }
+        if ($str_len < 450) {
+            $error_message[] = "字数异常";
         }
 
-        if ($strlen < 450) {
-            throw new \Exception('章节长度异常', 400);
-        }
+        return $error_message;
     }
 }
