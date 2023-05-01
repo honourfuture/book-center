@@ -20,3 +20,12 @@ Route::get('/', function () {
 Route::get('/remote-site', [\App\Http\Controllers\RemoteSiteController::class, 'view']);
 Route::get('/update-article', [\App\Http\Controllers\UpdateArticleController::class, 'article']);
 Route::get('/article/{id}', [\App\Http\Controllers\ArticleController::class, 'article']);
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
