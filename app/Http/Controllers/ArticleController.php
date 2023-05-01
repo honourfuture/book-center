@@ -23,11 +23,12 @@ class ArticleController extends Controller
         $storage = Storage::disk('article');
 
         foreach ($chapters as &$chapter) {
-            $chapter->exists = false;
+            $chapter->error_message = [];
+
             $chapter_file_path = "{$short_id}/{$article->articleid}/$chapter->chapterid.txt";
 
             if (!$storage->exists($chapter_file_path)) {
-                $chapter->exists = true;
+                $chapter->error_message = ["txt丢失"];
                 continue;
             }
 
@@ -38,6 +39,7 @@ class ArticleController extends Controller
 
             $chapter->error_message = $this->_check_chapter($chapter->content, $chapter->strlen);
         }
+
         return view('chapter', ['article' => $article, 'chapters' => $chapters]);
     }
 
