@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/remote-site', [\App\Http\Controllers\RemoteSiteController::class, 'view']);
+Route::get('/update-article', [\App\Http\Controllers\UpdateArticleController::class, 'article']);
+Route::get('/article/{id}', [\App\Http\Controllers\ArticleController::class, 'article']);
