@@ -32,7 +32,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'df3b27229ea254a0e06e54ce86ced19ce2ea378f',
+    'reference' => '03ffa2064c2a9d0e475ac51d6df3862a5e58f646',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -491,6 +491,15 @@ private static $installed = array (
         0 => 'v8.83.27',
       ),
     ),
+    'inertiajs/inertia-laravel' => 
+    array (
+      'pretty_version' => 'v0.5.4',
+      'version' => '0.5.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '6a050ce04a710ac4809161558ac09fe49f13075e',
+    ),
     'jaybizzle/crawler-detect' => 
     array (
       'pretty_version' => 'v1.2.114',
@@ -550,7 +559,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'df3b27229ea254a0e06e54ce86ced19ce2ea378f',
+      'reference' => '03ffa2064c2a9d0e475ac51d6df3862a5e58f646',
     ),
     'laravel/sail' => 
     array (
@@ -1412,6 +1421,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '34a41e998c2183e22995f158c581e7b5e755ab9e',
+    ),
+    'tightenco/ziggy' => 
+    array (
+      'pretty_version' => 'v1.5.1',
+      'version' => '1.5.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'abd6854d29f892f9ac80a5837acc0d91e8412365',
     ),
     'tijsverkoyen/css-to-inline-styles' => 
     array (
