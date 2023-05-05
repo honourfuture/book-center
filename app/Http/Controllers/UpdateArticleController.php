@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\OverviewArticle;
 use App\Models\TargetArticle;
 use App\Models\Article;
 use App\Services\OverviewUrlService;
@@ -17,8 +18,16 @@ class UpdateArticleController extends Controller
 
         /** @var OverviewUrlService $overviewUrlService */
         $overviewUrlService = app('OverviewUrlService');
-        $overviewUrlService->overview_urls('baidu', $start_date, $end_date);
-
-        $article = Article::first();
+        $article_ids = $overviewUrlService->overview_urls('baidu', $start_date, $end_date);
+        $article_ids = array_unique($article_ids);
+        $date = date('Y-m-d');
+        $insert = [];
+        foreach ($article_ids as $id){
+            $insert[] = [
+                'article_id' => $id,
+                'date' => $date
+            ];
+        }
+        OverviewArticle::insert($insert);
     }
 }

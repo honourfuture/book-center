@@ -40,6 +40,10 @@ return [
             'root' => storage_path('files/article/txt'),
         ],
 
+        'excellent' => [
+            'driver' => 'local',
+            'root' => storage_path('excellent')
+        ],
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

@@ -24,7 +24,9 @@ class RemoteSiteController extends Controller
 
         $client = new Client([
 //            'proxy' => $proxy_url
+            'headers' => ['User-Agent' => "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/4.9.5.1000 Chrome/39.0.2146.0 Safari/537.36"]
         ]);
+
 
         if(strpos('?', $target_url)){
             $target_url .= '&time=' . time();

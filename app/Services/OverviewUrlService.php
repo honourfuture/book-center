@@ -23,6 +23,8 @@ class OverviewUrlService
                 $urls = $this->_baidu_top($start_date, $end_date);
                 break;
             case 'nginx':
+                $a = app('es')->info();
+                print_r($a);
                 $urls = [];
                 break;
         }
@@ -67,12 +69,12 @@ class OverviewUrlService
             'start_date' => $start_date,
             'end_date' => $end_date,
             'metrics' => 'pv_count',
-            'max_results' => 10
+            'max_results' => 3000
         ];
 
         $client = new Client([
             'base_uri' => $base_uri,
-            'timeout' => 20.0
+            'timeout' => 50.0
         ]);
 
         $response = $client->request('GET', $base_uri, [
