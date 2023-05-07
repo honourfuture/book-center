@@ -15,8 +15,17 @@ use Inertia\Inertia;
 |
 */
 
+//远程访问
 Route::get('/remote-site', [\App\Http\Controllers\RemoteSiteController::class, 'view']);
+
+//最近访问列表
 Route::get('/update-article', [\App\Http\Controllers\UpdateArticleController::class, 'article']);
+
+//校对
 Route::get('/article/{id}', [\App\Http\Controllers\ArticleController::class, 'article']);
 
+//精校
 Route::get('/article-create', [\App\Http\Controllers\ArticleController::class, 'create']);
+
+//Tool
+Route::view('/tool', 'tool');

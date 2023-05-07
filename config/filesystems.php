@@ -29,20 +29,23 @@ return [
     */
 
     'disks' => [
-
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
-
         'article' => [
             'driver' => 'local',
             'root' => storage_path('files/article/txt'),
         ],
-
+        //精校版
         'excellent' => [
             'driver' => 'local',
             'root' => storage_path('excellent')
+        ],
+        //sitemap
+        'sitemap' => [
+            'driver' => 'local',
+            'root' => storage_path('sitemap')
         ],
         'public' => [
             'driver' => 'local',
@@ -50,7 +53,6 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

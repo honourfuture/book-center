@@ -1,12 +1,7 @@
-<!doctype html>
-<head>
-    <!-- ... --->
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.6/dist/full.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
-</head>
-<div class="bg-white px-4 py-12 sm:px-6 lg:px-8">
+@extends('layouts.app')
+
+@section('content')
+<div class="bg-white">
     <div class="text-left">
         <h2>{{ $article->articlename }}</h2>
     </div>
@@ -51,3 +46,4 @@
 
 </div>
 
+@endsection
