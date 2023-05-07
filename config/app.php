@@ -181,6 +181,7 @@ return [
 
         App\Providers\HttpProxyServiceProvider::class,
         App\Providers\OverviewUrlServiceProvider::class,
+        App\Providers\SitemapServiceProvider::class,
 
     ],
 
