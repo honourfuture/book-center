@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Chapter;
+use App\Services\ExcellentArticleService;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use Illuminate\Support\Facades\Storage;
@@ -68,37 +69,8 @@ class ArticleController extends Controller
 
     public function create()
     {
-        $storage = Storage::disk('excellent');
-
-        $files = $storage->allFiles("/");
-
-        foreach ($files as $file) {
-            $path = $storage->path($file);
-            $file = fopen($path, 'r');
-
-            $line_num = 0;
-            while (!feof($file)) {
-                $line = fgets($file);
-                $line_num++;
-                if ($line_num < 4) {
-                    continue;
-                }
-                $is_indented = 0;
-                if (strpos('　　', $line)) {
-                    $is_indented = 1;
-                }
-
-                echo "QQQQQQQ:".$is_indented."\n";
-                var_dump($line);
-                echo "\n";
-                if($line_num == 500){
-                    break;
-                }
-            }
-
-            fclose($file);
-
-
-        }
+        /** @var ExcellentArticleService $excellentArticleService */
+        $excellentArticleService = app('ExcellentArticleService');
+        $excellentArticleService->read();
     }
 }

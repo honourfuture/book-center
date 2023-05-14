@@ -84,7 +84,6 @@ class SitemapService
                             $content .= $this->_set_sitemap_body($value);
                             $content .= $this->_set_sitemap_footer();
                             $storage->put("{$engine}/{$category}_{$index}.xml", $content);
-
                         }
                         continue;
                     }
