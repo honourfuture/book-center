@@ -60,6 +60,9 @@ class ArticleController extends Controller
         if (strpos($content, "是一个失败者")) {
             $error_message[] = "失败者";
         }
+        if (strpos($content, "作为捕蛇者")) {
+            $error_message[] = "作为捕蛇者";
+        }
         if ($str_len < 450) {
             $error_message[] = "字数异常";
         }
