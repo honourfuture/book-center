@@ -14,6 +14,8 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//关键词
+Route::get('/get-keyword', [\App\Http\Controllers\KeywordController::class, 'get_keyword']);
 
 //远程访问
 Route::get('/remote-site', [\App\Http\Controllers\RemoteSiteController::class, 'view']);

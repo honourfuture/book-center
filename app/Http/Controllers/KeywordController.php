@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Services\HttpProxyService;
+use App\Models\Article;
+use App\Models\Chapter;
+use App\Models\ErrorChapter;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class KeywordController extends Controller
 {
@@ -13,28 +16,69 @@ class KeywordController extends Controller
      * @param Request $request
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function view(Request $request)
+    public function get_keyword(Request $request)
     {
-        $target_url = $request->get('target', '');
+        $article_ids = $request->get('article_ids', 19);
+        $article_ids = explode(',', $article_ids);
 
-        /** @var HttpProxyService $httpProxyService */
-        $httpProxyService = app("HttpProxyService");
-        $proxy = $httpProxyService->proxy();
-        $proxy_url = $httpProxyService->proxy_url($proxy);
+        $articles = Article::whereIn('articleid', $article_ids)->get();
 
-        $client = new Client([
-//            'proxy' => $proxy_url
-            'headers' => ['User-Agent' => "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/4.9.5.1000 Chrome/39.0.2146.0 Safari/537.36"]
-        ]);
+        $target_url = 'http://81.68.159.206:5000/get-article-keyowrds';
 
-        if(strpos('?', $target_url)){
-            $target_url .= '&time=' . time();
-        }else{
-            $target_url .= '?time=' . time();
+        $client = new Client(['headers' => ['Content-Type' => 'application/json']]);
+
+        foreach ($articles as $article){
+            $chapters = Chapter::select([
+                'chapterid', 'articleid',
+                'chaptername', 'lastupdate', 'chapterorder'
+            ])->where('articleid', $article->articleid)
+                ->orderBy('chapterorder', 'asc')
+                ->limit(3)->get();
+
+            $short_id = intval($article->articleid / 1000);
+            $storage = Storage::disk('article');
+            $keywords = [];
+
+            foreach ($chapters as &$chapter) {
+                $chapter_file_path = "{$short_id}/{$article->articleid}/$chapter->chapterid.txt";
+                if (!$storage->exists($chapter_file_path)) {
+                    $chapter->error_message = ["txt丢失"];
+                    continue;
+                }
+                $chapter_file = $storage->get($chapter_file_path);
+                $content = iconv('gbk', 'utf-8//IGNORE', $chapter_file);
+
+                $response = $client->post($target_url, ['body' => json_encode([
+                    'text' => $content,
+                    'token' => '4uU-4TGT',
+                ])]);
+
+                $result = $response->getBody()->getContents();
+
+                $result = json_decode($result, true);
+
+
+                foreach ($result as $keyword => $occurrences){
+                    if(isset($keywords[$keyword])){
+                        $keywords[$keyword]['occurrences'] = $occurrences + $keywords[$keyword]['occurrences'];
+                        continue;
+                    }
+
+                    $keywords[$keyword] = [
+                        'keyword' => $keyword,
+                        'occurrences' => $occurrences,
+                    ];
+                }
+
+            }
+            $sort_keywords = collect($keywords)->sortByDesc('occurrences')->toArray();
+            $sort_keywords = array_slice($sort_keywords, 0, 3);
+            $sort_keywords = array_column($sort_keywords, 'keyword');
+            $sort_keyword_string = implode(',', $sort_keywords);
+
+            Article::where('articleid', $article->articleid)->update(['keywords' => $sort_keyword_string]);
         }
 
-        $response = $client->get($target_url);
 
-        echo ($response->getBody());
     }
 }

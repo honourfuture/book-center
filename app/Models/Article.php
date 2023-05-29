@@ -13,6 +13,8 @@ class Article extends Model
 
     protected $primaryKey = 'articleid';
 
+    public $timestamps = false;
+
     public function chapters()
     {
         return $this->hasMany(Chapter::class, 'articleid', 'articleid');

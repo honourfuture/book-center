@@ -152,4 +152,5 @@ class ArticleController extends Controller
 
         return view('error-chapter', ['articles' => $articles]);
     }
+
 }
