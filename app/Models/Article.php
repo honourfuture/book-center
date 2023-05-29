@@ -17,4 +17,9 @@ class Article extends Model
     {
         return $this->hasMany(Chapter::class, 'articleid', 'articleid');
     }
+
+    public function error_chapters()
+    {
+        return $this->hasMany(ErrorChapter::class, 'articleid', 'articleid');
+    }
 }

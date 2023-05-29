@@ -23,6 +23,8 @@ Route::get('/update-article', [\App\Http\Controllers\UpdateArticleController::cl
 
 //校对
 Route::get('/article/{id}', [\App\Http\Controllers\ArticleController::class, 'article']);
+Route::any('/check-articles', [\App\Http\Controllers\ArticleController::class, 'check_articles']);
+Route::get('/error-articles', [\App\Http\Controllers\ArticleController::class, 'error_articles']);
 
 //精校
 Route::get('/article-create', [\App\Http\Controllers\ArticleController::class, 'create']);

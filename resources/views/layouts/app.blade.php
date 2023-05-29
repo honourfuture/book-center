@@ -20,6 +20,7 @@
                     <div class="ml-10 flex items-baseline space-x-4">
                         <a href="/tool" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Tool</a>
                         <a href="/article/19" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Proof</a>
+                        <a href="/error-articles?article_ids=19" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Error-articles</a>
                     </div>
                 </div>
             </div>
