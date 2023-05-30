@@ -19,6 +19,16 @@
                         <div tabindex="0" class="collapse collapse-plus border border-base-300 bg-base-100 rounded-box">
                             <div class="collapse-title text-xl  ">
                                 异常章节详情 <?php echo $article->error_chapters->count();?>
+                                @foreach($article->error_chapters as $error_chapter)
+                                    <a href="#">
+                                <span
+                                    class="items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20"
+                                    style="line-height: 3.35em">
+
+                                    {{ $error_chapter->chapterorder }}
+                                </span>
+                                    </a>
+                                @endforeach
                             </div>
                             <div class="collapse-content">
                                 <div class="space-y-5">
