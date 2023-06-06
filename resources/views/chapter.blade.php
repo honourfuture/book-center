@@ -20,10 +20,16 @@
                                 <p class="text-sm font-semibold leading-6 text-gray-900">
                                     <kbd class="kbd">{{ $chapter->chapterorder -1 }}</kbd>
                                     ({{ $chapter->chapterid }})
-                                    {{ $chapter->chaptername }}</p>
+                                    {{ $chapter->chaptername }}
+                                </p>
+                                <p class="mt-1 truncate text-sm leading-5 text-gray-500">
+                                    <?php echo date('Y-m-d H:i:s', $chapter->lastupdate); ?>
+                                </p>
                                 <p class="mt-1 truncate text-xs leading-5 text-gray-500">
                                     {{ $chapter->size }}
 
+                                </p>
+                                <p class="mt-1 truncate text-xs leading-5 text-gray-500">
                                     @if($chapter->error_message)
                                         @foreach ($chapter->error_message as $message)
                                             <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
