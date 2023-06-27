@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Services\HttpProxyService;
 use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
 use Illuminate\Http\Request;
 
 class RemoteSiteController extends Controller
@@ -16,6 +17,7 @@ class RemoteSiteController extends Controller
     public function view(Request $request)
     {
         $target_url = $request->get('target', '');
+        $cookie = $request->get('is_cookie', '727abdc9131d272e');
 
         /** @var HttpProxyService $httpProxyService */
         $httpProxyService = app("HttpProxyService");
@@ -34,8 +36,14 @@ class RemoteSiteController extends Controller
             $target_url .= '?time=' . time();
         }
 
-        $response = $client->get($target_url);
+        if($cookie){
+            $cookieJar = CookieJar::fromArray(['nxgmnmry' => $cookie],'www.80y.net');
+            $response = $client->request('GET', $target_url, ['cookies' => $cookieJar]);
+            echo ($response->getBody());
+            exit;
+        }
 
+        $response = $client->get($target_url);
         echo ($response->getBody());
     }
 }
