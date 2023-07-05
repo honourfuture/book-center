@@ -1,17 +1,18 @@
 <?php
 namespace App\Console\Commands;
+use App\Models\Article;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Console\Command;
 
-class FixArticle extends Command
+class ReadArticleOpt extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'article:fix {--article_id=}';
+    protected $signature = 'read:opt {--article_id=}';
 
     /**
      * The console command description.
@@ -37,7 +38,6 @@ class FixArticle extends Command
      */
     public function handle()
     {
-
         $storage = Storage::disk('article');
 
         $files =  $storage->directories('/');
@@ -45,23 +45,22 @@ class FixArticle extends Command
         foreach ($files as $index){
             $article_ids = $storage->directories("/{$index}/");
             foreach ($article_ids as $id){
-                $article_id = explode('/', $id)[0];
+                $article_id = explode('/', $id)[1];
                 $index_opf = $storage->get("/{$id}/index.opf");
                 $strXml = iconv('gbk', 'utf-8//IGNORE', $index_opf);
+                $strXml = str_replace('ISO-8859-1', 'UTF-8', $strXml);
                 @$objXml = simplexml_load_string($strXml);
-                print_r($strXml);die;
-            }
-        }
-    }
+                $book = json_decode(json_encode($objXml), true);
+                print_r($book);
+                $article = Article::where('articleid', $article_id)->with(
+                    'chapters'
+                )->first()->toArray();
 
-    private function xml2arr($simxml){
-        $simxml = (array)$simxml;//强转
-        foreach($simxml as $k => $v){
-            if(is_array($v) || is_object($v)){
-                $simxml[$k] = xml2arr($v);
+                if(!$article){
+
+                }
             }
         }
-        return $simxml;
     }
 
 }

@@ -15,31 +15,7 @@ class ArticleController extends Controller
 {
     public function article($id, Request $request)
     {
-        $storage = Storage::disk('article');
 
-        $files =  $storage->directories('/');
-
-        foreach ($files as $index){
-            $article_ids = $storage->directories("/{$index}/");
-            foreach ($article_ids as $id){
-                $article_id = explode('/', $id)[1];
-                $index_opf = $storage->get("/{$id}/index.opf");
-                $strXml = iconv('gbk', 'utf-8//IGNORE', $index_opf);
-                $strXml = str_replace('ISO-8859-1', 'UTF-8', $strXml);
-                @$objXml = simplexml_load_string($strXml);
-                $book = json_decode(json_encode($objXml), true);
-                print_r($book);
-                $article = Article::where('articleid', $article_id)->with(
-                    'chapters'
-                )->first()->toArray();
-
-                if(!$article){
-
-                }
-                print_r($article);die;
-            }
-        }
-        die;
         $page_size = $request->get('chapter_num', 50);
 
         $article = Article::find($id);
