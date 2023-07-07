@@ -8,6 +8,7 @@ use App\Models\ErrorChapter;
 use App\Services\ExcellentArticleService;
 use Illuminate\Http\Request;
 use App\Models\Article;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use function Livewire\str;
 
@@ -15,7 +16,6 @@ class ArticleController extends Controller
 {
     public function article($id, Request $request)
     {
-
         $page_size = $request->get('chapter_num', 50);
 
         $article = Article::find($id);
@@ -156,4 +156,5 @@ class ArticleController extends Controller
 
         return view('error-chapter', ['articles' => $articles]);
     }
+
 }

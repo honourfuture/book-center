@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-return [
+$db = [
 
     /*
     |--------------------------------------------------------------------------
@@ -38,7 +39,7 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'database' => __DIR__ . '/../database/sqllite/20230702.db3',
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
@@ -123,7 +124,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
@@ -145,7 +146,39 @@ return [
     ],
     'elasticsearch' => [
         // Elasticsearch 支持多台服务器负载均衡，因此这里是一个数组
-        'hosts' => explode(',',env('ES_HOSTS')),
+        'hosts' => explode(',', env('ES_HOSTS')),
     ]
 
 ];
+
+
+$directory = database_path('sqlite');
+$files = scandir($directory);
+$all_sqlite = [];
+
+if ($files !== false) {
+    foreach ($files as $file) {
+        if ($file !== '.' && $file !== '..') {
+            $all_sqlite[] = $file;
+        }
+    }
+}
+
+foreach ($all_sqlite as $sqlite_name) {
+    if(!strpos($sqlite_name, 'db3')){
+        continue;
+    }
+
+    $sqlite = str_replace('.db3', '', $sqlite_name);
+
+    $db['all_sqlite'][] = $sqlite;
+    $db['connections'][$sqlite] = [
+        'driver' => 'sqlite',
+        'url' => env('DATABASE_URL'),
+        'database' => $directory . '\\' .$sqlite_name,
+        'prefix' => '',
+        'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+    ];
+}
+
+return $db;

@@ -37,6 +37,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('files/article/txt'),
         ],
+        'sqlite' => [
+            'driver' => 'local',
+            'root' => database_path('sqlite'),
+        ],
         //精校版
         'excellent' => [
             'driver' => 'local',
