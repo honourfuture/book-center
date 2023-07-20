@@ -51,7 +51,7 @@ class ReadArticleOpt extends Command
                 $strXml = str_replace('ISO-8859-1', 'UTF-8', $strXml);
                 @$objXml = simplexml_load_string($strXml);
                 $book = json_decode(json_encode($objXml), true);
-                print_r($book);
+                print_r($book);die;
                 $article = Article::where('articleid', $article_id)->with(
                     'chapters'
                 )->first()->toArray();

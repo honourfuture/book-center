@@ -14,8 +14,10 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 //
 Route::get('/get-empty-article', [\App\Http\Controllers\SqliteController::class, 'get_empty_article']);
+Route::get('/get-tieshu', [\App\Http\Controllers\SqliteController::class, 'get_tieshu']);
 
 //关键词
 Route::get('/get-keyword', [\App\Http\Controllers\KeywordController::class, 'get_keyword']);
