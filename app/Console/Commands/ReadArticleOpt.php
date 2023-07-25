@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Console\Commands;
+
 use App\Models\Article;
 use App\Models\Chapter;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +15,7 @@ class ReadArticleOpt extends Command
      *
      * @var string
      */
-    protected $signature = 'read:opt';
+    protected $signature = 'read:opt {--article_id=}';
 
     /**
      * The console command description.
@@ -39,17 +41,34 @@ class ReadArticleOpt extends Command
      */
     public function handle()
     {
-        logger('article id loss', [111]);die;
+        $article_id = $this->option('article_id');
+
+        if($article_id){
+            $index = intval($article_id / 1000);
+            $this->_doIndex($index, [$index.'/'.$article_id]);
+            exit;
+        }
 
         $storage = Storage::disk('article');
 
-        $files =  $storage->directories('/');
+        $files = $storage->directories('/');
+        foreach ($files as $index) {
+            $this->_doIndex($index);
+        }
+    }
 
-        foreach ($files as $index){
+    private function _doIndex($index, $article_ids = [])
+    {
+        $storage = Storage::disk('article');
+
+        if(!$article_ids){
             $article_ids = $storage->directories("/{$index}/");
-            foreach ($article_ids as $id){
+        }
+
+        foreach ($article_ids as $id) {
+            try {
                 $article_id = explode('/', $id)[1];
-                if($article_id == 0){
+                if ($article_id == 0) {
                     continue;
                 }
                 $index_opf = $storage->get("/{$id}/index.opf");
@@ -57,7 +76,14 @@ class ReadArticleOpt extends Command
                 $strXml = str_replace('ISO-8859-1', 'UTF-8', $strXml);
                 @$objXml = simplexml_load_string($strXml);
                 $book = json_decode(json_encode($objXml), true);
+                if (in_array($article_id, [11533]) || !$book) {
+                    continue;
+                    logger('opt article book error', [$book]);
+                }
 
+
+
+                logger('opt article id', [$article_id]);
                 $bookName = $book['metadata']['dc-metadata']['dc:Title'];
                 $author = $book['metadata']['dc-metadata']['dc:Creator'];
 
@@ -65,13 +91,9 @@ class ReadArticleOpt extends Command
                     'chapters'
                 )->first();
 
-                if(in_array($article_id, [101])){
-                    continue;
-                }
-
-                if(!$article){
+                if (!$article) {
                     logger('article id loss', [$article_id]);
-                    echo('article id loss' . $article_id."\n");
+                    echo('article id loss' . $article_id . "\n");
                     continue;
                 }
 
@@ -80,7 +102,7 @@ class ReadArticleOpt extends Command
                 $optChapters = $book['manifest']['item'];
                 $articleChapters = $article['chapters'];
 
-                if(count($optChapters) <> count($articleChapters)){
+                if (count($optChapters) <> count($articleChapters)) {
                     $chapterIds = array_column($articleChapters, 'chapterid');
 
                     logger('chapters loss', [
@@ -90,13 +112,19 @@ class ReadArticleOpt extends Command
                     ]);
 
                     $order = 0;
-                    foreach ($optChapters as $chapter){
+                    foreach ($optChapters as $chapter) {
                         $order++;
                         $chapterId = str_replace('.txt', '', $chapter['@attributes']['href']);
-                        if(!in_array($chapterId, $chapterIds)){
+                        if (!in_array($chapterId, $chapterIds)) {
+                            $size = 0;
+                            $chaptertype = 0;
+                            if ($chapter['@attributes']['id'] != '正文') {
+                                $chapter_file_path = "{$index}/{$article_id}/{$chapterId}.txt";
+                                $size = $storage->size($chapter_file_path);
+                            } else {
+                                $chaptertype = 1;
+                            }
 
-                            $chapter_file_path = "{$index}/{$article_id}/{$chapterId}.txt";
-                            $size = $storage->size($chapter_file_path);
                             $insert = [
                                 'chapterid' => $chapterId,
                                 'articleid' => $article_id,
@@ -108,6 +136,7 @@ class ReadArticleOpt extends Command
                                 'chaptername' => $chapter['@attributes']['id'],
                                 'chapterorder' => $order,
                                 'size' => $size,
+                                'chaptertype' => $chaptertype,
 
                             ];
 
@@ -123,8 +152,11 @@ class ReadArticleOpt extends Command
                         }
                     }
                 }
+            } catch (\Exception $exception) {
+                logger($exception);
+                logger('opt exception', [$index]);
+                logger('opt exception', [$id]);
             }
         }
     }
-
 }

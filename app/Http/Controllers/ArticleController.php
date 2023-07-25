@@ -157,4 +157,9 @@ class ArticleController extends Controller
         return view('error-chapter', ['articles' => $articles]);
     }
 
+    public function get_repeat_chapters()
+    {
+
+    }
+
 }

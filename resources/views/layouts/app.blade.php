@@ -3,9 +3,9 @@
     <!-- ... --->
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.6/dist/full.css" rel="stylesheet" type="text/css"/>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css"/>
-    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link href="/css/full.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/tailwind.min.css" rel="stylesheet" type="text/css"/>
+    <script src="/js/jquery.min.js"></script>
 </head>
 <body>
 <div class="min-h-full">
@@ -19,7 +19,7 @@
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <a href="/tool" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Tool</a>
-                        <a href="/article/19" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Proof</a>
+                        <a href="/article/14554" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Proof</a>
                         <a href="/error-articles?article_ids=19" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Error-articles</a>
                     </div>
                 </div>

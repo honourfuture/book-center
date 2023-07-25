@@ -9,7 +9,7 @@ class SqliteController extends Controller
 {
     public function get_tieshu()
     {
-        $taskLog = DB::connection('T-20230716')->table('taskLog')
+        $taskLog = DB::connection('20230724')->table('taskLog')
             ->whereIn('EXID', [120])
             ->where('TASKFILE', '<>', 'C:\Users\Administrator\Desktop\方案\kdzw\kdzw_go.xml')
             ->where('RULEFILE', 'Rules\kdzw_net.xml')

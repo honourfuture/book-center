@@ -38,6 +38,7 @@ Route::get('/article-create', [\App\Http\Controllers\ArticleController::class, '
 
 //Tool
 Route::view('/tool', 'tool');
+Route::view('/tool/diff', 'diff');
 
 //临时更新4k
 Route::view('/4ksw', '4ksw');
