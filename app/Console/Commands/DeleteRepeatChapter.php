@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Article;
+use App\Models\Chapter;
 use App\Services\SitemapService;
 use Illuminate\Console\Command;
 
@@ -41,26 +42,42 @@ class DeleteRepeatChapter extends Command
     {
         $article_id = $this->option('article_id');
 
+        $repeat_article_ids = [];
 
-        $article = Article::with(['chapters']);
+        $article = Article::select(['articleid', 'articlename', 'lastchapterid', 'lastchapter', 'chapters as total_chapters'])->with(['chapters' => function ($query) {
+            $query->orderBy('chapterorder', 'asc');
+        }]);
         if ($article_id) {
             $article = $article->where('articleid', $article_id);
         }
-        $article->orderBy('chapterorder', 'desc')
-            ->chunk(50, function ($chapters) {
-                $repeats = $has_chapters = [];
-                foreach ($chapters as $chapter) {
-                    $chapter_name = $chapter->chaptername;
-                    if (in_array($chapter_name, $has_chapters)) {
-                        $repeats[] = $chapter->toArray();
-                        continue;
+        $article
+            ->chunk(10, function ($articles) use($repeat_article_ids) {
+
+                foreach ($articles as $article) {
+                    logger('check', [$article->articleid]);
+                    $repeats = $has_chapters = [];
+                    foreach ($article->chapters as $chapter) {
+
+                        $chapter_name = $chapter->chaptername;
+                        if (in_array($chapter_name, $has_chapters)) {
+                            $repeats[] = $chapter->toArray();
+                            continue;
+                        }
+
+                        $has_chapters[] = $chapter_name;
+
+                        if($repeats && count($repeats )> 3){
+                            $repeat_article_ids[] = $article->articleid;
+                            logger('repeats', [$article->articleid]);
+                            logger('repeat chapter name', $repeats);
+                            break;
+                        }
                     }
-                    $has_chapters[] = $chapter_name;
+
+
                 }
-
-                print_r($repeats);
             });
-
+        logger('all_repeats', $repeat_article_ids);
     }
 
 }

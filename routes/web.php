@@ -18,6 +18,7 @@ use Inertia\Inertia;
 //
 Route::get('/get-empty-article', [\App\Http\Controllers\SqliteController::class, 'get_empty_article']);
 Route::get('/get-tieshu', [\App\Http\Controllers\SqliteController::class, 'get_tieshu']);
+Route::get('/get-tieshu-list', [\App\Http\Controllers\SqliteController::class, 'get_tieshu_list']);
 
 //关键词
 Route::get('/get-keyword', [\App\Http\Controllers\KeywordController::class, 'get_keyword']);
