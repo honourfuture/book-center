@@ -38,6 +38,7 @@ class SqliteController extends Controller
                 ->whereIn('RULEFILE', $rule)
                 ->get()
                 ->toArray();
+
             $nids = array_column($taskLog, 'NID');
             $articles = Article::select(['articleid', 'lastupdate'])->whereIn('articleid', $nids)->get()->keyBy('articleid')->toArray();
             foreach ($taskLog as $log) {
@@ -45,7 +46,6 @@ class SqliteController extends Controller
                     continue;
                 }
                 $all_ids[] = $log->NID;
-
 
                 $last_update = isset($articles[$log->NID]) ? $articles[$log->NID]['lastupdate'] : time();
                 if (!$is_all) {
@@ -60,7 +60,8 @@ class SqliteController extends Controller
         }
 
         foreach ($rule_ids as $rule_name => $rule) {
-            echo $rule_name . ":\n";
+            $count = count(array_keys($rule['origin']));
+            echo $rule_name . "({$count}):\n";
             asort($rule['origin']);
             echo implode(',', array_keys($rule['origin'])) . "\n";
         }
