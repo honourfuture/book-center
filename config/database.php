@@ -175,7 +175,7 @@ foreach ($all_sqlite as $sqlite_name) {
     $db['connections'][$sqlite] = [
         'driver' => 'sqlite',
         'url' => env('DATABASE_URL'),
-        'database' => $directory . '\\' .$sqlite_name,
+        'database' => $directory . '/' .$sqlite_name,
         'prefix' => '',
         'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
     ];
