@@ -19,9 +19,9 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
         '8592c7b0947d8a0965a9e8c3d16f9c24' => __DIR__ . '/..' . '/elasticsearch/elasticsearch/src/autoload.php',
@@ -39,7 +39,10 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         '40275907c8566c390185147049ef6e5d' => __DIR__ . '/..' . '/livewire/livewire/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
+        'fe62ba7e10580d903cc46d808b5961a4' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/helpers.php',
+        'caf31cc6ec7cf2241cb6f12c226c3846' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/alias.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
+        '3484a5f6916149a513b73c42925ec79a' => __DIR__ . '/../..' . '/app/Common/function.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -56,6 +59,7 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         array (
             'TijsVerkoyen\\CssToInlineStyles\\' => 31,
             'Tightenco\\Ziggy\\' => 16,
+            'Tightenco\\Collect\\' => 18,
             'Tests\\' => 6,
         ),
         'S' => 
@@ -93,6 +97,10 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
         ),
+        'Q' => 
+        array (
+            'QL\\' => 3,
+        ),
         'P' => 
         array (
             'Psy\\' => 4,
@@ -102,6 +110,7 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
             'Psr\\Http\\Client\\' => 16,
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
+            'Psr\\Cache\\' => 10,
             'PragmaRX\\Google2FA\\' => 19,
             'PhpParser\\' => 10,
             'PhpOption\\' => 10,
@@ -137,6 +146,7 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         array (
             'Jenssegers\\Agent\\' => 17,
             'Jaybizzle\\CrawlerDetect\\' => 24,
+            'Jaeger\\' => 7,
         ),
         'I' => 
         array (
@@ -182,6 +192,9 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         array (
             'Cron\\' => 5,
             'Carbon\\' => 7,
+            'Cache\\TagInterop\\' => 17,
+            'Cache\\Adapter\\Filesystem\\' => 25,
+            'Cache\\Adapter\\Common\\' => 21,
         ),
         'B' => 
         array (
@@ -215,6 +228,10 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'Tightenco\\Ziggy\\' => 
         array (
             0 => __DIR__ . '/..' . '/tightenco/ziggy/src',
+        ),
+        'Tightenco\\Collect\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tightenco/collect/src/Collect',
         ),
         'Tests\\' => 
         array (
@@ -336,6 +353,10 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         array (
             0 => __DIR__ . '/..' . '/ramsey/collection/src',
         ),
+        'QL\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jaeger/querylist/src',
+        ),
         'Psy\\' => 
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src',
@@ -364,6 +385,10 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
         'PragmaRX\\Google2FA\\' => 
         array (
@@ -444,6 +469,10 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'Jaybizzle\\CrawlerDetect\\' => 
         array (
             0 => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src',
+        ),
+        'Jaeger\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jaeger/g-http/src',
         ),
         'Inertia\\' => 
         array (
@@ -554,6 +583,18 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
         ),
+        'Cache\\TagInterop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cache/tag-interop',
+        ),
+        'Cache\\Adapter\\Filesystem\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cache/filesystem-adapter',
+        ),
+        'Cache\\Adapter\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cache/adapter-common',
+        ),
         'Brick\\Math\\' => 
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
@@ -598,6 +639,8 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'App\\Actions\\Jetstream\\DeleteUser' => __DIR__ . '/../..' . '/app/Actions/Jetstream/DeleteUser.php',
         'App\\Console\\Commands\\BuildArticleKeywords' => __DIR__ . '/../..' . '/app/Console/Commands/BuildArticleKeywords.php',
         'App\\Console\\Commands\\BuildSitemap' => __DIR__ . '/../..' . '/app/Console/Commands/BuildSitemap.php',
+        'App\\Console\\Commands\\DeleteRepeatChapter' => __DIR__ . '/../..' . '/app/Console/Commands/DeleteRepeatChapter.php',
+        'App\\Console\\Commands\\FixChapter' => __DIR__ . '/../..' . '/app/Console/Commands/FixChapter.php',
         'App\\Console\\Commands\\ReadArticleOpt' => __DIR__ . '/../..' . '/app/Console/Commands/ReadArticleOpt.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -605,6 +648,7 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\KeywordController' => __DIR__ . '/../..' . '/app/Http/Controllers/KeywordController.php',
         'App\\Http\\Controllers\\RemoteSiteController' => __DIR__ . '/../..' . '/app/Http/Controllers/RemoteSiteController.php',
+        'App\\Http\\Controllers\\SqliteController' => __DIR__ . '/../..' . '/app/Http/Controllers/SqliteController.php',
         'App\\Http\\Controllers\\UpdateArticleController' => __DIR__ . '/../..' . '/app/Http/Controllers/UpdateArticleController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
@@ -617,6 +661,7 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Models\\Article' => __DIR__ . '/../..' . '/app/Models/Article.php',
+        'App\\Models\\ArticleKeyword' => __DIR__ . '/../..' . '/app/Models/ArticleKeyword.php',
         'App\\Models\\Chapter' => __DIR__ . '/../..' . '/app/Models/Chapter.php',
         'App\\Models\\ErrorChapter' => __DIR__ . '/../..' . '/app/Models/ErrorChapter.php',
         'App\\Models\\OverviewArticle' => __DIR__ . '/../..' . '/app/Models/OverviewArticle.php',
@@ -625,6 +670,7 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
+        'App\\Providers\\ErrorArticleServiceProvider' => __DIR__ . '/../..' . '/app/Providers/ErrorArticleServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\ExcellentArticleServiceProvider' => __DIR__ . '/../..' . '/app/Providers/ExcellentArticleServiceProvider.php',
         'App\\Providers\\FortifyServiceProvider' => __DIR__ . '/../..' . '/app/Providers/FortifyServiceProvider.php',
@@ -633,10 +679,13 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'App\\Providers\\OverviewUrlServiceProvider' => __DIR__ . '/../..' . '/app/Providers/OverviewUrlServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Providers\\SitemapServiceProvider' => __DIR__ . '/../..' . '/app/Providers/SitemapServiceProvider.php',
+        'App\\Providers\\SpiderServiceProvider' => __DIR__ . '/../..' . '/app/Providers/SpiderServiceProvider.php',
+        'App\\Services\\ErrorArticleService' => __DIR__ . '/../..' . '/app/Services/ErrorArticleService.php',
         'App\\Services\\ExcellentArticleService' => __DIR__ . '/../..' . '/app/Services/ExcellentArticleService.php',
         'App\\Services\\HttpProxyService' => __DIR__ . '/../..' . '/app/Services/HttpProxyService.php',
         'App\\Services\\OverviewUrlService' => __DIR__ . '/../..' . '/app/Services/OverviewUrlService.php',
         'App\\Services\\SitemapService' => __DIR__ . '/../..' . '/app/Services/SitemapService.php',
+        'App\\Services\\SpiderService' => __DIR__ . '/../..' . '/app/Services/SpiderService.php',
         'App\\View\\Components\\AppLayout' => __DIR__ . '/../..' . '/app/View/Components/AppLayout.php',
         'App\\View\\Components\\GuestLayout' => __DIR__ . '/../..' . '/app/View/Components/GuestLayout.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
@@ -717,6 +766,25 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'Brick\\Math\\Internal\\Calculator\\GmpCalculator' => __DIR__ . '/..' . '/brick/math/src/Internal/Calculator/GmpCalculator.php',
         'Brick\\Math\\Internal\\Calculator\\NativeCalculator' => __DIR__ . '/..' . '/brick/math/src/Internal/Calculator/NativeCalculator.php',
         'Brick\\Math\\RoundingMode' => __DIR__ . '/..' . '/brick/math/src/RoundingMode.php',
+        'Cache\\Adapter\\Common\\AbstractCachePool' => __DIR__ . '/..' . '/cache/adapter-common/AbstractCachePool.php',
+        'Cache\\Adapter\\Common\\CacheItem' => __DIR__ . '/..' . '/cache/adapter-common/CacheItem.php',
+        'Cache\\Adapter\\Common\\Exception\\CacheException' => __DIR__ . '/..' . '/cache/adapter-common/Exception/CacheException.php',
+        'Cache\\Adapter\\Common\\Exception\\CachePoolException' => __DIR__ . '/..' . '/cache/adapter-common/Exception/CachePoolException.php',
+        'Cache\\Adapter\\Common\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/cache/adapter-common/Exception/InvalidArgumentException.php',
+        'Cache\\Adapter\\Common\\HasExpirationTimestampInterface' => __DIR__ . '/..' . '/cache/adapter-common/HasExpirationTimestampInterface.php',
+        'Cache\\Adapter\\Common\\JsonBinaryArmoring' => __DIR__ . '/..' . '/cache/adapter-common/JsonBinaryArmoring.php',
+        'Cache\\Adapter\\Common\\PhpCacheItem' => __DIR__ . '/..' . '/cache/adapter-common/PhpCacheItem.php',
+        'Cache\\Adapter\\Common\\PhpCachePool' => __DIR__ . '/..' . '/cache/adapter-common/PhpCachePool.php',
+        'Cache\\Adapter\\Common\\TagSupportWithArray' => __DIR__ . '/..' . '/cache/adapter-common/TagSupportWithArray.php',
+        'Cache\\Adapter\\Filesystem\\FilesystemCachePool' => __DIR__ . '/..' . '/cache/filesystem-adapter/FilesystemCachePool.php',
+        'Cache\\TagInterop\\TaggableCacheItemInterface' => __DIR__ . '/..' . '/cache/tag-interop/TaggableCacheItemInterface.php',
+        'Cache\\TagInterop\\TaggableCacheItemPoolInterface' => __DIR__ . '/..' . '/cache/tag-interop/TaggableCacheItemPoolInterface.php',
+        'Callback' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'CallbackBody' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'CallbackParam' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'CallbackParameterToReference' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'CallbackReturnReference' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'CallbackReturnValue' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
         'Carbon\\AbstractTranslator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/AbstractTranslator.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonConverterInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonConverterInterface.php',
@@ -821,6 +889,8 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'DASPRiD\\Enum\\Exception\\SerializeNotSupportedException' => __DIR__ . '/..' . '/dasprid/enum/src/Exception/SerializeNotSupportedException.php',
         'DASPRiD\\Enum\\Exception\\UnserializeNotSupportedException' => __DIR__ . '/..' . '/dasprid/enum/src/Exception/UnserializeNotSupportedException.php',
         'DASPRiD\\Enum\\NullValue' => __DIR__ . '/..' . '/dasprid/enum/src/NullValue.php',
+        'DOMDocumentWrapper' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'DOMEvent' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
@@ -2301,6 +2371,7 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'Hamcrest\\Type\\IsString' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
+        'ICallbackNamed' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
         'Illuminate\\Auth\\Access\\AuthorizationException' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/AuthorizationException.php',
         'Illuminate\\Auth\\Access\\Events\\GateEvaluated' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/Events/GateEvaluated.php',
         'Illuminate\\Auth\\Access\\Gate' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/Gate.php',
@@ -3367,6 +3438,10 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'Inertia\\Testing\\Concerns\\Matching' => __DIR__ . '/..' . '/inertiajs/inertia-laravel/src/Testing/Concerns/Matching.php',
         'Inertia\\Testing\\Concerns\\PageObject' => __DIR__ . '/..' . '/inertiajs/inertia-laravel/src/Testing/Concerns/PageObject.php',
         'Inertia\\Testing\\TestResponseMacros' => __DIR__ . '/..' . '/inertiajs/inertia-laravel/src/Testing/TestResponseMacros.php',
+        'Jaeger\\Cache' => __DIR__ . '/..' . '/jaeger/g-http/src/Cache.php',
+        'Jaeger\\GHttp' => __DIR__ . '/..' . '/jaeger/g-http/src/GHttp.php',
+        'Jaeger\\MethodNotFoundException' => __DIR__ . '/..' . '/jaeger/g-http/src/MethodNotFoundException.php',
+        'Jaeger\\MultiRequest' => __DIR__ . '/..' . '/jaeger/g-http/src/MultiRequest.php',
         'Jaybizzle\\CrawlerDetect\\CrawlerDetect' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/CrawlerDetect.php',
         'Jaybizzle\\CrawlerDetect\\Fixtures\\AbstractProvider' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/AbstractProvider.php',
         'Jaybizzle\\CrawlerDetect\\Fixtures\\Crawlers' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/Crawlers.php',
@@ -5054,6 +5129,10 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'PragmaRX\\Google2FA\\Support\\Base32' => __DIR__ . '/..' . '/pragmarx/google2fa/src/Support/Base32.php',
         'PragmaRX\\Google2FA\\Support\\Constants' => __DIR__ . '/..' . '/pragmarx/google2fa/src/Support/Constants.php',
         'PragmaRX\\Google2FA\\Support\\QRCode' => __DIR__ . '/..' . '/pragmarx/google2fa/src/Support/QRCode.php',
+        'Psr\\Cache\\CacheException' => __DIR__ . '/..' . '/psr/cache/src/CacheException.php',
+        'Psr\\Cache\\CacheItemInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemInterface.php',
+        'Psr\\Cache\\CacheItemPoolInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemPoolInterface.php',
+        'Psr\\Cache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/cache/src/InvalidArgumentException.php',
         'Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
         'Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
         'Psr\\Container\\NotFoundExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/NotFoundExceptionInterface.php',
@@ -5296,6 +5375,23 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'Psy\\VersionUpdater\\IntervalChecker' => __DIR__ . '/..' . '/psy/psysh/src/VersionUpdater/IntervalChecker.php',
         'Psy\\VersionUpdater\\NoopChecker' => __DIR__ . '/..' . '/psy/psysh/src/VersionUpdater/NoopChecker.php',
         'Psy\\VersionUpdater\\SelfUpdate' => __DIR__ . '/..' . '/psy/psysh/src/VersionUpdater/SelfUpdate.php',
+        'QL\\Config' => __DIR__ . '/..' . '/jaeger/querylist/src/Config.php',
+        'QL\\Contracts\\PluginContract' => __DIR__ . '/..' . '/jaeger/querylist/src/Contracts/PluginContract.php',
+        'QL\\Contracts\\ServiceProviderContract' => __DIR__ . '/..' . '/jaeger/querylist/src/Contracts/ServiceProviderContract.php',
+        'QL\\Dom\\Dom' => __DIR__ . '/..' . '/jaeger/querylist/src/Dom/Dom.php',
+        'QL\\Dom\\Elements' => __DIR__ . '/..' . '/jaeger/querylist/src/Dom/Elements.php',
+        'QL\\Dom\\Query' => __DIR__ . '/..' . '/jaeger/querylist/src/Dom/Query.php',
+        'QL\\Exceptions\\ServiceNotFoundException' => __DIR__ . '/..' . '/jaeger/querylist/src/Exceptions/ServiceNotFoundException.php',
+        'QL\\Kernel' => __DIR__ . '/..' . '/jaeger/querylist/src/Kernel.php',
+        'QL\\Providers\\EncodeServiceProvider' => __DIR__ . '/..' . '/jaeger/querylist/src/Providers/EncodeServiceProvider.php',
+        'QL\\Providers\\HttpServiceProvider' => __DIR__ . '/..' . '/jaeger/querylist/src/Providers/HttpServiceProvider.php',
+        'QL\\Providers\\PluginServiceProvider' => __DIR__ . '/..' . '/jaeger/querylist/src/Providers/PluginServiceProvider.php',
+        'QL\\Providers\\SystemServiceProvider' => __DIR__ . '/..' . '/jaeger/querylist/src/Providers/SystemServiceProvider.php',
+        'QL\\QueryList' => __DIR__ . '/..' . '/jaeger/querylist/src/QueryList.php',
+        'QL\\Services\\EncodeService' => __DIR__ . '/..' . '/jaeger/querylist/src/Services/EncodeService.php',
+        'QL\\Services\\HttpService' => __DIR__ . '/..' . '/jaeger/querylist/src/Services/HttpService.php',
+        'QL\\Services\\MultiRequestService' => __DIR__ . '/..' . '/jaeger/querylist/src/Services/MultiRequestService.php',
+        'QL\\Services\\PluginService' => __DIR__ . '/..' . '/jaeger/querylist/src/Services/PluginService.php',
         'Ramsey\\Collection\\AbstractArray' => __DIR__ . '/..' . '/ramsey/collection/src/AbstractArray.php',
         'Ramsey\\Collection\\AbstractCollection' => __DIR__ . '/..' . '/ramsey/collection/src/AbstractCollection.php',
         'Ramsey\\Collection\\AbstractSet' => __DIR__ . '/..' . '/ramsey/collection/src/AbstractSet.php',
@@ -6451,6 +6547,19 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'TheSeer\\Tokenizer\\TokenCollectionException' => __DIR__ . '/..' . '/theseer/tokenizer/src/TokenCollectionException.php',
         'TheSeer\\Tokenizer\\Tokenizer' => __DIR__ . '/..' . '/theseer/tokenizer/src/Tokenizer.php',
         'TheSeer\\Tokenizer\\XMLSerializer' => __DIR__ . '/..' . '/theseer/tokenizer/src/XMLSerializer.php',
+        'Tightenco\\Collect\\Contracts\\Support\\Arrayable' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Contracts/Support/Arrayable.php',
+        'Tightenco\\Collect\\Contracts\\Support\\CanBeEscapedWhenCastToString' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Contracts/Support/CanBeEscapedWhenCastToString.php',
+        'Tightenco\\Collect\\Contracts\\Support\\Htmlable' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Contracts/Support/Htmlable.php',
+        'Tightenco\\Collect\\Contracts\\Support\\Jsonable' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Contracts/Support/Jsonable.php',
+        'Tightenco\\Collect\\Support\\Arr' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/Arr.php',
+        'Tightenco\\Collect\\Support\\Collection' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/Collection.php',
+        'Tightenco\\Collect\\Support\\Enumerable' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/Enumerable.php',
+        'Tightenco\\Collect\\Support\\HigherOrderCollectionProxy' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/HigherOrderCollectionProxy.php',
+        'Tightenco\\Collect\\Support\\HigherOrderWhenProxy' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/HigherOrderWhenProxy.php',
+        'Tightenco\\Collect\\Support\\LazyCollection' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/LazyCollection.php',
+        'Tightenco\\Collect\\Support\\Traits\\EnumeratesValues' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/Traits/EnumeratesValues.php',
+        'Tightenco\\Collect\\Support\\Traits\\Macroable' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/Traits/Macroable.php',
+        'Tightenco\\Collect\\Support\\Traits\\Tappable' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/Traits/Tappable.php',
         'Tightenco\\Ziggy\\BladeRouteGenerator' => __DIR__ . '/..' . '/tightenco/ziggy/src/BladeRouteGenerator.php',
         'Tightenco\\Ziggy\\CommandRouteGenerator' => __DIR__ . '/..' . '/tightenco/ziggy/src/CommandRouteGenerator.php',
         'Tightenco\\Ziggy\\Output\\File' => __DIR__ . '/..' . '/tightenco/ziggy/src/Output/File.php',
@@ -6490,6 +6599,10 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'Whoops\\Util\\Misc' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/Misc.php',
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+        'phpQuery' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'phpQueryEvents' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'phpQueryObject' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'phpQueryPlugins' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
         'voku\\helper\\ASCII' => __DIR__ . '/..' . '/voku/portable-ascii/src/voku/helper/ASCII.php',
     );
 

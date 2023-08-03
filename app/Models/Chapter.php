@@ -9,6 +9,8 @@ class Chapter extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'jieqi_article_chapter';
 
     protected $primaryKey = 'chapterid';
