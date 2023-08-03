@@ -48,7 +48,7 @@ class SpiderService
             ]
         ])->find('#content')->text();
 
-        sleep(3);
+        sleep(5);
 
         $text = str_replace('最新网址：www.mayiwxw.com', '', $text);
         $text = str_replace('蚂蚁文学', '铁书网', $text);

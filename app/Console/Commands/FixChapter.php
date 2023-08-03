@@ -68,10 +68,11 @@ class FixChapter extends Command
                 exit;
             }
             $origin_chapter = clear_text($origin_chapter);
-            $origin_chapters[$origin_chapter]['url'] = "https://www.mayiwxw.com". $origin_article['chapter_hrefs'][$key];
+            $origin_chapters[$origin_chapter]['url'] = "https://www.mayiwxw.com" . $origin_article['chapter_hrefs'][$key];
             $origin_chapters[$origin_chapter]['original_chapter_name'] = $origin_article['chapter_hrefs'][$key];
         }
 
+        $error_chapter_ids = [];
         $storage = Storage::disk('article');
         foreach ($chapters as $chapter) {
             if ($chapter->is_error_chapter == 0) {
@@ -86,13 +87,10 @@ class FixChapter extends Command
                 $text = $this->_get_origin_chapter($url);
 
                 $is_error = $error_article_service->is_error_chapter($text);
-                if(!$is_error){
+                if (!$is_error) {
                     $storage->get($chapter->file_path);
                     $storage->put($chapter->file_path, $text);
                     $right_chapter_ids[] = $chapter->chapterid;
-                    echo $text;
-                    echo $chapter->chapterid;
-                    die;
                     continue;
                 }
             }
@@ -103,16 +101,26 @@ class FixChapter extends Command
         if ($right_chapter_ids) {
             $this->_set_right_chapters($right_chapter_ids);
         }
+
+        if ($error_chapter_ids) {
+            $this->_set_error_chapters($error_chapter_ids);
+        }
     }
 
 
     private function _set_right_chapters($right_chapter_ids)
     {
         Chapter::whereIn('chapterid', $right_chapter_ids)->update([
-            'is_right' => 1
+            'is_right' => 1,
+            'lastupdate' => time()
         ]);
     }
 
+    private function _set_error_chapters($error_chapter_ids)
+    {
+        Chapter::whereIn('chapterid', $error_chapter_ids)->error_nums('votes', 1);;
+    }
+    
     /**
      * @param $article
      * @return array
