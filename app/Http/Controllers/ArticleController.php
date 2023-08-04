@@ -44,7 +44,10 @@ class ArticleController extends Controller
 
             $chapter->size = $storage->size($chapter_file_path);
             $chapter_file = $storage->get($chapter_file_path);
-            $chapter->content = iconv('gbk', 'utf-8//IGNORE', $chapter_file);
+
+            $chapter->content = @iconv('gbk', 'utf-8//IGNORE', $chapter_file);
+
+
             $chapter->strlen = mb_strlen($chapter->content);
 
             $chapter->error_message = $this->_check_chapter($chapter->content, $chapter->strlen);
@@ -157,10 +160,4 @@ class ArticleController extends Controller
 
         return view('error-chapter', ['articles' => $articles]);
     }
-
-    public function get_repeat_chapters()
-    {
-
-    }
-
 }

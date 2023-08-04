@@ -99,6 +99,7 @@ class FixChapter extends Command
                 $is_error = $error_article_service->is_error_chapter($text);
                 if (!$is_error) {
                     $storage->get($chapter->file_path);
+                    $text = iconv('utf-8', 'gbk//IGNORE', $text);
                     $storage->put($chapter->file_path, $text);
                     $right_chapter_ids[] = $chapter->chapterid;
                     $this->info("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 成功");
