@@ -47,7 +47,7 @@ class ErrorArticleService
             $all_chapter->file_path = $chapter_file_path;
 
             if (strpos($chapter->chaptername, "请假")) {
-                return 0;
+                $all_chapter->is_error_chapter = 0;
             }else{
                 $all_chapter->is_error_chapter = $this->is_error_chapter($content);
             }
