@@ -120,7 +120,7 @@ class FixChapter extends Command
         }
 
         if ($change_chapter_ids) {
-            $this->_set_right_chapters($change_chapter_ids);
+            $this->_set_right_chapters($change_chapter_ids, true);
         }
 
         if ($error_chapter_ids) {
