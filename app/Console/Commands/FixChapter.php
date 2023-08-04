@@ -55,6 +55,10 @@ class FixChapter extends Command
 
         $right_chapters = $chapters->where('is_error_chapter', 0);
         $right_chapter_ids = $right_chapters->pluck('chapterid')->toArray();
+        if ($right_chapter_ids) {
+            $this->_set_right_chapters($right_chapter_ids, false);
+        }
+
         $all_error_chapters = $chapters->where('is_error_chapter', 1);
         $this->line("[{$article_id}] 错误章节数: {$all_error_chapters->count()} ");
 
@@ -81,7 +85,7 @@ class FixChapter extends Command
 
         $this->line("[{$article_id}] 开始修复错误章节");
 
-        $error_chapter_ids = [];
+        $error_chapter_ids = $change_chapter_ids = [];
         $storage = Storage::disk('article');
         foreach ($chapters as $chapter) {
             if ($chapter->is_error_chapter == 0) {
@@ -101,7 +105,7 @@ class FixChapter extends Command
                     $storage->get($chapter->file_path);
                     $text = iconv('utf-8', 'gbk//IGNORE', $text);
                     $storage->put($chapter->file_path, $text);
-                    $right_chapter_ids[] = $chapter->chapterid;
+                    $change_chapter_ids[] = $chapter->chapterid;
                     $this->info("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 成功");
 
                     continue;
@@ -115,8 +119,8 @@ class FixChapter extends Command
             $error_chapter_ids[] = $chapter->chapterid;
         }
 
-        if ($right_chapter_ids) {
-            $this->_set_right_chapters($right_chapter_ids);
+        if ($change_chapter_ids) {
+            $this->_set_right_chapters($change_chapter_ids);
         }
 
         if ($error_chapter_ids) {
@@ -127,12 +131,17 @@ class FixChapter extends Command
     }
 
 
-    private function _set_right_chapters($right_chapter_ids)
+    private function _set_right_chapters($right_chapter_ids, $is_update_time = false)
     {
-        Chapter::whereIn('chapterid', $right_chapter_ids)->update([
+        $update = [
             'is_right' => 1,
-            'lastupdate' => time()
-        ]);
+        ];
+
+        if($is_update_time){
+            $update['lastupdate'] = time();
+        }
+
+        Chapter::whereIn('chapterid', $right_chapter_ids)->update($update);
     }
 
     private function _set_error_chapters($error_chapter_ids)
