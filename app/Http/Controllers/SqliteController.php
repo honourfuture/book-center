@@ -12,7 +12,8 @@ class SqliteController extends Controller
     {
         $sqlite = $request->get('db_name', date('Ymd'));
         $is_all = $request->get('is_all', 1);
-        $max_date = $request->get('date', date('Y-m-d 00:00:00'));
+        $max_date = $request->get('max_date', date('Y-m-d 00:00:00'));
+        $min_date = $request->get('min_date', date('1970-01-01 00:00:00'));
 
         $all_ids = [];
 
@@ -31,6 +32,7 @@ class SqliteController extends Controller
         $rule_ids = [];
 
         $max_date = strtotime($max_date);
+        $min_date = strtotime($min_date);
 
         foreach ($rules as $rule_name => $rule) {
             $taskLog = DB::connection($sqlite)->table('taskLog')
@@ -51,6 +53,9 @@ class SqliteController extends Controller
                 $last_update = isset($articles[$log->NID]) ? $articles[$log->NID]['lastupdate'] : time();
                 if (!$is_all) {
                     if ($last_update >= $max_date) {
+                        continue;
+                    }
+                    if ($last_update <= $min_date) {
                         continue;
                     }
                 }
