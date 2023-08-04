@@ -9,7 +9,7 @@
 
 namespace App\Services;
 
-use App\Models\Article;
+use App\Enums\ChapterEnum;
 use App\Models\Chapter;
 use Illuminate\Support\Facades\Storage;
 
@@ -46,7 +46,8 @@ class ErrorArticleService
 
             $all_chapter->file_path = $chapter_file_path;
 
-            if (strpos($chapter->chaptername, "请假")) {
+            $is_no_check = $this->is_no_check_chapter_name($chapter->chaptername);
+            if($is_no_check){
                 $all_chapter->is_error_chapter = 0;
             }else{
                 $all_chapter->is_error_chapter = $this->is_error_chapter($content);
@@ -58,31 +59,48 @@ class ErrorArticleService
         return $all_chapters;
     }
 
+    public function is_no_check_chapter_name($text)
+    {
+        foreach (ChapterEnum::NoCheckChapterName as $name) {
+            if($text == $name){
+                return 1;
+            }
+        }
+
+        foreach (ChapterEnum::NoCheckChapterNameSTROPS as $name) {
+            if (strpos($text, $name) !== false) {
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+
     /**
      * @param $content
      * @return int
      */
     public function is_error_chapter($content)
     {
-        if (strpos($content, "正在手打")) {
+        if (strpos($content, "正在手打") !== false) {
             return 1;
         }
-        if (strpos($content, "灵魂契约，契合灵魂，只要自己不解除，哪怕对方手段通天")) {
+        if (strpos($content, "灵魂契约，契合灵魂，只要自己不解除，哪怕对方手段通天") !== false) {
             return 1;
         }
-        if (strpos($content, "小侯爷，您快点起来吧，轮到我们巡逻了")) {
+        if (strpos($content, "小侯爷，您快点起来吧，轮到我们巡逻了") !== false) {
             return 1;
         }
-        if (strpos($content, "我是一个失败者")) {
+        if (strpos($content, "我是一个失败者") !== false) {
             return 1;
         }
-        if (strpos($content, "作为捕蛇者")) {
+        if (strpos($content, "作为捕蛇者") !== false) {
             return 1;
         }
-        if (strpos($content, "先祖在上")) {
+        if (strpos($content, "先祖在上") !== false) {
             return 1;
         }
-        if (strpos($content, "也杀死了多位八阶强者")) {
+        if (strpos($content, "也杀死了多位八阶强者") !== false) {
             return 1;
         }
         $str_len = mb_strlen($content);

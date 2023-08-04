@@ -42,3 +42,4 @@ function text_composer($str_1, $str_2)
 function remove_space($text){
     return preg_replace("/(\s|\&nbsp\;||\xc2\xa0)/","", $text);;
 }
+
