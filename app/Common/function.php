@@ -14,6 +14,10 @@
  */
 function clear_text($str)
 {
+    $str = str_replace([
+        '求收藏',
+        '求订阅',
+    ], '', $str);
     $pattern = '/[^\x{4e00}-\x{9fa5}]/u';
     $replacement = '';
     return preg_replace($pattern, $replacement, $str);
@@ -33,4 +37,8 @@ function text_composer($str_1, $str_2)
     echo '$leven:' . $leven . "\n";
     echo '$similar:' . $similar . "\n";
     echo '$str_len:' . $str_len . "\n";
+}
+
+function remove_space($text){
+    return preg_replace("/(\s|\&nbsp\;||\xc2\xa0)/","", $text);;
 }

@@ -17,10 +17,6 @@ class ArticleController extends Controller
 {
     public function article($id, Request $request)
     {
-        Artisan::call("fix:chapter", [
-            '--article_id' => 10
-        ]);
-        die;
         $page_size = $request->get('chapter_num', 50);
 
         $article = Article::find($id);
