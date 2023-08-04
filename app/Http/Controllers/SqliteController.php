@@ -25,7 +25,7 @@ class SqliteController extends Controller
             'bixia' => ['Rules\v2_bixia66.xml'],
             'meigui' => ['Rules\jj_meiguixs_net.xml'],
             '9it' => ['Rules\9itan_cc.xml'],
-            '69shu' => ['Rules\v1_69shu_com.xml'],
+            '69shu' => ['Rules\p1_69shu_com.xml'],
             'biquge5200' => ['Rules\biquge5200_cc.xml'],
         ];
 
