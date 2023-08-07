@@ -30,26 +30,53 @@
 
             <div class="mt-6 flex items-center justify-end gap-x-6">
                 <button type="button"
-                        id="calc"
+                        id="merge"
                         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    Diff
+                    合并
+                </button>
+                <button type="button"
+                        id="diff"
+                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    差异
                 </button>
             </div>
         </div>
     </form>
     <script type="text/javascript">
-        $('#calc').click(function () {
+        $('#merge').click(function () {
             let ids_1 = $('#ids-1').val()
             let ids_2 = $('#ids-2').val()
 
-            let ids_3 = findDifference(ids_1, ids_2)
+            let ids_3 = merge_ids(ids_1, ids_2)
 
             $("#ids-3").val(ids_3)
 
         })
 
+        $('#diff').click(function () {
+            let ids_1 = $('#ids-1').val()
+            let ids_2 = $('#ids-2').val()
 
-        function findDifference(str1, str2) {
+            let ids_3 = diff_ids(ids_1, ids_2)
+
+            $("#ids-3").val(ids_3)
+
+        })
+
+        function merge_ids(ids_1, ids_2) {
+            const array1 = ids_1.split(',').map(id => id.trim());
+            const array2 = ids_2.split(',').map(id => id.trim());
+
+            // 合并两个数组并使用Set去重
+            const mergedSet = new Set([...array1, ...array2]);
+
+            // 将Set转换回数组，并将结果转换为逗号分隔的字符串
+            const result = Array.from(mergedSet).join(',');
+
+            return result;
+        }
+
+        function diff_ids(str1, str2) {
             var arr1 = str1.split(',');
             var arr2 = str2.split(',');
             var diffArr = [];

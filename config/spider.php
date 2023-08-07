@@ -31,12 +31,25 @@ return [
         'article_url' => "https://www.mayiwxw.com/{--index--}_{--article_id--}/index.html",
 
         'content_preg' => function ($text) {
-            return str_replace([
+            $text = str_replace([
                 '最新网址：www.mayiwxw.com',
                 '蚂蚁文学',
                 'www.mayiwxw.com',
+                '全文字更新,牢记网址:',
                 '<div id="center_tip"><b></b></div>',
+                '<p>',
+                '<b>',
+                '</b>'
             ], '', $text);
+
+            $text = str_replace([
+                '</p>',
+                '<br/>',
+                '<br />',
+                '<br>'
+            ], '', $text);
+
+            return $text;
         }
     ],
 
@@ -64,6 +77,38 @@ return [
         'article_url' => "https://www.ttshuba.org/shu/{--article_id--}",
 
         'content_preg' => function ($text) {
+            $text = str_replace([
+                '网页版章节内容慢，请下载好阅小说app阅读最新内容</p>',
+                '网页版章节内容慢，请下载好阅小说app阅读最新内容',
+                '请退出转码页面，请下载好阅小说app阅读最新章节。</p>',
+                '请退出转码页面，请下载好阅小说app阅读最新章节。',
+                '想要看最新章节内容，请下载好阅小说app，无广告免费阅读最新章节内容。</p>',
+                '想要看最新章节内容，请下载好阅小说app，无广告免费阅读最新章节内容。',
+                '网站已经不更新最新章节内容，最新章节内容已经在好阅小说app更新。</p>',
+                '网站已经不更新最新章节内容，最新章节内容已经在好阅小说app更新。',
+                '<p>',
+                '<b>',
+                '</b>'
+            ], '', $text);
+
+            $str = preg_replace('/<div class="bottem">.*$/si', '', $text);
+            if($str){
+                $text = $str;
+            }
+
+            $text = str_replace([
+                '</p>',
+            ], "\r\n", $text);
+
+            $text = str_replace([
+                '</p>',
+                '<br/>',
+                '<br />',
+                '<br>'
+            ], '', $text);
+
+            $text = preg_replace('/(<div\b[^>]*>|<\/div>|<h1\b[^>]*>[^<]*<\/h1>|<script\b[^>]*>[^<]*<\/script>|<span\b[^>]*>[^<]*<\/span>|<a\b[^>]*>[^<]*<\/a>)/i', " ", $text);
+
             return $text;
         }
     ],
@@ -92,9 +137,20 @@ return [
         'article_url' => "https://www.69shu.com/{--article_id--}/",
 
         'content_preg' => function ($text) {
-            $text = preg_replace('/(<div\b[^>]*>|<\/div>|<h1\b[^>]*>[^<]*<\/h1>|<script\b[^>]*>[^<]*<\/script>|<span\b[^>]*>[^<]*<\/span>)/i', '', $text);
+            $text = str_replace([
+                '<p>',
+                '</p>',
+            ], '', $text);
+
+            $text = preg_replace('/(<div\b[^>]*>|<\/div>|<h1\b[^>]*>[^<]*<\/h1>|<script\b[^>]*>[^<]*<\/script>|<span\b[^>]*>[^<]*<\/span>|<a\b[^>]*>[^<]*<\/a>)/i', '', $text);
+            //删除多余的空行
             $text = preg_replace('/^\h*\v+/m', '', $text);
-            $text = str_replace('                  ', '', $text);
+            $text = htmlentities($text);
+
+            $text = str_replace('&lt;br&gt;', "", $text);
+            $text = str_replace('&emsp;&emsp;','', $text);
+            $text = str_replace('                ', '', $text);
+            $text = html_entity_decode($text);
             return $text;
         }
     ],

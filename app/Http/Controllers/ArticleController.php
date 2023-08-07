@@ -6,6 +6,7 @@ use App\Models\Chapter;
 use App\Models\ErrorChapter;
 use App\Models\HandArticle;
 use App\Services\ExcellentArticleService;
+use App\Services\SpiderService;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use Illuminate\Support\Facades\Artisan;
@@ -22,12 +23,6 @@ class ArticleController extends Controller
 
     public function article($id, Request $request)
     {
-        Artisan::call("fix:chapter", [
-            '--article_id' => 74797,
-            '--site' => '69shu',
-
-        ]);
-        die;
         $page_size = $request->get('chapter_num', 50);
 
         $article = Article::find($id);

@@ -101,16 +101,10 @@ class SpiderService
         $find = '#content';
         $find = $this->config['get_chapter_find'];
         $text = QueryList::html($html)->find($find)->html();
+
         $text = $this->config['content_preg']($text);
 
         sleep(5);
-
-        $text = str_replace([
-            '最新网址：www.mayiwxw.com',
-            '蚂蚁文学',
-            'www.mayiwxw.com',
-            '&emsp;&emsp;'
-        ], '', $text);
 
         return $text;
     }

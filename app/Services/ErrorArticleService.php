@@ -35,7 +35,7 @@ class ErrorArticleService
         $all_chapters = collect([]);
 
         foreach ($chapters as $chapter) {
-            $chapter_file_path = "{$short_id}/{$article->articleid}/$chapter->chapterid.txt";
+            echo $chapter_file_path = "{$short_id}/{$article->articleid}/$chapter->chapterid.txt";die;
             if (!$storage->exists($chapter_file_path)) {
                 continue;
             }
@@ -85,7 +85,7 @@ class ErrorArticleService
         if (strpos($content, "正在手打") !== false) {
             return 1;
         }
-        if (strpos($content, "灵魂契约，契合灵魂，只要自己不解除，哪怕对方手段通天") !== false) {
+        if (strpos($content, "灵魂契约") !== false) {
             return 1;
         }
         if (strpos($content, "小侯爷，您快点起来吧，轮到我们巡逻了") !== false) {

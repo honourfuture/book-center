@@ -48,7 +48,6 @@ class FixChapter extends Command
      */
     public function handle()
     {
-
         $article_id = $this->option('article_id');
         $site = $this->option('site');
         if (!$site) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\RuleEnum;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,7 @@ class SqliteController extends Controller
     public function get_tieshu_list(Request $request)
     {
         $sqlite = $request->get('db_name', date('Ymd'));
+        $sqlites = explode(',', $sqlite);
         $is_all = $request->get('is_all', 1);
         $max_date = $request->get('max_date', date('Y-m-d 00:00:00'));
         $min_date = $request->get('min_date', date('1970-01-01 00:00:00'));
@@ -18,16 +20,9 @@ class SqliteController extends Controller
         $all_ids = [];
 
         $rules = [
-            'mayi' => ['
-                Rules\mayiwxw_com_add_update.xml',
-                'Rules\mayiwxw_com.xml',
-                'Rules\mayiwxw_com_add.xml',
-                'Rules\A_mayiwxw_com.xml',
-                'Rules\A_mayiwxw_com_add.xml',
-                'Rules\A_mayiwxw_com_update.xml',
-            ],
+            'mayi' => RuleEnum::MA_YI,
+            'tt' => RuleEnum::TT,
             'kdzw' => ['Rules\kdzw_net.xml'],
-            'tt' => ['Rules\m_ttshuba_org.xml'],
             '4ksw' => ['Rules\lewen2_com_gz.xml', 'Rules\4ksw_com.xml'],
             'bixia' => ['Rules\v2_bixia66.xml'],
             'meigui' => ['Rules\jj_meiguixs_net.xml'],
@@ -42,16 +37,21 @@ class SqliteController extends Controller
         $min_date = strtotime($min_date);
 
         foreach ($rules as $rule_name => $rule) {
-            $taskLog = DB::connection($sqlite)->table('taskLog')
-                ->whereIn('EXID', [120])
-                ->where('TASKFILE', '<>', 'C:\Users\Administrator\Desktop\方案\kdzw\kdzw_go.xml')
-                ->whereIn('RULEFILE', $rule)
-                ->get()
-                ->toArray();
+            $taskLogs = [];
+            foreach ($sqlites as $sqlite) {
+                $taskLog = DB::connection($sqlite)->table('taskLog')
+                    ->whereIn('EXID', [120])
+                    ->where('TASKFILE', '<>', 'C:\Users\Administrator\Desktop\方案\kdzw\kdzw_go.xml')
+                    ->whereIn('RULEFILE', $rule)
+                    ->get()
+                    ->toArray();
 
-            $nids = array_column($taskLog, 'NID');
+                $taskLogs = array_merge($taskLogs, $taskLog);
+            }
+
+            $nids = array_column($taskLogs, 'NID');
             $articles = Article::select(['articleid', 'lastupdate'])->whereIn('articleid', $nids)->get()->keyBy('articleid')->toArray();
-            foreach ($taskLog as $log) {
+            foreach ($taskLogs as $log) {
                 if (in_array($log->NID, $all_ids)) {
                     continue;
                 }
