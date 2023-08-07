@@ -24,8 +24,8 @@ class SpiderServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->singleton('SpiderService', function($app){
-            return new SpiderService();
+        $this->app->singleton('SpiderService', function($app, $parameters = []){
+            return new SpiderService($parameters);
         });
     }
 }

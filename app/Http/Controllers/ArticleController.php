@@ -8,6 +8,7 @@ use App\Models\HandArticle;
 use App\Services\ExcellentArticleService;
 use Illuminate\Http\Request;
 use App\Models\Article;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use function Livewire\str;
 
@@ -16,12 +17,17 @@ class ArticleController extends Controller
     public function hand_articles(Request $request)
     {
         $articles = HandArticle::orderBy('order', 'desc')->get();
-
         return view('hand-article', ['articles' => $articles]);
     }
 
     public function article($id, Request $request)
     {
+        Artisan::call("fix:chapter", [
+            '--article_id' => 74797,
+            '--site' => '69shu',
+
+        ]);
+        die;
         $page_size = $request->get('chapter_num', 50);
 
         $article = Article::find($id);
@@ -85,7 +91,7 @@ class ArticleController extends Controller
         if (strpos($content, "也杀死了多位八阶强者")) {
             $error_message[] = "浩瀚宇宙";
         }
-        if ($str_len < 450) {
+        if ($str_len < 666) {
             $error_message[] = "字数异常";
         }
 

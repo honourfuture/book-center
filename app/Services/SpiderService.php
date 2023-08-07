@@ -11,11 +11,21 @@ namespace App\Services;
 
 
 use App\Models\Article;
+use App\Models\OriginArticleId;
 use App\Models\SourceArticle;
 use QL\QueryList;
 
 class SpiderService
 {
+    private $config;
+
+    public function __construct($param)
+    {
+        $site = $param['site'];
+        $site_config = config("spider");
+        $this->config = $site_config[$site];
+    }
+
     public function get_article_info($url)
     {
         /** @var HttpProxyService $httpProxyService */
@@ -29,6 +39,8 @@ class SpiderService
             'desc' => ['#intro', 'text']
         ];
 
+        $rules = $this->config['get_article_info_rule'];
+
         $rt = QueryList::get($url, [], [
             'headers' => [
                 'User-Agent' => $user_agent,
@@ -41,8 +53,14 @@ class SpiderService
     }
 
 
-    public function get_article($url, $config = [])
+    public function get_article($url)
     {
+        $html = file_get_contents($url);
+
+        if ($this->config['charset'] == 'gbk') {
+            $html = iconv('gbk', 'utf-8//IGNORE', $html);
+        }
+
         // 元数据DOM解析规则
         $rules = [
             // DOM解析文章标题
@@ -51,42 +69,48 @@ class SpiderService
             'chapter_hrefs' => ['a', 'attrs(href)'],
         ];
 
+        $rules = $this->config['get_article_rule'];
         $range = '#list>dl';
-        $rt = QueryList::get($url)->rules($rules)
+        $range = $this->config['get_article_range'];
+
+        $rt = QueryList::html($html)->rules($rules)
             ->range($range)->query()->getData();
 
         $data = $rt->all();
 
         if ($data) {
             foreach ($data[0]['chapter_hrefs'] as &$href) {
-                $href = "https://www.mayiwxw.com" . $href;
+                $href = $this->config['url'] . $href;
             }
         }
 
         return $data;
     }
 
-    public function get_chapter($url, $config = [])
+    public function get_chapter($url)
     {
-//        $url = 'https://www.mayiwxw.com/99_99388/44558017.html';
-//        $url = 'https://www.mayiwxw.com/99_99388/47018138.html';
-
         /** @var HttpProxyService $httpProxyService */
         $httpProxyService = app('HttpProxyService');
         $user_agent = $httpProxyService->user_agent();
+        $html = file_get_contents($url);
 
-        $text = QueryList::get($url, [], [
-            'headers' => [
-                'User-Agent' => $user_agent,
-                'Accept-Encoding' => 'gzip, deflate, br',
-            ]
-        ])->find('#content')->text();
+        if ($this->config['charset'] == 'gbk') {
+            $html = iconv('gbk', 'utf-8//IGNORE', $html);
+        }
+
+        $find = '#content';
+        $find = $this->config['get_chapter_find'];
+        $text = QueryList::html($html)->find($find)->html();
+        $text = $this->config['content_preg']($text);
 
         sleep(5);
 
-        $text = str_replace('最新网址：www.mayiwxw.com', '', $text);
-        $text = str_replace('蚂蚁文学', '铁书网', $text);
-        $text = str_replace('www.mayiwxw.com ', 'www.tieshw.com', $text);
+        $text = str_replace([
+            '最新网址：www.mayiwxw.com',
+            '蚂蚁文学',
+            'www.mayiwxw.com',
+            '&emsp;&emsp;'
+        ], '', $text);
 
         return $text;
     }
@@ -98,7 +122,14 @@ class SpiderService
     public function build_article_url($article_id)
     {
         $index = intval($article_id / 1000);
-        return sprintf("https://www.mayiwxw.com/%s_%s/index.html", $index, $article_id);
+        $url = $this->config['article_url'];
+        if (strpos('{--index--}', $url) !== false) {
+
+        }
+        $url = str_replace('{--index--}', $index, $url);
+        $url = str_replace('{--article_id--}', $article_id, $url);
+
+        return $url;
     }
 
     /**
@@ -107,6 +138,16 @@ class SpiderService
      */
     public function get_origin_url($article)
     {
+        $key = $this->config['name'];
+        $article_id = OriginArticleId::where('article_id', $article->articleid)->first();
+
+        if(!$article_id || !$article_id[$key] ){
+            return  false;
+        }
+
+        return $this->build_article_url($article_id[$key]);
+
+
         $origin_articles = SourceArticle::where('article_name', $article->articlename)->get();
 
         $origin_article = $origin_articles->where('author', $article->author)->first();

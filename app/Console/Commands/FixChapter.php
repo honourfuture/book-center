@@ -29,6 +29,8 @@ class FixChapter extends Command
 
     private $logger;
 
+    private $spiderService;
+
     /**
      * Create a new command instance.
      *
@@ -36,7 +38,6 @@ class FixChapter extends Command
      */
     public function __construct()
     {
-
         parent::__construct();
     }
 
@@ -47,11 +48,17 @@ class FixChapter extends Command
      */
     public function handle()
     {
+
         $article_id = $this->option('article_id');
         $site = $this->option('site');
         if (!$site) {
             $site = 'mayi';
+
         }
+        /** @var SpiderService $spiderService */
+        $this->spiderService = app('SpiderService', [
+            'site' => $site,
+        ]);
 
         /** @var LoggerService $loggerService */
         $loggerService = app('LoggerService');
@@ -169,19 +176,18 @@ class FixChapter extends Command
      */
     private function _get_origin_article($article)
     {
-        /** @var SpiderService $spiderService */
-        $spiderService = app('SpiderService');
         $this->_line_log("[{$article->articleid}] 获取远程站点");
 
-        $url = $spiderService->get_origin_url($article);
-        $this->_line_log("[{$article->articleid}] 获取远程站点成功 [{$url}]");
+        $url = $this->spiderService->get_origin_url($article);
 
         if (!$url) {
             $this->_error_log("[{$article->articleid}] 未找到远程url");
             exit;
         }
 
-        return $spiderService->get_article($url);
+        $this->_line_log("[{$article->articleid}] 获取远程站点成功 [{$url}]");
+
+        return $this->spiderService->get_article($url);
     }
 
     /**
@@ -190,9 +196,7 @@ class FixChapter extends Command
      */
     private function _get_origin_chapter($url)
     {
-        /** @var SpiderService $spiderService */
-        $spiderService = app('SpiderService');
-        return $spiderService->get_chapter($url);
+        return $this->spiderService->get_chapter($url);
     }
 
     private function _info_log($message, $verbosity = null)

@@ -18,7 +18,14 @@ class SqliteController extends Controller
         $all_ids = [];
 
         $rules = [
-            'mayi' => ['Rules\mayiwxw_com_add_update.xml', 'Rules\mayiwxw_com.xml', 'Rules\mayiwxw_com_add.xml'],
+            'mayi' => ['
+                Rules\mayiwxw_com_add_update.xml',
+                'Rules\mayiwxw_com.xml',
+                'Rules\mayiwxw_com_add.xml',
+                'Rules\A_mayiwxw_com.xml',
+                'Rules\A_mayiwxw_com_add.xml',
+                'Rules\A_mayiwxw_com_update.xml',
+            ],
             'kdzw' => ['Rules\kdzw_net.xml'],
             'tt' => ['Rules\m_ttshuba_org.xml'],
             '4ksw' => ['Rules\lewen2_com_gz.xml', 'Rules\4ksw_com.xml'],

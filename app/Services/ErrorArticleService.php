@@ -47,9 +47,9 @@ class ErrorArticleService
             $all_chapter->file_path = $chapter_file_path;
 
             $is_no_check = $this->is_no_check_chapter_name($chapter->chaptername);
-            if($is_no_check){
+            if ($is_no_check) {
                 $all_chapter->is_error_chapter = 0;
-            }else{
+            } else {
                 $all_chapter->is_error_chapter = $this->is_error_chapter($content);
             }
 
@@ -62,7 +62,7 @@ class ErrorArticleService
     public function is_no_check_chapter_name($text)
     {
         foreach (ChapterEnum::NoCheckChapterName as $name) {
-            if($text == $name){
+            if ($text == $name) {
                 return 1;
             }
         }
@@ -104,7 +104,7 @@ class ErrorArticleService
             return 1;
         }
         $str_len = mb_strlen($content);
-        if ($str_len < 400) {
+        if ($str_len < 666) {
             return 1;
         }
 
