@@ -34,6 +34,9 @@ Route::get('/article/{id}', [\App\Http\Controllers\ArticleController::class, 'ar
 Route::any('/check-articles', [\App\Http\Controllers\ArticleController::class, 'check_articles']);
 Route::get('/error-articles', [\App\Http\Controllers\ArticleController::class, 'error_articles']);
 
+//手动校对
+Route::get('/hand-articles', [\App\Http\Controllers\ArticleController::class, 'hand_articles']);
+
 //精校
 Route::get('/article-create', [\App\Http\Controllers\ArticleController::class, 'create']);
 
@@ -43,3 +46,6 @@ Route::view('/tool/diff', 'diff');
 
 //临时更新4k
 Route::view('/4ksw', '4ksw');
+
+//OCR
+Route::get('/ocr', [\App\Http\Controllers\OCRController::class, 'do_ocr']);

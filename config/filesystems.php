@@ -37,6 +37,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('files/article/txt'),
         ],
+        'ocr' => [
+            'driver' => 'local',
+            'root' => storage_path('ocr'),
+        ],
         'sqlite' => [
             'driver' => 'local',
             'root' => database_path('sqlite'),

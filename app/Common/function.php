@@ -17,6 +17,10 @@ function clear_text($str)
     $str = str_replace([
         '求收藏',
         '求订阅',
+        '求月票',
+        '求首订',
+        '求推荐',
+        '求追读',
     ], '', $str);
     $pattern = '/[^\x{4e00}-\x{9fa5}]/u';
     $replacement = '';

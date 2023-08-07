@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Chapter;
 use App\Models\ErrorChapter;
+use App\Models\HandArticle;
 use App\Services\ExcellentArticleService;
 use Illuminate\Http\Request;
 use App\Models\Article;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use function Livewire\str;
 
 class ArticleController extends Controller
 {
+    public function hand_articles(Request $request)
+    {
+        $articles = HandArticle::orderBy('order', 'desc')->get();
+
+        return view('hand-article', ['articles' => $articles]);
+    }
+
     public function article($id, Request $request)
     {
         $page_size = $request->get('chapter_num', 50);

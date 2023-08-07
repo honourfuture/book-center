@@ -4,10 +4,11 @@ namespace App\Console\Commands;
 
 use App\Models\Article;
 use App\Models\Chapter;
-use App\Models\SourceArticle;
 use App\Services\ErrorArticleService;
+use App\Services\LoggerService;
 use App\Services\SpiderService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class FixChapter extends Command
@@ -17,7 +18,7 @@ class FixChapter extends Command
      *
      * @var string
      */
-    protected $signature = 'fix:chapter {--article_id=}';
+    protected $signature = 'fix:chapter {--article_id=} {--site=}';
 
     /**
      * The console command description.
@@ -26,6 +27,8 @@ class FixChapter extends Command
      */
     protected $description = 'fix:chapter';
 
+    private $logger;
+
     /**
      * Create a new command instance.
      *
@@ -33,6 +36,7 @@ class FixChapter extends Command
      */
     public function __construct()
     {
+
         parent::__construct();
     }
 
@@ -44,10 +48,20 @@ class FixChapter extends Command
     public function handle()
     {
         $article_id = $this->option('article_id');
-        $article = Article::find($article_id);
-        $this->line("[{$article_id}] 开始修复:  {$article->articlename}");
+        $site = $this->option('site');
+        if (!$site) {
+            $site = 'mayi';
+        }
 
-        $this->line("[{$article_id}] 开始检测错误章节: ");
+        /** @var LoggerService $loggerService */
+        $loggerService = app('LoggerService');
+        $this->logger = $loggerService->getLogger($site, 'fix_chapter');
+
+        $article = Article::find($article_id);
+
+        $this->_line_log("[{$article_id}] 开始修复:  {$article->articlename}");
+
+        $this->_line_log("[{$article_id}] 开始检测错误章节: ");
 
         /** @var ErrorArticleService $error_article_service */
         $error_article_service = app('ErrorArticleService');
@@ -60,10 +74,10 @@ class FixChapter extends Command
         }
 
         $all_error_chapters = $chapters->where('is_error_chapter', 1);
-        $this->line("[{$article_id}] 错误章节数: {$all_error_chapters->count()} ");
+        $this->_line_log("[{$article_id}] 错误章节数: {$all_error_chapters->count()} ");
 
         if ($all_error_chapters->isEmpty()) {
-            $this->info("[{$article_id}] 当前书籍无错误章节");
+            $this->_info_log("[{$article_id}] 当前书籍无错误章节");
             exit;
         }
 
@@ -74,7 +88,7 @@ class FixChapter extends Command
         foreach ($origin_article['chapters'] as $key => $origin_chapter) {
 
             if (!isset($origin_article['chapter_hrefs'][$key])) {
-                $this->error("[{$article_id}] 当前URL对数量不一致");
+                $this->_error_log("[{$article_id}] 当前URL对数量不一致");
                 exit;
             }
 
@@ -83,7 +97,7 @@ class FixChapter extends Command
             $origin_chapters[$clear_origin_chapter]['url'] = $origin_article['chapter_hrefs'][$key];
         }
 
-        $this->line("[{$article_id}] 开始修复错误章节");
+        $this->_line_log("[{$article_id}] 开始修复错误章节");
 
         $error_chapter_ids = $change_chapter_ids = [];
         $storage = Storage::disk('article');
@@ -97,7 +111,7 @@ class FixChapter extends Command
             if (isset($origin_chapters[$chapter_name])) {
                 $url = $origin_chapters[$chapter_name]['url'];
 
-                $this->line("[{$article_id}] 开始修复章节[{$chapter->chapterid}]: {$chapter->chaptername}");
+                $this->_line_log("[{$article_id}] 开始修复章节[{$chapter->chapterid}]: {$chapter->chaptername}");
 
                 $text = $this->_get_origin_chapter($url);
                 $is_error = $error_article_service->is_error_chapter($text);
@@ -106,14 +120,14 @@ class FixChapter extends Command
                     $text = iconv('utf-8', 'gbk//IGNORE', $text);
                     $storage->put($chapter->file_path, $text);
                     $change_chapter_ids[] = $chapter->chapterid;
-                    $this->info("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 成功");
+                    $this->_info_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 成功");
 
                     continue;
-                }else{
-                    $this->error("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 失败, 源站章节错误");
+                } else {
+                    $this->_error_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 失败, 源站章节错误");
                 }
-            }else{
-                $this->error("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 失败, 未找到章节");
+            } else {
+                $this->_error_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 失败, 未找到章节");
             }
 
             $error_chapter_ids[] = $chapter->chapterid;
@@ -127,7 +141,7 @@ class FixChapter extends Command
             $this->_set_error_chapters($error_chapter_ids);
         }
 
-        $this->line("[{$article_id}] 修复完成");
+        $this->_line_log("[{$article_id}] 修复完成");
     }
 
 
@@ -137,7 +151,7 @@ class FixChapter extends Command
             'is_right' => 1,
         ];
 
-        if($is_update_time){
+        if ($is_update_time) {
             $update['lastupdate'] = time();
         }
 
@@ -155,18 +169,18 @@ class FixChapter extends Command
      */
     private function _get_origin_article($article)
     {
-        $this->line("[{$article->articleid}] 获取远程站点");
+        /** @var SpiderService $spiderService */
+        $spiderService = app('SpiderService');
+        $this->_line_log("[{$article->articleid}] 获取远程站点");
 
-        $url = $this->_get_origin_url($article);
-        $this->line("[{$article->articleid}] 获取远程站点成功 [{$url}]");
+        $url = $spiderService->get_origin_url($article);
+        $this->_line_log("[{$article->articleid}] 获取远程站点成功 [{$url}]");
 
-        if(!$url){
-            $this->error("[{$article->articleid}] 未找到远程url");
+        if (!$url) {
+            $this->_error_log("[{$article->articleid}] 未找到远程url");
             exit;
         }
 
-        /** @var SpiderService $spiderService */
-        $spiderService = app('SpiderService');
         return $spiderService->get_article($url);
     }
 
@@ -181,51 +195,23 @@ class FixChapter extends Command
         return $spiderService->get_chapter($url);
     }
 
-    /**
-     * @param $article
-     * @return string
-     */
-    private function _get_origin_url($article)
+    private function _info_log($message, $verbosity = null)
     {
-        $origin_articles = SourceArticle::where('article_name', $article->articlename)
-            ->get();
+        $this->logger->info($message, $verbosity ? $verbosity : []);
+        $this->info($message, $verbosity);
+    }
 
-        $origin_article = $origin_articles->where('author', $article->author)->first();
-        /** @var SpiderService $spiderService */
-        $spiderService = app('SpiderService');
-        if ($origin_article) {
-            return $spiderService->build_article_url($origin_article->article_id);
-        }
+    private function _line_log($message, $style = null, $verbosity = null)
+    {
+        $this->logger->info($message, $verbosity ? $verbosity : []);
 
-        foreach ($origin_articles as $origin_article) {
-            if ($origin_article->author) {
-                continue;
-            }
+        $this->line($message, $style, $verbosity);
 
-            $url = $spiderService->build_article_url($origin_article->article_id);
+    }
 
-            $article_info = $spiderService->get_article_info($url);
-
-            if ($article_info) {
-                $article_info['author'] = remove_space($article_info['author']);
-                $article_info['desc'] = remove_space($article_info['desc']);
-
-                SourceArticle::where('article_id', $origin_article->article_id)->update([
-                    'author' => $article_info['author'],
-                    'desc' => $article_info['desc'],
-                ]);
-                if ($article_info['author'] == $article['author']) {
-                    if (isset($article_info['desc']) && $article_info['desc']) {
-                        Article::where('articleid', $article->articleid)->update([
-                            'intro' => $article_info['desc']
-                        ]);
-                    }
-
-                    return $spiderService->build_article_url($origin_article->article_id);
-                }
-            }
-        }
-
-        return false;
+    private function _error_log($message, $verbosity = null)
+    {
+        $this->logger->error($message, $verbosity ? $verbosity : []);
+        $this->error($message, $verbosity);
     }
 }

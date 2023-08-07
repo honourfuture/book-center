@@ -10,6 +10,8 @@
 namespace App\Services;
 
 
+use App\Models\Article;
+use App\Models\SourceArticle;
 use QL\QueryList;
 
 class SpiderService
@@ -97,6 +99,52 @@ class SpiderService
     {
         $index = intval($article_id / 1000);
         return sprintf("https://www.mayiwxw.com/%s_%s/index.html", $index, $article_id);
+    }
+
+    /**
+     * @param $article
+     * @return string
+     */
+    public function get_origin_url($article)
+    {
+        $origin_articles = SourceArticle::where('article_name', $article->articlename)->get();
+
+        $origin_article = $origin_articles->where('author', $article->author)->first();
+
+        if ($origin_article) {
+            return $this->build_article_url($origin_article->article_id);
+        }
+
+        foreach ($origin_articles as $origin_article) {
+            if ($origin_article->author) {
+                continue;
+            }
+
+            $url = $this->build_article_url($origin_article->article_id);
+
+            $article_info = $this->get_article_info($url);
+
+            if ($article_info) {
+                $article_info['author'] = remove_space($article_info['author']);
+                $article_info['desc'] = remove_space($article_info['desc']);
+
+                SourceArticle::where('article_id', $origin_article->article_id)->update([
+                    'author' => $article_info['author'],
+                    'desc' => $article_info['desc'],
+                ]);
+                if ($article_info['author'] == $article['author']) {
+                    if (isset($article_info['desc']) && $article_info['desc']) {
+                        Article::where('articleid', $article->articleid)->update([
+                            'intro' => $article_info['desc']
+                        ]);
+                    }
+
+                    return $this->build_article_url($origin_article->article_id);
+                }
+            }
+        }
+
+        return false;
     }
 
 }

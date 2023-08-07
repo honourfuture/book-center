@@ -15,6 +15,11 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+
+    /**
+     * daily类型, 日志文件最大保留数量
+     */
+    'log_max_files' => env('LOG_MAX_FILES', 300),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -182,6 +187,7 @@ return [
         App\Providers\ExcellentArticleServiceProvider::class,
         App\Providers\SpiderServiceProvider::class,
         App\Providers\ErrorArticleServiceProvider::class,
+        App\Providers\LoggerServiceProvider::class,
 
     ],
 

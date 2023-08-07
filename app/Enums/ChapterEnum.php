@@ -15,10 +15,15 @@ class ChapterEnum
     const NoCheckChapterNameSTROPS = [
         '请假',
         '病假',
+        '请个假',
+        '请一天假',
+        '鸽一天',
+        '请个小假'
     ];
     //无需检测章节名
     const NoCheckChapterName = [
         '上架感言',
         '求月票',
+        '该章节已被锁定',
     ];
 }

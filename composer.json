@@ -10,8 +10,14 @@
     "require": {
         "php": "^7.3|^8.0",
         "ext-simplexml": "*",
+        "alibabacloud/client": "^1.5",
+        "alibabacloud/darabonba-stream": "^0.0.1",
+        "alibabacloud/imagesearch-20200212": "^1.0",
+        "alibabacloud/ocr-api-20210707": "^1.1",
+        "aliyuncs/oss-sdk-php": "^2.6",
         "elasticsearch/elasticsearch": "7.12.x",
         "fruitcake/laravel-cors": "^2.0",
+        "godruoyi/ocr": "^2.1",
         "guzzlehttp/guzzle": "^7.5",
         "inertiajs/inertia-laravel": "^0.5.2",
         "jaeger/querylist": "^4.2",
@@ -20,6 +26,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.5",
+        "thiagoalessio/tesseract_ocr": "^2.12",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

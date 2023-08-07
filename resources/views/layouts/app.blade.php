@@ -18,8 +18,10 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="/tool" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Tool</a>
-                        <a href="/article/14554" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Proof</a>
+                        <a href="/tool" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">章节计算工具</a>
+                        <a href="/tool/diff" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">ID比对</a>
+                        <a href="/hand-articles" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">手动更新</a>
+                        <a href="/article/14554" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">错误章节</a>
                         <a href="/error-articles?article_ids=19" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Error-articles</a>
                     </div>
                 </div>
