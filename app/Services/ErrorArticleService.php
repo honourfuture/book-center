@@ -35,7 +35,7 @@ class ErrorArticleService
         $all_chapters = collect([]);
 
         foreach ($chapters as $chapter) {
-            echo $chapter_file_path = "{$short_id}/{$article->articleid}/$chapter->chapterid.txt";die;
+            $chapter_file_path = "{$short_id}/{$article->articleid}/$chapter->chapterid.txt";
             if (!$storage->exists($chapter_file_path)) {
                 continue;
             }
