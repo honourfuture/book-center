@@ -23,7 +23,13 @@ function clear_text($str)
         '求推荐',
         '求追读',
     ], '', $str);
+    
+    //去除卷名
     $str = preg_replace('/^.*?(?=第章)/s', '', $str);
+
+    //去除第章
+    $str = str_replace('第章', '', $str);
+
     $pattern = '/[^\x{4e00}-\x{9fa5}]/u';
     $replacement = '';
     return preg_replace($pattern, $replacement, $str);
