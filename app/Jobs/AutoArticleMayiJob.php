@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\QueueNameEnum;
+use App\Exceptions\FixChapterException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,9 +16,12 @@ class AutoArticleMayiJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $timeout = 86400;
+
     private $article_id;
 
     private $site;
+
     /**
      * Create a new job instance.
      *
@@ -36,10 +40,15 @@ class AutoArticleMayiJob implements ShouldQueue
      */
     public function handle()
     {
-        Artisan::call("fix:chapter", [
-            '--article_id' => $this->article_id,
-            '--site' => $this->site,
-        ]);
+        try {
+            Artisan::call("fix:chapter", [
+                '--article_id' => $this->article_id,
+                '--site' => $this->site,
+            ]);
+        } catch (FixChapterException $e) {
+
+        }
+
 
     }
 }

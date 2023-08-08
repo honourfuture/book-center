@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Exceptions\FixChapterException;
 use App\Models\Article;
 use App\Models\Chapter;
 use App\Services\ErrorArticleService;
@@ -84,7 +85,7 @@ class FixChapter extends Command
 
         if ($all_error_chapters->isEmpty()) {
             $this->_info_log("[{$article_id}] 当前书籍无错误章节");
-            throw new \Exception('当前书籍无错误章节', 1);
+            throw new FixChapterException('当前书籍无错误章节', 200);
         }
 
         $origin_article = $this->_get_origin_article($article);
@@ -95,7 +96,7 @@ class FixChapter extends Command
 
             if (!isset($origin_article['chapter_hrefs'][$key])) {
                 $this->_error_log("[{$article_id}] 当前URL对数量不一致");
-                throw new \Exception('当前URL对数量不一致', 1);
+                throw new FixChapterException('当前URL对数量不一致', 400);
             }
 
             $clear_origin_chapter = clear_text($origin_chapter);
@@ -127,7 +128,6 @@ class FixChapter extends Command
                     $storage->put($chapter->file_path, $text);
                     $change_chapter_ids[] = $chapter->chapterid;
                     $this->_info_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 成功");
-
                     continue;
                 } else {
                     $this->_error_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 失败, 源站章节错误");
@@ -181,7 +181,7 @@ class FixChapter extends Command
 
         if (!$url) {
             $this->_error_log("[{$article->articleid}] 未找到远程url");
-            throw new \Exception('未找到远程url', 1);
+            throw new FixChapterException('未找到远程url', 400);
         }
 
         $this->_line_log("[{$article->articleid}] 获取远程站点成功 [{$url}]");

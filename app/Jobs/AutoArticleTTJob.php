@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Exceptions\FixChapterException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,6 +18,8 @@ class AutoArticleTTJob implements ShouldQueue
     private $article_id;
 
     private $site;
+
+    public $timeout = 86400;
     /**
      * Create a new job instance.
      *
@@ -35,9 +38,14 @@ class AutoArticleTTJob implements ShouldQueue
      */
     public function handle()
     {
-        Artisan::call("fix:chapter", [
-            '--article_id' => $this->article_id,
-            '--site' => $this->site,
-        ]);
+        try {
+            Artisan::call("fix:chapter", [
+                '--article_id' => $this->article_id,
+                '--site' => $this->site,
+            ]);
+        }catch (FixChapterException $e){
+
+        }
+
     }
 }
