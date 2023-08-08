@@ -23,7 +23,7 @@ function clear_text($str)
         '求推荐',
         '求追读',
     ], '', $str);
-    
+
     //去除卷名
     $str = preg_replace('/^.*?(?=第章)/s', '', $str);
 

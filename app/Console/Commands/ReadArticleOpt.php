@@ -81,8 +81,6 @@ class ReadArticleOpt extends Command
                     logger('opt article book error', [$book]);
                 }
 
-
-
                 logger('opt article id', [$article_id]);
                 $bookName = $book['metadata']['dc-metadata']['dc:Title'];
                 $author = $book['metadata']['dc-metadata']['dc:Creator'];

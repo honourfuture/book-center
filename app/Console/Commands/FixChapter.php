@@ -84,7 +84,7 @@ class FixChapter extends Command
 
         if ($all_error_chapters->isEmpty()) {
             $this->_info_log("[{$article_id}] 当前书籍无错误章节");
-            exit;
+            throw new \Exception('当前书籍无错误章节', 1);
         }
 
         $origin_article = $this->_get_origin_article($article);
@@ -95,7 +95,7 @@ class FixChapter extends Command
 
             if (!isset($origin_article['chapter_hrefs'][$key])) {
                 $this->_error_log("[{$article_id}] 当前URL对数量不一致");
-                exit;
+                throw new \Exception('当前URL对数量不一致', 1);
             }
 
             $clear_origin_chapter = clear_text($origin_chapter);
@@ -181,7 +181,7 @@ class FixChapter extends Command
 
         if (!$url) {
             $this->_error_log("[{$article->articleid}] 未找到远程url");
-            exit;
+            throw new \Exception('未找到远程url', 1);
         }
 
         $this->_line_log("[{$article->articleid}] 获取远程站点成功 [{$url}]");
