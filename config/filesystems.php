@@ -41,6 +41,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('ocr'),
         ],
+        'nginx_log' => [
+            'driver' => 'local',
+            'root' => storage_path('logs/nginx_log'),
+        ],
         'sqlite' => [
             'driver' => 'local',
             'root' => database_path('sqlite'),

@@ -23,6 +23,7 @@
                         <a href="/hand-articles" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">手动更新</a>
                         <a href="/article/14554" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">错误章节</a>
                         <a href="/error-articles?article_ids=19" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Error-articles</a>
+                        <a href="/search-spider" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">蜘蛛</a>
                     </div>
                 </div>
             </div>

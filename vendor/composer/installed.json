@@ -1746,6 +1746,60 @@
             "install-path": "../dflydev/dot-access-data"
         },
         {
+            "name": "diwms/nginx-log-analyzer",
+            "version": "1.1.0",
+            "version_normalized": "1.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/diwms/nginx-log-analyzer.git",
+                "reference": "60c268dd31889391b988441e5de9eb1a2e7242f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/diwms/nginx-log-analyzer/zipball/60c268dd31889391b988441e5de9eb1a2e7242f0",
+                "reference": "60c268dd31889391b988441e5de9eb1a2e7242f0",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": "^7.3"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^6.0",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^0.11.19",
+                "phpstan/phpstan-phpunit": "^0.11.2",
+                "phpunit/phpunit": "^8.4",
+                "roave/security-advisories": "dev-master",
+                "spatie/phpunit-watcher": "^1.21",
+                "vimeo/psalm": "^3.6"
+            },
+            "time": "2019-11-14T21:30:17+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Diwms\\NginxLogAnalyzer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Analyze/Parse Nginx log using php",
+            "homepage": "https://github.com/diwms/nginx-log-analyzer",
+            "support": {
+                "issues": "https://github.com/diwms/nginx-log-analyzer/issues",
+                "source": "https://github.com/diwms/nginx-log-analyzer/tree/master"
+            },
+            "install-path": "../diwms/nginx-log-analyzer"
+        },
+        {
             "name": "doctrine/inflector",
             "version": "2.0.6",
             "version_normalized": "2.0.6.0",

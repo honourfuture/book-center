@@ -64,6 +64,12 @@ class FixChapter extends Command
         $loggerService = app('LoggerService');
         $this->logger = $loggerService->getLogger($site, 'fix_chapter');
 
+//        $article = collect([]);
+//        $article->articleid = 60258;
+//        $origin_article = $this->_get_origin_article($article);
+//        $origin_article = isset($origin_article[0]) ? $origin_article[0] : [];
+//        print_R($origin_article['chapters']);die;
+
         $article = Article::find($article_id);
 
         $this->_line_log("[{$article_id}] 开始修复:  {$article->articlename}");
@@ -92,6 +98,7 @@ class FixChapter extends Command
         $origin_article = isset($origin_article[0]) ? $origin_article[0] : [];
 
         $origin_chapters = [];
+        $repeat_chapter_count = 0;
         foreach ($origin_article['chapters'] as $key => $origin_chapter) {
 
             if (!isset($origin_article['chapter_hrefs'][$key])) {
@@ -100,8 +107,16 @@ class FixChapter extends Command
             }
 
             $clear_origin_chapter = clear_text($origin_chapter);
+            if(isset($origin_article[$clear_origin_chapter])){
+                $repeat_chapter_count++;
+                continue;
+            }
             $origin_chapters[$clear_origin_chapter]['original_chapter_name'] = $origin_chapter;
             $origin_chapters[$clear_origin_chapter]['url'] = $origin_article['chapter_hrefs'][$key];
+        }
+
+        if($repeat_chapter_count > 30){
+            throw new FixChapterException('重复章节过多中止', 400);
         }
 
         $this->_line_log("[{$article_id}] 开始修复错误章节");

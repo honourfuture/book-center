@@ -202,6 +202,7 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Inflector\\' => 19,
             'Doctrine\\Common\\Lexer\\' => 22,
+            'Diwms\\NginxLogAnalyzer\\' => 23,
             'Dflydev\\DotAccessData\\' => 22,
             'DeepCopy\\' => 9,
             'Database\\Seeders\\' => 17,
@@ -637,6 +638,10 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'Doctrine\\Common\\Lexer\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer',
+        ),
+        'Diwms\\NginxLogAnalyzer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/diwms/nginx-log-analyzer/src',
         ),
         'Dflydev\\DotAccessData\\' => 
         array (
@@ -1478,6 +1483,7 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'App\\Console\\Commands\\BuildSitemap' => __DIR__ . '/../..' . '/app/Console/Commands/BuildSitemap.php',
         'App\\Console\\Commands\\DeleteRepeatChapter' => __DIR__ . '/../..' . '/app/Console/Commands/DeleteRepeatChapter.php',
         'App\\Console\\Commands\\FixChapter' => __DIR__ . '/../..' . '/app/Console/Commands/FixChapter.php',
+        'App\\Console\\Commands\\ParseNginxLog' => __DIR__ . '/../..' . '/app/Console/Commands/ParseNginxLog.php',
         'App\\Console\\Commands\\PushAutoUpdateArticleJob' => __DIR__ . '/../..' . '/app/Console/Commands/PushAutoUpdateArticleJob.php',
         'App\\Console\\Commands\\ReadArticleOpt' => __DIR__ . '/../..' . '/app/Console/Commands/ReadArticleOpt.php',
         'App\\Console\\Commands\\SyncArticleToDatabase' => __DIR__ . '/../..' . '/app/Console/Commands/SyncArticleToDatabase.php',
@@ -1485,6 +1491,7 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'App\\Enums\\ChapterEnum' => __DIR__ . '/../..' . '/app/Enums/ChapterEnum.php',
         'App\\Enums\\QueueNameEnum' => __DIR__ . '/../..' . '/app/Enums/QueueNameEnum.php',
         'App\\Enums\\RuleEnum' => __DIR__ . '/../..' . '/app/Enums/RuleEnum.php',
+        'App\\Exceptions\\FixChapterException' => __DIR__ . '/../..' . '/app/Exceptions/FixChapterException.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\ArticleController' => __DIR__ . '/../..' . '/app/Http/Controllers/ArticleController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
@@ -1786,6 +1793,13 @@ class ComposerStaticInit3b92907c14f83d844d399b5a3bc26bed
         'Dflydev\\DotAccessData\\Exception\\InvalidPathException' => __DIR__ . '/..' . '/dflydev/dot-access-data/src/Exception/InvalidPathException.php',
         'Dflydev\\DotAccessData\\Exception\\MissingPathException' => __DIR__ . '/..' . '/dflydev/dot-access-data/src/Exception/MissingPathException.php',
         'Dflydev\\DotAccessData\\Util' => __DIR__ . '/..' . '/dflydev/dot-access-data/src/Util.php',
+        'Diwms\\NginxLogAnalyzer\\Contracts\\Format' => __DIR__ . '/..' . '/diwms/nginx-log-analyzer/src/Contracts/Format.php',
+        'Diwms\\NginxLogAnalyzer\\Contracts\\Parsable' => __DIR__ . '/..' . '/diwms/nginx-log-analyzer/src/Contracts/Parsable.php',
+        'Diwms\\NginxLogAnalyzer\\Contracts\\Pattern' => __DIR__ . '/..' . '/diwms/nginx-log-analyzer/src/Contracts/Pattern.php',
+        'Diwms\\NginxLogAnalyzer\\Exceptions\\Line' => __DIR__ . '/..' . '/diwms/nginx-log-analyzer/src/Exceptions/Line.php',
+        'Diwms\\NginxLogAnalyzer\\NginxAccessLogFormat' => __DIR__ . '/..' . '/diwms/nginx-log-analyzer/src/NginxAccessLogFormat.php',
+        'Diwms\\NginxLogAnalyzer\\Parse' => __DIR__ . '/..' . '/diwms/nginx-log-analyzer/src/Parse.php',
+        'Diwms\\NginxLogAnalyzer\\RegexPattern' => __DIR__ . '/..' . '/diwms/nginx-log-analyzer/src/RegexPattern.php',
         'Doctrine\\Common\\Lexer\\AbstractLexer' => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer/AbstractLexer.php',
         'Doctrine\\Inflector\\CachedWordInflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/CachedWordInflector.php',
         'Doctrine\\Inflector\\GenericLanguageInflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/GenericLanguageInflectorFactory.php',

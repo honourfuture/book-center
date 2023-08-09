@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d7d5cf2c800278622554d3c982e829f",
+    "content-hash": "5320196e40d8c739b8bfabc5a31acc89",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -1663,6 +1663,57 @@
                 "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.2"
             },
             "time": "2022-10-27T11:44:00+00:00"
+        },
+        {
+            "name": "diwms/nginx-log-analyzer",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/diwms/nginx-log-analyzer.git",
+                "reference": "60c268dd31889391b988441e5de9eb1a2e7242f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/diwms/nginx-log-analyzer/zipball/60c268dd31889391b988441e5de9eb1a2e7242f0",
+                "reference": "60c268dd31889391b988441e5de9eb1a2e7242f0",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": "^7.3"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^6.0",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^0.11.19",
+                "phpstan/phpstan-phpunit": "^0.11.2",
+                "phpunit/phpunit": "^8.4",
+                "roave/security-advisories": "dev-master",
+                "spatie/phpunit-watcher": "^1.21",
+                "vimeo/psalm": "^3.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Diwms\\NginxLogAnalyzer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Analyze/Parse Nginx log using php",
+            "homepage": "https://github.com/diwms/nginx-log-analyzer",
+            "support": {
+                "issues": "https://github.com/diwms/nginx-log-analyzer/issues",
+                "source": "https://github.com/diwms/nginx-log-analyzer/tree/master"
+            },
+            "time": "2019-11-14T21:30:17+00:00"
         },
         {
             "name": "doctrine/inflector",

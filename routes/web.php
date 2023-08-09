@@ -14,10 +14,10 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-//
 Route::get('/get-empty-article', [\App\Http\Controllers\SqliteController::class, 'get_empty_article']);
 Route::get('/get-tieshu', [\App\Http\Controllers\SqliteController::class, 'get_tieshu']);
+
+//获取120错误
 Route::get('/get-tieshu-list', [\App\Http\Controllers\SqliteController::class, 'get_tieshu_list']);
 
 //关键词
@@ -49,3 +49,11 @@ Route::view('/4ksw', '4ksw');
 
 //OCR
 Route::get('/ocr', [\App\Http\Controllers\OCRController::class, 'do_ocr']);
+//test
+Route::get('/test', [\App\Http\Controllers\TestController::class, 'test']);
+//nginx spider
+Route::get('/search-spider', [\App\Http\Controllers\SearchSpiderController::class, 'spider_articles']);
+Route::get('/search-spider/{id}', [\App\Http\Controllers\SearchSpiderController::class, 'spider_article']);
+Route::post('/search-spider/{id}', [\App\Http\Controllers\SearchSpiderController::class, 'set_article_peg']);
+
+

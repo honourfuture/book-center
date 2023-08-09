@@ -128,7 +128,6 @@ class SqliteController extends Controller
         }
 
         print_r($updateRule);
-//        print_r($update_local);
     }
 
     private function _articles()

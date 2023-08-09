@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'aa23ae5988b143cc8b1beba7eb575655c4bfbed8',
+        'reference' => '4a05942c381863a4a4bcd4f3b025db5e49215dd0',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -281,6 +281,15 @@
             'install_path' => __DIR__ . '/../dflydev/dot-access-data',
             'aliases' => array(),
             'reference' => 'f41715465d65213d644d3141a6a93081be5d3549',
+            'dev_requirement' => false,
+        ),
+        'diwms/nginx-log-analyzer' => array(
+            'pretty_version' => '1.1.0',
+            'version' => '1.1.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../diwms/nginx-log-analyzer',
+            'aliases' => array(),
+            'reference' => '60c268dd31889391b988441e5de9eb1a2e7242f0',
             'dev_requirement' => false,
         ),
         'doctrine/inflector' => array(
@@ -757,7 +766,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'aa23ae5988b143cc8b1beba7eb575655c4bfbed8',
+            'reference' => '4a05942c381863a4a4bcd4f3b025db5e49215dd0',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chapter;
 use App\Models\ErrorChapter;
 use App\Models\HandArticle;
+use App\Models\NginxAccessLog;
 use App\Services\ExcellentArticleService;
 use App\Services\SpiderService;
 use Illuminate\Http\Request;
@@ -20,6 +21,8 @@ class ArticleController extends Controller
         $articles = HandArticle::orderBy('order', 'desc')->get();
         return view('hand-article', ['articles' => $articles]);
     }
+
+
 
     public function article($id, Request $request)
     {
