@@ -14,3 +14,11 @@
 
 - 获取错误章节 并分页展示
 - ID对比工具
+
+- nginx 日志分析
+  php74 artisan parse:nginx-log
+  将logs/nginx_log中的文件输入到mysql
+
+    cat www.tieshuw.com.log | grep Baiduspider > tieshu.baidu.2023_08_09.log
+    cat www.tieshuw.com.log | grep YisouSpider > tieshu.yusou.2023_08_09.log
+    mv tieshu.* /www/wwwroot/help-tieshuw-com/storage/logs/nginx_log/

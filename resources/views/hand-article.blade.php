@@ -1,6 +1,12 @@
 @extends('layouts.app')
+<title>手动更新</title>
 
 @section('content')
+    <div class="text-sm breadcrumbs">
+        <ul>
+            <li>手动更新</li>
+        </ul>
+    </div>
     <div class="overflow-x-auto">
         <table class="table table-xs">
             <thead>

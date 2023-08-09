@@ -22,8 +22,6 @@ class ArticleController extends Controller
         return view('hand-article', ['articles' => $articles]);
     }
 
-
-
     public function article($id, Request $request)
     {
         $page_size = $request->get('chapter_num', 50);

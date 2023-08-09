@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Article;
 use App\Models\HandArticle;
 use App\Models\NginxAccessLog;
 use Illuminate\Http\Request;
@@ -34,18 +35,22 @@ class SearchSpiderController extends Controller
     {
         $source = $request->get('source');
 
-        $article_logs = NginxAccessLog::with(['article']);
+        $article_logs = NginxAccessLog::where('article_id', $id);
 
         if ($source) {
             $article_logs->where('source', $source);
         }
 
         $article_logs = $article_logs
-            ->where('article_id', $id)
+
             ->orderByDesc('time')
             ->get();
 
-        return view('spider-article', ['article_logs' => $article_logs]);
+        $article = Article::find($id);
+        return view('spider-article', [
+            'article_logs' => $article_logs,
+            'article' => $article,
+        ]);
     }
 
     public function set_article_peg()

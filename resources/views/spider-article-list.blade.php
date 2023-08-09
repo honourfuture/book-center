@@ -1,7 +1,13 @@
 @extends('layouts.app')
-
 @section('content')
+    <title>蜘蛛分析 </title>
+
     <div class="overflow-x-auto">
+        <div class="text-sm breadcrumbs">
+            <ul>
+                <li>蜘蛛分析</li>
+            </ul>
+        </div>
         <table class="table table-xs w-full">
             <thead>
             <tr>

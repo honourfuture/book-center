@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+    <title>错误章节</title>
+
     <div class="bg-white">
         <div class="text-left">
         </div>

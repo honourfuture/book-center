@@ -45,7 +45,7 @@ class ParseNginxLog extends Command
     {
         $storage = Storage::disk('nginx_log');
         $parse = new Parse(new NginxAccessLogFormat(), new RegexPattern());
-        
+
         foreach ($storage->allFiles() as $file_name) {
             $logs = [];
             $lines = $storage->get($file_name);

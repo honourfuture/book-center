@@ -1,7 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+    <title>{{$article ? $article->articlename : '-'}}</title>
+
     <div class="overflow-x-auto">
+        <div class="text-sm breadcrumbs">
+            <ul>
+                <li><a href="/search-spider">蜘蛛分析</a></li>
+                <li>{{$article ? $article->articlename : '-'}}</li>
+            </ul>
+        </div>
         <table class="table table-xs w-full">
             <thead>
             <tr>
