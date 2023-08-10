@@ -77,7 +77,9 @@ class ParseNginxLog extends Command
                 if (strpos($log['http_user_agent'], 'Sogou') !== false) {
                     $source = 'Sogou';
                 }
-
+                if (strpos($log['http_user_agent'], '360Spider') !== false) {
+                    $source = '360';
+                }
                 $log = [
                     'remote_addr' => $log['remote_addr'],
                     'remote_user' => $log['remote_user'],
