@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libs\ReplaceModelTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 class NginxAccessLog extends Model
 {
     use HasFactory;
+    use ReplaceModelTrait;
 
     protected $primaryKey = 'id';
 

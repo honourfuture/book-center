@@ -28,9 +28,9 @@ class CreateNginxAccessLogsTable extends Migration
             $table->integer('bytes_sent');
             $table->text('http_referer');
             $table->text('http_user_agent');
-            $table->enum('source', ['Baidu', 'Shenma']);
+            $table->enum('source', ['Baidu', 'Shenma', 'Sogou']);
             $table->text('note');
-
+            $table->char('md5_unique', 32)->unique();
             $table->timestamps();
         });
     }

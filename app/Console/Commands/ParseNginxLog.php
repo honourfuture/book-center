@@ -74,7 +74,10 @@ class ParseNginxLog extends Command
                 if (strpos($log['http_user_agent'], 'YisouSpider') !== false) {
                     $source = 'Shenma';
                 }
-
+                if (strpos($log['http_user_agent'], 'Sogou') !== false) {
+                    $source = 'Sogou';
+                }
+                $md5_unique = md5($log['remote_addr'] . $timestamp. $log['url']);
                 $logs[] = [
                     'remote_addr' => $log['remote_addr'],
                     'remote_user' => $log['remote_user'],
@@ -90,14 +93,16 @@ class ParseNginxLog extends Command
                     'url' => $log['url'],
                     'source' => $source,
                     'article_id' => $article_id,
+                    'md5_unique' => md5($md5_unique)
                 ];
             }
 
             $logs = array_chunk($logs, 500);
 
             foreach ($logs as $log){
-                NginxAccessLog::insert($log);
+                NginxAccessLog::insertIgnore($log);
             }
+            $storage->delete($file_name);
         }
     }
 
