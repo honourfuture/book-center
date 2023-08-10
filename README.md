@@ -8,7 +8,7 @@
     # 蚂蚁文学
     php74 artisan fix:chapter --site=mayi --article_id=508
     # TT书吧
-    php74 artisan fix:chapter --site=tt --article_id=30259
+    php74 artisan fix:chapter --site=tt --article_id=8957
     # 69书
     php74 artisan fix:chapter --site=69shu --article_id=14
 
