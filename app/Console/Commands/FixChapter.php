@@ -8,6 +8,7 @@ use App\Models\Chapter;
 use App\Services\ErrorArticleService;
 use App\Services\LoggerService;
 use App\Services\SpiderService;
+use App\Services\TextTypeSetService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -99,27 +100,38 @@ class FixChapter extends Command
 
         $origin_chapters = [];
         $repeat_chapter_count = 0;
-        foreach ($origin_article['chapters'] as $key => $origin_chapter) {
+        try {
+            foreach ($origin_article['chapters'] as $key => $origin_chapter) {
 
-            if (!isset($origin_article['chapter_hrefs'][$key])) {
-                $this->_error_log("[{$article_id}] 当前URL对数量不一致");
-                throw new FixChapterException('当前URL对数量不一致', 400);
-            }
+                if (!isset($origin_article['chapter_hrefs'][$key])) {
+                    $this->_error_log("[{$article_id}] 当前URL对数量不一致");
+                    throw new FixChapterException('当前URL对数量不一致', 400);
+                }
 
-            $clear_origin_chapter = clear_text($origin_chapter);
-            if(isset($origin_article[$clear_origin_chapter])){
-                $repeat_chapter_count++;
-                continue;
+                $clear_origin_chapter = clear_text($origin_chapter);
+                if (isset($origin_article[$clear_origin_chapter])) {
+                    $repeat_chapter_count++;
+                    continue;
+                }
+                $origin_chapters[$clear_origin_chapter]['original_chapter_name'] = $origin_chapter;
+                $origin_chapters[$clear_origin_chapter]['url'] = $origin_article['chapter_hrefs'][$key];
             }
-            $origin_chapters[$clear_origin_chapter]['original_chapter_name'] = $origin_chapter;
-            $origin_chapters[$clear_origin_chapter]['url'] = $origin_article['chapter_hrefs'][$key];
+        } catch (\Exception $e) {
+            print_r($e->getMessage());
+            print_r($origin_article);
+            exit;
         }
 
-        if($repeat_chapter_count > 30){
+
+        if ($repeat_chapter_count > 30) {
             throw new FixChapterException('重复章节过多中止', 400);
         }
 
         $this->_line_log("[{$article_id}] 开始修复错误章节");
+
+        /** @var TextTypeSetService $textTypeSetService */
+        $textTypeSetService = app('TextTypeSetService');
+
 
         $error_chapter_ids = $change_chapter_ids = [];
         $storage = Storage::disk('article');
@@ -140,6 +152,7 @@ class FixChapter extends Command
                 if (!$is_error) {
                     $storage->get($chapter->file_path);
                     $text = iconv('utf-8', 'gbk//IGNORE', $text);
+                    $text = $textTypeSetService->doTypeSet($text);
                     $storage->put($chapter->file_path, $text);
                     $change_chapter_ids[] = $chapter->chapterid;
                     $this->_info_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 成功");

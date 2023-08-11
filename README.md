@@ -5,8 +5,10 @@
 
 - 通过php获取 "正在手打中"/"灵魂契约" 等错误章节
 - 自动修复章节 
+    php74 artisan sync:article
+
     # 蚂蚁文学
-    php74 artisan fix:chapter --site=mayi --article_id=508
+    php74 artisan fix:chapter --site=mayi --article_id=63781
     # TT书吧
     php74 artisan fix:chapter --site=tt --article_id=8957
     # 69书

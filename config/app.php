@@ -72,7 +72,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'PRC',
 
     /*
     |--------------------------------------------------------------------------
@@ -188,6 +188,7 @@ return [
         App\Providers\SpiderServiceProvider::class,
         App\Providers\ErrorArticleServiceProvider::class,
         App\Providers\LoggerServiceProvider::class,
+        App\Providers\TextTypeSetProvider::class,
 
     ],
 

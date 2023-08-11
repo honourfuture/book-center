@@ -33,7 +33,7 @@ class HttpProxyService
 
     public function user_agent()
     {
-        $user_agents =[
+        $user_agents = [
             "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/4.9.5.1000 Chrome/39.0.2146.0 Safari/537.36",
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36",
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:65.0) Gecko/20100101 Firefox/65.0",
@@ -41,22 +41,26 @@ class HttpProxyService
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/18.17763",
             "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
         ];
-        $rand = rand(0,5);
+        $rand = rand(0, 5);
         return $user_agents[$rand];
     }
 
-    private function _api()
+    public function _api()
     {
-        $url = "http://proxy.siyetian.com/apis_get.html?token=gHbi1STqVkMOR1Zx8EVZBjT31STqFUeNpXQx0EVVFjT61EMPR0Y00ERjVTT6dGM.gMwMDN4ADN4YTM&limit=1&type=0&time=&split=1&split_text=&area=0&repeat=0&isp=0";
+        return $this->_hide_my_name();
+    }
 
-        $client = new Client([
-            'headers' => ['User-Agent' => "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/4.9.5.1000 Chrome/39.0.2146.0 Safari/537.36"]
-        ]);
+    //https://hidemyna.me/en/proxy-list/?type=h#list
+    private function _hide_my_name()
+    {
+        $proxies = [
+            '193.151.180.215:42088',
+//            '173.46.82.194:54152',
+            '185.238.214.96:48641',
+        ];
 
-        $response = $client->get($url);
+        $rand = rand(0,1);
 
-        $proxy = $response->getBody()->getContents();
-
-        return explode(':', $proxy);
+        return explode(':', $proxies[$rand]);
     }
 }

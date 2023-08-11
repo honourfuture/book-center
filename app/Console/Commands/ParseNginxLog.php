@@ -63,6 +63,7 @@ class ParseNginxLog extends Command
 
                 $date = $log['time_local'];
                 $timestamp = date('Y-m-d H:i:s', strtotime($date));
+
                 $date = date('Y-m-d', strtotime($date));
 
                 $article_id = preg_replace('/.*_(\d+)/', '$1', $log['url']);
@@ -80,6 +81,7 @@ class ParseNginxLog extends Command
                 if (strpos($log['http_user_agent'], '360Spider') !== false) {
                     $source = '360';
                 }
+
                 $log = [
                     'remote_addr' => $log['remote_addr'],
                     'remote_user' => $log['remote_user'],
@@ -96,6 +98,7 @@ class ParseNginxLog extends Command
                     'source' => $source,
                     'article_id' => $article_id,
                 ];
+
                 $log['md5_unique'] = md5(implode("", $log));
 
                 $logs[] = $log;
@@ -103,7 +106,7 @@ class ParseNginxLog extends Command
 
             $chunk_logs = array_chunk($logs, 500);
 
-            foreach ($chunk_logs as $chunk_log){
+            foreach ($chunk_logs as $chunk_log) {
                 NginxAccessLog::insertIgnore($chunk_log);
             }
             $storage->delete($file_name);
