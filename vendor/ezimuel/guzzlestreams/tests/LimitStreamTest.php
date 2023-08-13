@@ -1,17 +1,15 @@
 <?php
 namespace GuzzleHttp\Tests\Http;
 
-use GuzzleHttp\Stream\Exception\SeekException;
 use GuzzleHttp\Stream\FnStream;
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Stream\LimitStream;
 use GuzzleHttp\Stream\NoSeekStream;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @covers GuzzleHttp\Stream\LimitStream
  */
-class LimitStreamTest extends TestCase
+class LimitStreamTest extends \PHPUnit_Framework_TestCase
 {
     /** @var LimitStream */
     protected $body;
@@ -19,7 +17,7 @@ class LimitStreamTest extends TestCase
     /** @var Stream */
     protected $decorated;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->decorated = Stream::factory(fopen(__FILE__, 'r'));
         $this->body = new LimitStream($this->decorated, 10, 3);
@@ -86,10 +84,12 @@ class LimitStreamTest extends TestCase
         $this->assertNotSame($data, $newData);
     }
 
+    /**
+     * @expectedException \GuzzleHttp\Stream\Exception\SeekException
+     * @expectedExceptionMessage Could not seek the stream to position 2
+     */
     public function testThrowsWhenCurrentGreaterThanOffsetSeek()
     {
-        $this->expectException(SeekException::class);
-        $this->expectExceptionMessage('Could not seek the stream to position 2');
         $a = Stream::factory('foo_bar');
         $b = new NoSeekStream($a);
         $c = new LimitStream($b);

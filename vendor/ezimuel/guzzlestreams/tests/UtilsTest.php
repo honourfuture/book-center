@@ -1,15 +1,12 @@
 <?php
 namespace GuzzleHttp\Tests\Stream;
 
-use GuzzleHttp\Stream\Exception\SeekException;
 use GuzzleHttp\Stream\FnStream;
 use GuzzleHttp\Stream\NoSeekStream;
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Stream\Utils;
-use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
-class UtilsTest extends TestCase
+class UtilsTest extends \PHPUnit_Framework_TestCase
 {
     public function testCopiesToString()
     {
@@ -124,9 +121,11 @@ class UtilsTest extends TestCase
         $this->assertEquals(md5('foobazbar'), Utils::hash($s, 'md5'));
     }
 
+    /**
+     * @expectedException \GuzzleHttp\Stream\Exception\SeekException
+     */
     public function testCalculatesHashThrowsWhenSeekFails()
     {
-        $this->expectException(SeekException::class);
         $s = new NoSeekStream(Stream::factory('foobazbar'));
         $s->read(2);
         Utils::hash($s, 'md5');
@@ -143,14 +142,16 @@ class UtilsTest extends TestCase
     public function testOpensFilesSuccessfully()
     {
         $r = Utils::open(__FILE__, 'r');
-        $this->assertIsResource($r);
+        $this->assertInternalType('resource', $r);
         fclose($r);
     }
 
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Unable to open /path/to/does/not/exist using mode r
+     */
     public function testThrowsExceptionNotWarning()
     {
-        $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Unable to open /path/to/does/not/exist using mode r');
         Utils::open('/path/to/does/not/exist', 'r');
     }
 

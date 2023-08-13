@@ -1,20 +1,20 @@
 <?php
 namespace GuzzleHttp\Tests\Stream;
 
-use BadMethodCallException;
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Stream\FnStream;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @covers GuzzleHttp\Stream\FnStream
  */
-class FnStreamTest extends TestCase
+class FnStreamTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage seek() is not implemented in the FnStream
+     */
     public function testThrowsWhenNotImplemented()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('seek() is not implemented in the FnStream');
         (new FnStream([]))->seek(1);
     }
 
@@ -42,9 +42,6 @@ class FnStreamTest extends TestCase
         $this->assertTrue($called);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testDoesNotRequireClose()
     {
         $s = new FnStream([]);
@@ -73,7 +70,7 @@ class FnStreamTest extends TestCase
         $b->seek(0, SEEK_END);
         $b->write('bar');
         $this->assertEquals('foobar', (string) $b);
-        $this->assertIsResource($b->detach());
+        $this->assertInternalType('resource', $b->detach());
         $b->close();
     }
 

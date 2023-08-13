@@ -54,7 +54,6 @@ class FixChapter extends Command
         $site = $this->option('site');
         if (!$site) {
             $site = 'mayi';
-
         }
         /** @var SpiderService $spiderService */
         $this->spiderService = app('SpiderService', [

@@ -7,6 +7,7 @@ use App\Services\HttpProxyService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use Illuminate\Http\Request;
+use Spatie\Browsershot\Browsershot;
 
 class RemoteSiteController extends Controller
 {
@@ -45,5 +46,24 @@ class RemoteSiteController extends Controller
 
         $response = $client->get($target_url);
         echo ($response->getBody());
+    }
+
+    public function get_origin_view_cookie(Request $request)
+    {
+        $url = $request->get('url');
+        if(strpos('?', $url)){
+            $url .= '&time=' . time();
+        }else{
+            $url .= '?time=' . time();
+        }
+
+        $html = Browsershot::url($url)
+            ->windowSize(480, 800)
+            ->userAgent('Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Mobile Safari/537.36')
+            ->mobile()
+            ->touch()
+            ->bodyHtml();
+
+        print_r($html);die;
     }
 }

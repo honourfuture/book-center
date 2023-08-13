@@ -4,5 +4,3 @@ coverage
 phpunit.xml
 composer.lock
 vendor/
-.vscode/
-.phpunit.result.cache

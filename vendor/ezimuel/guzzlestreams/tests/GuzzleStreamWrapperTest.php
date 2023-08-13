@@ -3,13 +3,11 @@ namespace GuzzleHttp\Tests\Stream;
 
 use GuzzleHttp\Stream\GuzzleStreamWrapper;
 use GuzzleHttp\Stream\Stream;
-use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @covers GuzzleHttp\Stream\GuzzleStreamWrapper
  */
-class GuzzleStreamWrapperTest extends TestCase
+class GuzzleStreamWrapperTest extends \PHPUnit_Framework_TestCase
 {
     public function testResource()
     {
@@ -59,10 +57,13 @@ class GuzzleStreamWrapperTest extends TestCase
         $this->assertSame('foobar', (string) $stream);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testValidatesStream()
     {
-        $this->expectException(InvalidArgumentException::class);
         $stream = $this->getMockBuilder('GuzzleHttp\Stream\StreamInterface')
+            ->setMethods(['isReadable', 'isWritable'])
             ->getMockForAbstractClass();
         $stream->expects($this->once())
             ->method('isReadable')
@@ -73,16 +74,18 @@ class GuzzleStreamWrapperTest extends TestCase
         GuzzleStreamWrapper::getResource($stream);
     }
 
+    /**
+     * @expectedException \PHPUnit_Framework_Error_Warning
+     */
     public function testReturnsFalseWhenStreamDoesNotExist()
     {
-        
-        $this->expectWarning();
         fopen('guzzle://foo', 'r');
     }
 
     public function testCanOpenReadonlyStream()
     {
         $stream = $this->getMockBuilder('GuzzleHttp\Stream\StreamInterface')
+            ->setMethods(['isReadable', 'isWritable'])
             ->getMockForAbstractClass();
         $stream->expects($this->once())
             ->method('isReadable')
@@ -91,7 +94,7 @@ class GuzzleStreamWrapperTest extends TestCase
             ->method('isWritable')
             ->will($this->returnValue(true));
         $r = GuzzleStreamWrapper::getResource($stream);
-        $this->assertIsResource($r);
+        $this->assertInternalType('resource', $r);
         fclose($r);
     }
 }

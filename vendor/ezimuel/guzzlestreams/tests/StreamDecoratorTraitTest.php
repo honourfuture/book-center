@@ -1,13 +1,9 @@
 <?php
 namespace GuzzleHttp\Tests\Stream;
 
-use BadMethodCallException;
-use GuzzleHttp\Stream\Exception\CannotAttachException;
 use GuzzleHttp\Stream\StreamInterface;
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Stream\StreamDecoratorTrait;
-use PHPUnit\Framework\TestCase;
-use UnexpectedValueException;
 
 class Str implements StreamInterface
 {
@@ -17,13 +13,13 @@ class Str implements StreamInterface
 /**
  * @covers GuzzleHttp\Stream\StreamDecoratorTrait
  */
-class StreamDecoratorTraitTest extends TestCase
+class StreamDecoratorTraitTest extends \PHPUnit_Framework_TestCase
 {
     private $a;
     private $b;
     private $c;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->c = fopen('php://temp', 'r+');
         fwrite($this->c, 'foo');
@@ -35,6 +31,7 @@ class StreamDecoratorTraitTest extends TestCase
     public function testCatchesExceptionsWhenCastingToString()
     {
         $s = $this->getMockBuilder('GuzzleHttp\Stream\StreamInterface')
+            ->setMethods(['read'])
             ->getMockForAbstractClass();
         $s->expects($this->once())
             ->method('read')
@@ -43,7 +40,7 @@ class StreamDecoratorTraitTest extends TestCase
         set_error_handler(function ($errNo, $str) use (&$msg) { $msg = $str; });
         echo new Str($s);
         restore_error_handler();
-        $this->assertStringContainsString('foo', $msg);
+        $this->assertContains('foo', $msg);
     }
 
     public function testToString()
@@ -103,9 +100,11 @@ class StreamDecoratorTraitTest extends TestCase
         $this->assertFalse($this->b->isReadable());
     }
 
+    /**
+     * @expectedException \GuzzleHttp\Stream\Exception\CannotAttachException
+     */
     public function testCannotAttachByDefault()
     {
-        $this->expectException(CannotAttachException::class);
         $this->b->attach('a');
     }
 
@@ -122,15 +121,19 @@ class StreamDecoratorTraitTest extends TestCase
         $this->assertEquals('foofoo', (string) $this->a);
     }
 
+    /**
+     * @expectedException \UnexpectedValueException
+     */
     public function testThrowsWithInvalidGetter()
     {
-        $this->expectException(UnexpectedValueException::class);
         $this->b->foo;
     }
 
+    /**
+     * @expectedException \BadMethodCallException
+     */
     public function testThrowsWhenGetterNotImplemented()
     {
-        $this->expectException(BadMethodCallException::class);
         $s = new BadStream();
         $s->stream;
     }

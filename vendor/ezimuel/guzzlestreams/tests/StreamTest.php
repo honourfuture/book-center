@@ -2,17 +2,17 @@
 namespace GuzzleHttp\Tests\Stream;
 
 use GuzzleHttp\Stream\Stream;
-use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @covers GuzzleHttp\Stream\Stream
  */
-class StreamTest extends TestCase
+class StreamTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testConstructorThrowsExceptionOnInvalidArgument()
     {
-        $this->expectException(InvalidArgumentException::class);
         new Stream(true);
     }
 
@@ -25,7 +25,7 @@ class StreamTest extends TestCase
         $this->assertTrue($stream->isWritable());
         $this->assertTrue($stream->isSeekable());
         $this->assertEquals('php://temp', $stream->getMetadata('uri'));
-        $this->assertIsArray($stream->getMetadata());
+        $this->assertInternalType('array', $stream->getMetadata());
         $this->assertEquals(4, $stream->getSize());
         $this->assertFalse($stream->eof());
         $stream->close();
@@ -206,9 +206,11 @@ class StreamTest extends TestCase
         $this->assertSame($s, Stream::factory($s));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testThrowsExceptionForUnknown()
     {
-        $this->expectException(InvalidArgumentException::class);
         Stream::factory(new \stdClass());
     }
 

@@ -21,9 +21,12 @@
   php74 artisan parse:nginx-log
   将logs/nginx_log中的文件输入到mysql
 
-    cat /www/wwwlogs/www.tieshuw.com.log | grep Baiduspider > tieshu.baidu.2023_08_09.log
     cat /www/wwwlogs/www.tieshuw.com.log | grep YisouSpider > tieshu.yisou.2023_08_09.log
+    cat /www/wwwlogs/www.tieshuw.com.log | grep Baiduspider > tieshu.baidu.2023_08_09.log
     cat /www/wwwlogs/www.tieshuw.com.log | grep SogouSpider > tieshu.sogou.2023_08_09.log
+    cat /www/wwwlogs/www.tieshuw.com.log | grep "Sogou web spider"  > tieshu.sogou.2023_08_09.log
+    cat /www/wwwlogs/www.tieshuw.com.log | grep "360Spider"  > tieshu.sogou.2023_08_09.log
+
     mv /www/wwwlogs/tieshu.* /www/wwwroot/help-tieshuw-com/storage/logs/nginx_log/
 
  ``

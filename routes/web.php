@@ -25,6 +25,7 @@ Route::get('/get-keyword', [\App\Http\Controllers\KeywordController::class, 'get
 
 //远程访问
 Route::get('/remote-site', [\App\Http\Controllers\RemoteSiteController::class, 'view']);
+Route::get('/remote-site/cookie', [\App\Http\Controllers\RemoteSiteController::class, 'get_origin_view_cookie']);
 
 //最近访问列表
 Route::get('/update-article', [\App\Http\Controllers\UpdateArticleController::class, 'article']);

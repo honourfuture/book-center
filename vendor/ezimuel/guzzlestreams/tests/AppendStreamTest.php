@@ -2,11 +2,9 @@
 namespace GuzzleHttp\Tests\Stream;
 
 use GuzzleHttp\Stream\AppendStream;
-use GuzzleHttp\Stream\Exception\CannotAttachException;
 use GuzzleHttp\Stream\Stream;
-use PHPUnit\Framework\TestCase;
 
-class AppendStreamTest extends TestCase
+class AppendStreamTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \InvalidArgumentException
@@ -16,10 +14,11 @@ class AppendStreamTest extends TestCase
     {
         $a = new AppendStream();
         $s = $this->getMockBuilder('GuzzleHttp\Stream\StreamInterface')
+            ->setMethods(['isReadable'])
             ->getMockForAbstractClass();
         $s->expects($this->once())
             ->method('isReadable')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue(false));
         $a->addStream($s);
     }
 
@@ -33,6 +32,7 @@ class AppendStreamTest extends TestCase
     {
         $a = new AppendStream();
         $s = $this->getMockBuilder('GuzzleHttp\Stream\StreamInterface')
+            ->setMethods(['isReadable', 'seek', 'isSeekable'])
             ->getMockForAbstractClass();
         $s->expects($this->once())
             ->method('isReadable')
@@ -124,6 +124,7 @@ class AppendStreamTest extends TestCase
         $this->assertEquals(6, $a->getSize());
 
         $s = $this->getMockBuilder('GuzzleHttp\Stream\StreamInterface')
+            ->setMethods(['isSeekable', 'isReadable'])
             ->getMockForAbstractClass();
         $s->expects($this->once())
             ->method('isSeekable')
@@ -138,6 +139,7 @@ class AppendStreamTest extends TestCase
     public function testCatchesExceptionsWhenCastingToString()
     {
         $s = $this->getMockBuilder('GuzzleHttp\Stream\StreamInterface')
+            ->setMethods(['read', 'isReadable', 'eof'])
             ->getMockForAbstractClass();
         $s->expects($this->once())
             ->method('read')
@@ -153,9 +155,6 @@ class AppendStreamTest extends TestCase
         $this->assertSame('', (string) $a);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testCanDetach()
     {
         $s = new AppendStream();
@@ -169,10 +168,12 @@ class AppendStreamTest extends TestCase
         $this->assertNull($s->getMetadata('foo'));
     }
 
+    /**
+     * @expectedException \GuzzleHttp\Stream\Exception\CannotAttachException
+     */
     public function testCannotAttach()
     {
         $p = new AppendStream();
-        $this->expectException(CannotAttachException::class);
         $p->attach('a');
     }
 }
