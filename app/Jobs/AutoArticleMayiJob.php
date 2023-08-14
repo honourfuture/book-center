@@ -46,9 +46,7 @@ class AutoArticleMayiJob implements ShouldQueue
                 '--site' => $this->site,
             ]);
         } catch (FixChapterException $e) {
-
         }
-
 
     }
 }

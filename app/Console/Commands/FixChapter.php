@@ -109,7 +109,7 @@ class FixChapter extends Command
                 }
 
                 $clear_origin_chapter = clear_text($origin_chapter);
-                if (isset($origin_article[$clear_origin_chapter])) {
+                if (isset($origin_chapters[$clear_origin_chapter])) {
                     $repeat_chapter_count++;
                     continue;
                 }
