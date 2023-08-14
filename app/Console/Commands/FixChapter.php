@@ -91,20 +91,21 @@ class FixChapter extends Command
 
         if ($all_error_chapters->isEmpty()) {
             $this->_info_log("[{$article_id}] 当前书籍无错误章节");
-            throw new FixChapterException('当前书籍无错误章节', 200);
+            throw new FixChapterException(200, '当前书籍无错误章节');
         }
 
         $origin_article = $this->_get_origin_article($article);
         $origin_article = isset($origin_article[0]) ? $origin_article[0] : [];
 
         $origin_chapters = [];
+        $full_origin_chapters = [];
         $repeat_chapter_count = 0;
         try {
             foreach ($origin_article['chapters'] as $key => $origin_chapter) {
 
                 if (!isset($origin_article['chapter_hrefs'][$key])) {
                     $this->_error_log("[{$article_id}] 当前URL对数量不一致");
-                    throw new FixChapterException('当前URL对数量不一致', 400);
+                    throw new FixChapterException(400, '当前URL对数量不一致');
                 }
 
                 $clear_origin_chapter = clear_text($origin_chapter);
@@ -114,6 +115,9 @@ class FixChapter extends Command
                 }
                 $origin_chapters[$clear_origin_chapter]['original_chapter_name'] = $origin_chapter;
                 $origin_chapters[$clear_origin_chapter]['url'] = $origin_article['chapter_hrefs'][$key];
+
+                $full_origin_chapters[$origin_chapter]['original_chapter_name'] = $origin_chapter;
+                $full_origin_chapters[$origin_chapter]['url'] = $origin_article['chapter_hrefs'][$key];
             }
         } catch (\Exception $e) {
             print_r($e->getMessage());
@@ -123,7 +127,7 @@ class FixChapter extends Command
 
 
         if ($repeat_chapter_count > 30) {
-            throw new FixChapterException('重复章节过多中止', 400);
+            throw new FixChapterException(400, '重复章节过多中止');
         }
 
         $this->_line_log("[{$article_id}] 开始修复错误章节");
@@ -140,6 +144,28 @@ class FixChapter extends Command
             }
 
             $chapter_name = clear_text($chapter->chaptername);
+
+            if(isset($full_origin_chapters[$chapter_name])){
+                $url = $full_origin_chapters[$chapter_name]['url'];
+
+                $this->_line_log("[{$article_id}] 开始修复章节[{$chapter->chapterid}]: {$chapter->chaptername}");
+
+                $text = $this->_get_origin_chapter($url);
+                $is_error = $error_article_service->is_error_chapter($text);
+                if (!$is_error) {
+                    $storage->get($chapter->file_path);
+                    $text = iconv('utf-8', 'gbk//IGNORE', $text);
+                    $text = $textTypeSetService->doTypeSet($text);
+                    $storage->put($chapter->file_path, $text);
+                    $change_chapter_ids[] = $chapter->chapterid;
+                    $this->_info_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 成功");
+                    continue;
+                } else {
+                    $this->_error_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 失败, 源站章节错误");
+                    continue;
+                }
+            }
+
 
             if (isset($origin_chapters[$chapter_name])) {
                 $url = $origin_chapters[$chapter_name]['url'];
@@ -208,7 +234,7 @@ class FixChapter extends Command
 
         if (!$url) {
             $this->_error_log("[{$article->articleid}] 未找到远程url");
-            throw new FixChapterException('未找到远程url', 400);
+            throw new FixChapterException(400, '未找到远程url');
         }
 
         $this->_line_log("[{$article->articleid}] 获取远程站点成功 [{$url}]");
