@@ -189,6 +189,7 @@ return [
         App\Providers\ErrorArticleServiceProvider::class,
         App\Providers\LoggerServiceProvider::class,
         App\Providers\TextTypeSetProvider::class,
+        App\Providers\BaiduTjServiceProvider::class,
 
     ],
 

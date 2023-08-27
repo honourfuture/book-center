@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('parse:nginx-log')->hourlyAt(35);;
+//         $schedule->command('parse:nginx-log')->hourlyAt(35);;
     }
 
     /**

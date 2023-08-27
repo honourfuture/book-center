@@ -6,6 +6,7 @@ use App\Models\Chapter;
 use App\Models\ErrorChapter;
 use App\Models\HandArticle;
 use App\Models\NginxAccessLog;
+use App\Services\BaiduTjService;
 use App\Services\ExcellentArticleService;
 use App\Services\SpiderService;
 use Illuminate\Http\Request;

@@ -5,20 +5,26 @@
     <div class="overflow-x-auto">
         <div class="text-sm breadcrumbs">
             <ul>
-                <li>蜘蛛分析</li>
+                <li>蜘蛛分析({{$article_logs->count()}})</li>
             </ul>
         </div>
+        @foreach($source_article_group_sources as $source => $source_article_group_source)
+            <?php
+                $article_ids = implode(',', $source_article_group_source->pluck('article_id')->unique()->toArray());
+            ?>
+                {{$source}} ({{$source_article_group_source->count()}})
+                <textarea class="textarea textarea-info w-full" placeholder="Bio">{{$article_ids}}</textarea>
+        @endforeach
         <table class="table table-xs w-full">
             <thead>
             <tr>
                 <th>ID</th>
                 <th>书名</th>
+                <th>作者</th>
                 <th>最后更新时间</th>
-                <th>搜索引擎来源</th>
                 <th>统计</th>
                 <th>地址</th>
                 <th>明细统计</th>
-                <th>备注</th>
             </tr>
             </thead>
             <tbody>
@@ -28,12 +34,13 @@
                     $local_url = "https://www.tieshuw.com/{$index}_{$article_log->article_id}/";
                     $backend_url = "https://www.tieshuw.com/modules/article/articlemanage.php?id={$article_log->article_id}";
                     $check_url = "http://help.tieshuw.com/article/{$article_log->article_id}";
+                    $md5 = md5($article_log->articlename .'-'. $article_log->author);
                 ?>
                 <tr>
                     <th>{{$article_log->article_id}}</th>
-                    <td>{{$article_log->article ? $article_log->article->articlename : '-'}}</td>
-                    <td>{{$article_log->article ? date('Y-m-d H:i:s', $article_log->article->lastupdate) : '-'}}</td>
-                    <td>{{$article_log->source}}</td>
+                    <td>{{$article_log->articlename ? $article_log->articlename : '-'}}</td>
+                    <td>{{$article_log->author ? $article_log->author : '-'}}</td>
+                    <td>{{$article_log->lastupdate ? date('Y-m-d H:i:s', $article_log->lastupdate) : '-'}}</td>
                     <td>{{$article_log->total}}</td>
                     <td>
                         <button class="btn btn-xs">
@@ -45,8 +52,16 @@
                         <button class="btn btn-xs">
                             <a href="{{$check_url}}" target="_blank">检测地址</a>
                         </button>
+                        <br/>
+                        @if(isset($source_article_groups[$md5]))
+                            @foreach($source_article_groups[$md5] as $source_article_group)
+                                <a href="{{$source_article_group->origin_url}}" target="_blank"><button class="btn btn-xs">
+                                    {{$source_article_group->source}}
+                                </button>
+                                </a>
+                            @endforeach
+                        @endif
                     </td>
-
                     <td>
                         @foreach($article_log->count_access_logs as $count)
                             <?php
@@ -62,15 +77,13 @@
                             </div>
                         @endforeach
                     </td>
-                    <td>
-                        {{$article_log->desc}}
-                    </td>
                 </tr>
             @endforeach
             </tbody>
             <tfoot>
             </tfoot>
         </table>
+
     </div>
 
 @endsection

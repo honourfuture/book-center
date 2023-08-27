@@ -43,9 +43,9 @@ class ParseNginxLog extends Command
      */
     public function handle()
     {
+        NginxAccessLog::truncate();
         $storage = Storage::disk('nginx_log');
         $parse = new Parse(new NginxAccessLogFormat(), new RegexPattern());
-
         foreach ($storage->allFiles() as $file_name) {
             $logs = [];
             $lines = $storage->get($file_name);
@@ -65,20 +65,32 @@ class ParseNginxLog extends Command
                 $timestamp = date('Y-m-d H:i:s', strtotime($date));
 
                 $date = date('Y-m-d', strtotime($date));
+                if(strpos($log['url'], 'read') !== false){
+                        preg_match('/read\/(\d+)\//', $log['url'], $matches);
+                        if(!isset($matches[1])){
+                            continue;
+                        }
+                        $article_id = $matches[1];
+                        $article_id = $article_id - 5;
+                }else {
+                    preg_match('/\/\d+_(\d+)\//', $log['url'], $matches);
+                    if(!isset($matches[1])){
+                        continue;
+                    }
+                    $article_id = $matches[1];
+                }
 
-                $article_id = preg_replace('/.*_(\d+)/', '$1', $log['url']);
-
-                $source = '';
-                if (strpos($log['http_user_agent'], 'Baiduspider') !== false) {
+                $source = 'Baidu';
+                if (strpos($log['http_referer'], 'baidu') !== false) {
                     $source = 'Baidu';
                 }
-                if (strpos($log['http_user_agent'], 'YisouSpider') !== false) {
+                if (strpos($log['http_referer'], 'sm.cn') !== false) {
                     $source = 'Shenma';
                 }
-                if (strpos($log['http_user_agent'], 'Sogou') !== false) {
+                if (strpos($log['http_referer'], 'sogou') !== false) {
                     $source = 'Sogou';
                 }
-                if (strpos($log['http_user_agent'], '360Spider') !== false) {
+                if (strpos($log['http_referer'], '360') !== false) {
                     $source = '360';
                 }
 
@@ -109,7 +121,7 @@ class ParseNginxLog extends Command
             foreach ($chunk_logs as $chunk_log) {
                 NginxAccessLog::insertIgnore($chunk_log);
             }
-            $storage->delete($file_name);
+//            $storage->delete($file_name);
         }
     }
 
