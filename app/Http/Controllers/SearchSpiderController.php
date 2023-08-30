@@ -25,6 +25,7 @@ class SearchSpiderController extends Controller
                 'date', 'url',
                 'article_id', 'jieqi_article_article.articleid',
                 'jieqi_article_article.author',
+                'jieqi_article_article.lastchapter',
                 'jieqi_article_article.articlename',
                 'jieqi_article_article.lastupdate')
             ->groupBy('article_id');

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <title>蜘蛛分析 </title>
+    <title>蜘蛛分析</title>
 
     <div class="overflow-x-auto">
         <div class="text-sm breadcrumbs">
@@ -15,13 +15,12 @@
                 {{$source}} ({{$source_article_group_source->count()}})
                 <textarea class="textarea textarea-info w-full" placeholder="Bio">{{$article_ids}}</textarea>
         @endforeach
-        <table class="table table-xs w-full">
+        <table class="table w-full">
             <thead>
             <tr>
                 <th>ID</th>
                 <th>书名</th>
                 <th>作者</th>
-                <th>最后更新时间</th>
                 <th>统计</th>
                 <th>地址</th>
                 <th>明细统计</th>
@@ -38,9 +37,13 @@
                 ?>
                 <tr>
                     <th>{{$article_log->article_id}}</th>
-                    <td>{{$article_log->articlename ? $article_log->articlename : '-'}}</td>
-                    <td>{{$article_log->author ? $article_log->author : '-'}}</td>
-                    <td>{{$article_log->lastupdate ? date('Y-m-d H:i:s', $article_log->lastupdate) : '-'}}</td>
+                    <td>
+                        {{$article_log->articlename ? $article_log->articlename : '-'}}
+                        <p class="font-light text-sm">{{$article_log->lastchapter}}</p>
+                        <p class="font-light text-sm">{{$article_log->lastupdate ? date('Y-m-d H:i:s', $article_log->lastupdate) : '-'}}</p>
+
+                    </td>
+                    <td></td>
                     <td>{{$article_log->total}}</td>
                     <td>
                         <button class="btn btn-xs">
