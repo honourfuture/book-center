@@ -71,6 +71,11 @@
                         <br/>
                         @if(isset($source_article_groups[$md5]))
                             @foreach($source_article_groups[$md5] as $source_article_group)
+                                <?php
+                                    if($source_article_group->source == 'mayi'){
+                                        $source_article_group->origin_url = str_replace('m.', 'www.', $source_article_group->origin_url);
+                                    }
+                                ?>
                                 <a href="{{$source_article_group->origin_url}}" target="_blank"><button class="btn btn-xs">
                                     {{$source_article_group->source}}
                                 </button>
