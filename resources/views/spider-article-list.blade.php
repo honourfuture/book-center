@@ -20,10 +20,9 @@
             <tr>
                 <th>ID</th>
                 <th>书名</th>
-                <th>作者</th>
+                <th>明细统计</th>
                 <th>统计</th>
                 <th>地址</th>
-                <th>明细统计</th>
             </tr>
             </thead>
             <tbody>
@@ -41,9 +40,23 @@
                         {{$article_log->articlename ? $article_log->articlename : '-'}}
                         <p class="font-light text-sm">{{$article_log->lastchapter}}</p>
                         <p class="font-light text-sm">{{$article_log->lastupdate ? date('Y-m-d H:i:s', $article_log->lastupdate) : '-'}}</p>
-
+                        <p class="font-light text-sm">{{$article_log->author}}</p>
                     </td>
-                    <td></td>
+                    <td>
+                        @foreach($article_log->count_access_logs as $count)
+                            <?php
+                            $search_url = "/search-spider/{$article_log->article_id}?source=".$count->source;
+                            ?>
+                            <div class="indicator">
+                            <span class="indicator-item badge badge-primary">
+                                {{$count->total}}
+                            </span>
+                                <button class="btn btn-xs">
+                                    <a href="{{$search_url}}" target="_blank">{{$count->source}}</a>
+                                </button>
+                            </div>
+                        @endforeach
+                    </td>
                     <td>{{$article_log->total}}</td>
                     <td>
                         <button class="btn btn-xs">
@@ -65,21 +78,7 @@
                             @endforeach
                         @endif
                     </td>
-                    <td>
-                        @foreach($article_log->count_access_logs as $count)
-                            <?php
-                                $search_url = "/search-spider/{$article_log->article_id}?source=".$count->source;
-                            ?>
-                            <div class="indicator">
-                            <span class="indicator-item badge badge-primary">
-                                {{$count->total}}
-                            </span>
-                                <button class="btn btn-xs">
-                                    <a href="{{$search_url}}" target="_blank">{{$count->source}}</a>
-                                </button>
-                            </div>
-                        @endforeach
-                    </td>
+
                 </tr>
             @endforeach
             </tbody>
