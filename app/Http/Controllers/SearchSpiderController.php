@@ -35,11 +35,9 @@ class SearchSpiderController extends Controller
             $article_logs->where('source', $source);
         }
 
-
         $article_logs = $article_logs->orderByDesc('total')->get();
 
         $source_articles = $article_logs->pluck('articlename', 'author')->unique()->toArray();
-
 
         $source_articles = SourceArticle::whereIn('author', array_filter(array_keys($source_articles)))
             ->whereIn('article_name', array_filter(array_values($source_articles)))
@@ -71,6 +69,7 @@ class SearchSpiderController extends Controller
 
                 if($source_article){
                     $source_article_group_sources[$source][] =  $source_article->toArray();
+                    break;
                 }
             }
         }
