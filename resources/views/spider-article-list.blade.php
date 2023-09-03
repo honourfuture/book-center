@@ -10,9 +10,9 @@
         </div>
         @foreach($source_article_group_sources as $source => $source_article_group_source)
             <?php
-                $article_ids = implode(',', $source_article_group_source->pluck('article_id')->unique()->toArray());
+                $article_ids = implode(',', array_unique(array_column( $source_article_group_source, 'article_id')));
             ?>
-                {{$source}} ({{$source_article_group_source->count()}})
+                {{$source}} ({{count($source_article_group_source)}})
                 <textarea class="textarea textarea-info w-full" placeholder="Bio">{{$article_ids}}</textarea>
         @endforeach
         <table class="table w-full">

@@ -10,6 +10,7 @@ use App\Models\SourceArticle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isEmpty;
 
 class SearchSpiderController extends Controller
 {
@@ -48,7 +49,31 @@ class SearchSpiderController extends Controller
                 return md5($article->article_name . '-' .$article->author);
             });
 
-        $source_article_group_sources = $source_articles->groupBy(['source']);
+        $sources = [
+            'mayi',
+            '69shu',
+            'tt',
+            'meigui',
+            '9it',
+            'biqu789',
+        ];
+
+        $source_article_group_sources = [];
+
+        foreach ($article_logs as $log){
+            $md5 = md5($log->articlename . '-' .$log->author);
+
+            if(!isset($source_article_groups[$md5])){
+               continue;
+            }
+            foreach ($sources as $source){
+                $source_article = $source_article_groups[$md5]->where('source', $source)->first();
+
+                if($source_article){
+                    $source_article_group_sources[$source][] =  $source_article->toArray();
+                }
+            }
+        }
 
         return view('spider-article-list', [
             'article_logs' => $article_logs,
