@@ -50,12 +50,12 @@ class SearchSpiderController extends Controller
         $sources = [
             'mayi',
             '69shu',
-            'biqu789',
             'tt',
             'meigui',
             '9it',
+            'biqu789',
         ];
-        
+
         $source_article_group_sources = [];
         foreach ($sources as $source){
             $source_article_group_sources[$source] = [];
