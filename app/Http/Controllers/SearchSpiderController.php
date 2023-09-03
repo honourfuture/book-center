@@ -55,8 +55,12 @@ class SearchSpiderController extends Controller
             'meigui',
             '9it',
         ];
-
+        
         $source_article_group_sources = [];
+        foreach ($sources as $source){
+            $source_article_group_sources[$source] = [];
+        }
+
 
         foreach ($article_logs as $log){
             $md5 = md5($log->articlename . '-' .$log->author);
