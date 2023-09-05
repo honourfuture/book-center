@@ -48,6 +48,7 @@ class SearchSpiderController extends Controller
             });
 
         $sources = [
+            '525uc',
             'mayi',
             '69shu',
             'tt',

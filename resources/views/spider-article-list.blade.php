@@ -15,10 +15,14 @@
                 {{$source}} ({{count($source_article_group_source)}})
                 <textarea class="textarea textarea-info w-full" placeholder="Bio">{{$article_ids}}</textarea>
         @endforeach
+
+
+
         <table class="table w-full">
             <thead>
             <tr>
                 <th>ID</th>
+
                 <th>书名</th>
                 <th>明细统计</th>
                 <th>统计</th>

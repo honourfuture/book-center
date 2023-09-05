@@ -41,6 +41,9 @@ Route::get('/hand-articles', [\App\Http\Controllers\ArticleController::class, 'h
 //精校
 Route::get('/article-create', [\App\Http\Controllers\ArticleController::class, 'create']);
 
+//static
+Route::get('/static', [\App\Http\Controllers\StaticController::class, 'build_static']);
+
 //Tool
 Route::view('/tool', 'tool');
 Route::view('/tool/diff', 'diff');

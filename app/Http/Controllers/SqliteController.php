@@ -21,13 +21,13 @@ class SqliteController extends Controller
 
         $rules = [
             'mayi' => RuleEnum::MA_YI,
-//            'tt' => RuleEnum::TT,
+            'tt' => RuleEnum::TT,
             'lwxs' => ['Rules\S_www_lwxs_com.xml'],
             '4ksw' => ['Rules\lewen2_com_gz.xml', 'Rules\4ksw_com.xml'],
             'bixia' => ['Rules\v2_bixia66.xml'],
             'bqg789_co' => ['Rules\p1_bqg789_co.xml','Rules\bqg789_co.xml'],
             '69shu' => ['Rules\p1_69shu_com.xml'],
-            'meigui' => ['Rules\jj_meiguixs_net.xml','Rules\jj_meiguixs_net_v1.xml'],
+            'meigui' => ['Rules\jj_meiguixs_net.xml','Rules\jj_meiguixs_net_v1.xml', 'Rules\jj_meiguixs_net_v2.xml'],
             'kdzw' => ['Rules\kdzw_net.xml'],
             '9it' => ['Rules\9itan_cc.xml'],
             'biquge5200' => ['Rules\biquge5200_cc.xml'],
