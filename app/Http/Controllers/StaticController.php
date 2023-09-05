@@ -12,6 +12,7 @@ class StaticController extends Controller
         SourceArticle::where('source', '4ksw')
             ->orderBy('article_id', 'desc')
             ->whereNotIn('article_id', $this->_not_in_article_ids())
+            ->where('desc', 'like', '%飞卢%')
             ->chunk(800, function ($source_articles) use (&$i) {
                 $static = view('static/4ksw', ['source_articles' => $source_articles])->__toString();
                 file_put_contents("4ksw/{$i}.html", $static);
