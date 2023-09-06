@@ -4,11 +4,6 @@
 
     <style>
         /*reset*/
-        *{margin:0;padding:0;list-style-type:none;}
-        a,img{border:0;}
-        a{text-decoration:none;}
-        a:hover{text-decoration:underline;}
-        /*main css*/
         .main-im{position:fixed;right:10px;top:300px;z-index:100;width:110px;height:272px;}
         .main-im .qq-a{display:block;width:106px;height:116px;font-size:14px;color:#0484cd;text-align:center;position:relative;}
         .main-im .qq-a span{bottom:5px;position:absolute;width:90px;left:10px;}
@@ -17,19 +12,10 @@
         .main-im .img-qq{max-width:60px;display:block;position:absolute;left:6px;top:3px;-moz-transition:all 0.5s;-webkit-transition:all 0.5s;-o-transition:all 0.5s;transition:all 0.5s;}
         .main-im .im-qq:hover .img-qq{max-width:70px;left:1px;top:8px;position:absolute;}
         .main-im .im_main{background:#F9FAFB;border:1px solid #dddddd;border-radius:10px;background:#F9FAFB;display:none;}
-        .main-im .im_main .im-tel{color:#000000;text-align:center;width:109px;height:105px;border-bottom:1px solid #dddddd;}
+        .main-im .im_main .im-tel{color:#000000;text-align:center;width:109px;height:160px;border-bottom:1px solid #dddddd;}
         .main-im .im_main .im-tel div{font-weight:bold;font-size:12px;margin-top:6px;}
-        .main-im .im_main .im-tel .tel-num{font-family:Arial;font-weight:bold;color:#e66d15;}
         .main-im .im_main .im-tel:hover{background:#fafafa;}
-        .main-im .im_main .weixing-container{width:55px;height:47px;border-right:1px solid #dddddd;background:#f5f5f5;border-bottom-left-radius:10px;background:url(../images/weixing-icon.png) no-repeat center center;float:left;}
-        .main-im .im_main .weixing-show{width:112px;height:172px;background:#ffffff;border-radius:10px;border:1px solid #dddddd;position:absolute;left:-125px;top:-126px;}
-        .main-im .im_main .weixing-show .weixing-sanjiao{width:0;height:0;border-style:solid;border-color:transparent transparent transparent #ffffff;border-width:6px;left:112px;top:134px;position:absolute;z-index:2;}
-        .main-im .im_main .weixing-show .weixing-sanjiao-big{width:0;height:0;border-style:solid;border-color:transparent transparent transparent #dddddd;border-width:8px;left:112px;top:132px;position:absolute;}
-        .main-im .im_main .weixing-show .weixing-ma{width:104px;height:103px;padding-left:5px;padding-top:5px;}
-        .main-im .im_main .weixing-show .weixing-txt{position:absolute;top:110px;left:7px;width:100px;margin:0 auto;text-align:center;}
-        .main-im .im_main .go-top a{display:block;width:52px;height:47px;}
-        .main-im .close-im{position:absolute;right:10px;top:-12px;z-index:100;width:24px;height:24px;}
-        .main-im .close-im a:hover{text-decoration:none;}
+        .main-im .im_main .go-top a{display:block;width:52px;height:80px;}
     </style>
     <script src="/js/pf.js"></script>
 
@@ -90,7 +76,9 @@
             <div class="main-im">
                 <div class="im_main" id="im_main">
                     <div class="im-tel">
-                        @foreach($source_articles as $source_article)
+                        <div><a href="{{route('create-source', $article->articleid)}}" target="_blank">source</a></div>
+
+                    @foreach($source_articles as $source_article)
                             <div>
                                 <?php
                                     if($source_article->source == 'mayi'){
