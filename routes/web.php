@@ -43,7 +43,9 @@ Route::get('/article-create', [\App\Http\Controllers\ArticleController::class, '
 
 //static
 Route::get('/static', [\App\Http\Controllers\StaticController::class, 'build_static']);
-
+//source
+Route::get('/create-source/{id}', [\App\Http\Controllers\ArticleController::class, 'create_source_article'])->name('create-source');
+Route::post('/do-create-source-article', [\App\Http\Controllers\ArticleController::class, 'do_create_source_article'])->name('do-create-source-article');
 //Tool
 Route::view('/tool', 'tool');
 Route::view('/tool/diff', 'diff');

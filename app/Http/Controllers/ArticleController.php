@@ -6,6 +6,7 @@ use App\Models\Chapter;
 use App\Models\ErrorChapter;
 use App\Models\HandArticle;
 use App\Models\NginxAccessLog;
+use App\Models\SourceArticle;
 use App\Services\BaiduTjService;
 use App\Services\ExcellentArticleService;
 use App\Services\SpiderService;
@@ -61,7 +62,42 @@ class ArticleController extends Controller
             $chapter->error_message = $this->_check_chapter($chapter->content, $chapter->strlen);
         }
 
-        return view('chapter', ['article' => $article, 'chapters' => $chapters]);
+        $source_articles = SourceArticle::where('article_name', $article->articlename)->where('author', $article->author)->get();
+        return view('chapter', ['article' => $article, 'chapters' => $chapters, 'source_articles' => $source_articles]);
+    }
+
+    public function create_source_article($article_id)
+    {
+        $article = Article::find($article_id);
+        $sources = [
+            '525uc',
+            'mayi',
+            '69shu',
+            'tt',
+            'meigui',
+            '9it',
+            'biqu789',
+        ];
+
+        return view('create-source', ['sources' => $sources, 'article' => $article]);
+    }
+
+    public function do_create_source_article(Request $request)
+    {
+        $article_id = $request->get('article_id');
+        $author = $request->get('author');
+        $source = $request->get('source');
+        $article_name = $request->get('article_name');
+        $origin_url = $request->get('origin_url');
+
+        SourceArticle::create([
+            'article_id' => $article_id,
+            'author' => $author,
+            'source' => $source,
+            'article_name' => $article_name,
+            'origin_url' => $origin_url,
+        ]);
+
     }
 
     private function _check_chapter($content, $str_len)

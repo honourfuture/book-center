@@ -12,4 +12,7 @@ class SourceArticle extends Model
 
     public $timestamps = false;
 
+    protected $guarded = [];
+
+
 }
