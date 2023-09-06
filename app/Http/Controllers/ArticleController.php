@@ -32,7 +32,7 @@ class ArticleController extends Controller
 
         $chapters = Chapter::select([
             'chapterid', 'articleid',
-            'chaptername', 'lastupdate', 'chapterorder'
+            'chaptername', 'lastupdate', 'chapterorder', 'chaptertype'
         ])->where('articleid', $id)
             ->orderBy('chapterorder', 'desc')
             ->paginate($page_size);

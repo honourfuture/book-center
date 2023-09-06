@@ -39,7 +39,8 @@
                                 <div class="flex gap-x-4">
                                     <div class="min-w-0 flex-auto">
                                         <p class="text-sm font-semibold leading-6 text-gray-900">
-                                            <kbd class="kbd">{{ $chapter->chapterorder -1 }}</kbd>
+
+                                            <a href="https://www.tieshuw.com/modules/article/chapteredit.php?id={{ $chapter->chapterid }}&chaptertype={{ $chapter->chaptertype }}" target="_blank"><kbd class="kbd">{{ $chapter->chapterorder -1 }}</kbd></a>
                                             ({{ $chapter->chapterid }})
                                             {{ $chapter->chaptername }}
                                         </p>
