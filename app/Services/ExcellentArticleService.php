@@ -77,7 +77,10 @@ class ExcellentArticleService
         while (!feof($file)) {
 
             $content = fgets($file);
-            $content = iconv('gbk', 'utf-8//IGNORE', $content);
+            if(!mb_check_encoding($content, 'UTF-8')){
+                $content = iconv('gbk', 'utf-8//IGNORE', $content);
+            }
+
             $linuNumber++;
 
             if ($this->_is_continue($content, $linuNumber)) {

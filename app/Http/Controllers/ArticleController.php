@@ -136,11 +136,12 @@ class ArticleController extends Controller
     {
         /** @var ExcellentArticleService $excellentArticleService */
         $excellentArticleService = app('ExcellentArticleService');
-
+        echo "<ul>\n";
         $articles = $excellentArticleService->all();
         foreach ($articles as $article) {
-            echo "<li><a href=\"/fl-article-book?book_name=$article\">{$article}</a></li>";
+            echo "<li><a href=\"/fl-article-book?book_name=$article\">{$article}</a></li>\n";
         }
+        echo "</ul>";
     }
 
     public function book(Request $request)
@@ -155,12 +156,13 @@ class ArticleController extends Controller
         $info = json_decode($info, true);
         echo "<p articlename>{$info['article_name']}</p>";
         echo "<p author>{$info['author']}</p>";
-        echo "<p desc> </p>";
-        echo "<p category> </p>";
-        echo "<p desc> </p>";
+        echo "<p desc>desc</p>";
+        echo "<p category>category</p>";
+        echo "<ul>\n";
         foreach ($info['chapters'] as $key => $chapter) {
-            echo "<li><a href='/fl-article-chapter?book_name={$info['article_name']}&chapter_id={$key}'>{$chapter['chapterName']}</a></li>";
+            echo "<li><a href=\"{$key}\">{$chapter['chapterName']}</a></li>\n";
         }
+        echo "</ul>";
     }
 
     public function chapter(Request $request)
@@ -173,7 +175,7 @@ class ArticleController extends Controller
 
         $info = $excellentArticleService->read($book_name);
         $info = json_decode($info, true);
-        echo "<p>{$info['chapters'][$id]['text']}</p>";
+        echo "<p id=\"content\">{$info['chapters'][$id]['text']}</p>";
     }
 
     public function check_articles(Request $request)
