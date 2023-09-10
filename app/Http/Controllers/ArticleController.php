@@ -131,11 +131,47 @@ class ArticleController extends Controller
         return $error_message;
     }
 
-    public function create()
+
+    public function list()
     {
         /** @var ExcellentArticleService $excellentArticleService */
         $excellentArticleService = app('ExcellentArticleService');
-        $excellentArticleService->read();
+
+        $articles = $excellentArticleService->all();
+        foreach ($articles as $article) {
+            echo "<li><a href='/fl-article-book?book_name=$article'>{$article}</a></li>";
+        }
+    }
+
+    public function book()
+    {
+        /** @var ExcellentArticleService $excellentArticleService */
+        $excellentArticleService = app('ExcellentArticleService');
+
+        $info = $excellentArticleService->read();
+
+        $info = json_decode($info, true);
+        echo "<p articlename>{$info['article_name']}</p>";
+        echo "<p author>{$info['author']}</p>";
+        echo "<p desc> </p>";
+        echo "<p category> </p>";
+        echo "<p desc> </p>";
+        foreach ($info['chapters'] as $key => $chapter) {
+            echo "<li><a href='/fl-article-chapter?book_name={$info['article_name']}&chapter_id={$key}'>{$chapter['chapterName']}</a></li>";
+        }
+    }
+
+    public function chapter(Request $request)
+    {
+        $id = $request->get('chapter_id');
+        $book_name = $request->get('book_name');
+
+        /** @var ExcellentArticleService $excellentArticleService */
+        $excellentArticleService = app('ExcellentArticleService');
+
+        $info = $excellentArticleService->read($book_name);
+        $info = json_decode($info, true);
+        echo "<p>{$info['chapters'][$id]['text']}</p>";
     }
 
     public function check_articles(Request $request)

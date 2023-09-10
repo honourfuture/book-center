@@ -39,7 +39,9 @@ Route::get('/error-articles', [\App\Http\Controllers\ArticleController::class, '
 Route::get('/hand-articles', [\App\Http\Controllers\ArticleController::class, 'hand_articles']);
 
 //精校
-Route::get('/article-create', [\App\Http\Controllers\ArticleController::class, 'create']);
+Route::get('/fl-article-chapter', [\App\Http\Controllers\ArticleController::class, 'chapter']);
+Route::get('/fl-article-book', [\App\Http\Controllers\ArticleController::class, 'book']);
+Route::get('/fl-article-list', [\App\Http\Controllers\ArticleController::class, 'list']);
 
 //static
 Route::get('/static', [\App\Http\Controllers\StaticController::class, 'build_static']);
