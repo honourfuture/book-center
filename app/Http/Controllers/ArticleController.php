@@ -139,16 +139,18 @@ class ArticleController extends Controller
 
         $articles = $excellentArticleService->all();
         foreach ($articles as $article) {
-            echo "<li><a href='/fl-article-book?book_name=$article'>{$article}</a></li>";
+            echo "<li><a href=\"/fl-article-book?book_name=$article\">{$article}</a></li>";
         }
     }
 
-    public function book()
+    public function book(Request $request)
     {
+        $book_name = $request->get('book_name');
+
         /** @var ExcellentArticleService $excellentArticleService */
         $excellentArticleService = app('ExcellentArticleService');
 
-        $info = $excellentArticleService->read();
+        $info = $excellentArticleService->read($book_name);
 
         $info = json_decode($info, true);
         echo "<p articlename>{$info['article_name']}</p>";
