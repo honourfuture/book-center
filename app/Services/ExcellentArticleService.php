@@ -91,12 +91,12 @@ class ExcellentArticleService
                 continue;
             }
 
-            if (strpos($content, '作者：') !== false) {
+            if (strpos($content, '作者：') !== false && !$this->author) {
                 $this->author = str_replace('作者：', '', trim($content));
                 continue;
             }
 
-            if (strpos($content, '内容简介：') !== false) {
+            if (strpos($content, '内容简介：') !== false && !$this->desc) {
                 $this->textType = 'DESC';
                 continue;
             }
@@ -104,7 +104,7 @@ class ExcellentArticleService
             $pattern = "/^[ 　\t\n]/u";
             if (preg_match($pattern, $content) || !strpos($content, '章')) {
                 if ($this->textType == 'DESC') {
-                    $this->desc .= $content;
+                    $this->desc .= str_replace('内容简介：', '', trim($content));;
                 }
 
                 if ($this->textType == 'CHAPTER') {
