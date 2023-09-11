@@ -34,9 +34,15 @@
                     $backend_url = "https://www.tieshuw.com/modules/article/articlemanage.php?id={$article_log->article_id}";
                     $check_url = "http://help.tieshuw.com/article/{$article_log->article_id}";
                     $md5 = md5($article_log->articlename .'-'. $article_log->author);
+                    $style = "";
+                    $local_article_ids = isset($bind_sources['local']) ? $bind_sources['local'] : [];
+                    if(in_array($article_log->article_id, $local_article_ids)){
+                        $style = "text-red-600";
+                    }
+
                 ?>
                 <tr>
-                    <th>{{$article_log->article_id}}</th>
+                    <th ><span class="{{$style}}">{{$article_log->article_id}}</span></th>
                     <td>
                         {{$article_log->articlename ? $article_log->articlename : '-'}}
                         <p class="font-light text-sm">{{$article_log->lastchapter}}</p>
@@ -55,12 +61,16 @@
                                 <button class="btn btn-xs">
                                     <a href="{{$search_url}}" target="_blank">{{$count->source}}</a>
                                 </button>
+
                             </div>
                         @endforeach
                     </td>
                     <td>
                         <button class="btn btn-xs">
                             <a href="{{route('create-source', $article_log->article_id)}}" target="_blank">source</a>
+                        </button>
+                        <button class="btn btn-xs">
+                            <a href="/do-low-article/{{$article_log->article_id}}" target="_blank">低质量</a>
                         </button>
                     </td>
                     <td>

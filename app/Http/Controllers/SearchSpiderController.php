@@ -20,6 +20,7 @@ class SearchSpiderController extends Controller
     {
         $date = $request->get('date', date('Y-m-d'));
         $source = $request->get('source');
+        $hide_check = $request->get('hide_check', 1);
 
         $article_logs = NginxAccessLog::with(['count_access_logs'])
             ->leftJoin('jieqi_article_article', 'jieqi_article_article.articleid', '=', 'nginx_access_logs.article_id')
@@ -35,6 +36,11 @@ class SearchSpiderController extends Controller
 
         if ($source) {
             $article_logs->where('source', $source);
+        }
+        $bind_sources = $this->_get_bind_sources();
+        if($hide_check){
+            $check_article_id = isset($bind_sources['local']) ? $bind_sources['local'] : [];
+            $article_logs->whereNotIn('articleid', $check_article_id);
         }
 
         $article_logs = $article_logs->orderByDesc('total')->get();
@@ -71,7 +77,6 @@ class SearchSpiderController extends Controller
                 }
             }
         }
-        $bind_sources = $this->_get_bind_sources();
         return view('spider-article-list', [
             'article_logs' => $article_logs,
             'source_article_groups' => $source_article_groups,
@@ -104,6 +109,16 @@ class SearchSpiderController extends Controller
     public function set_article_peg()
     {
 
+    }
+
+    public function do_low_article($id){
+        $sources = $this->_get_bind_sources();
+        $sources['local'][] = $id;
+        $json_sources = json_encode($sources);
+        $storage = Storage::disk();
+        $storage->put("/sources.json", $json_sources);
+
+        return response()->view('close-tab');
     }
 
     public function spider_statics()

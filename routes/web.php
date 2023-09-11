@@ -70,5 +70,6 @@ Route::get('/search-spider', [\App\Http\Controllers\SearchSpiderController::clas
 Route::get('/search-spider/{id}', [\App\Http\Controllers\SearchSpiderController::class, 'spider_article']);
 Route::post('/search-spider/{id}', [\App\Http\Controllers\SearchSpiderController::class, 'set_article_peg']);
 Route::get('/spider_statics', [\App\Http\Controllers\SearchSpiderController::class, 'spider_statics']);
+Route::get('/do-low-article/{id}', [\App\Http\Controllers\SearchSpiderController::class, 'do_low_article']);
 
 
