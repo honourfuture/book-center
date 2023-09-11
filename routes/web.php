@@ -48,6 +48,11 @@ Route::get('/static', [\App\Http\Controllers\StaticController::class, 'build_sta
 //source
 Route::get('/create-source/{id}', [\App\Http\Controllers\ArticleController::class, 'create_source_article'])->name('create-source');
 Route::post('/do-create-source-article', [\App\Http\Controllers\ArticleController::class, 'do_create_source_article'])->name('do-create-source-article');
+
+//绑定来源
+Route::get('/create-sources', [\App\Http\Controllers\SearchSpiderController::class, 'create_sources'])->name('create-sources');
+Route::post('/do-create-sources', [\App\Http\Controllers\SearchSpiderController::class, 'do_create_sources'])->name('do-create-sources');
+
 //Tool
 Route::view('/tool', 'tool');
 Route::view('/tool/diff', 'diff');
@@ -59,6 +64,7 @@ Route::view('/4ksw', '4ksw');
 Route::get('/ocr', [\App\Http\Controllers\OCRController::class, 'do_ocr']);
 //test
 Route::get('/test', [\App\Http\Controllers\TestController::class, 'test']);
+
 //nginx spider
 Route::get('/search-spider', [\App\Http\Controllers\SearchSpiderController::class, 'spider_articles']);
 Route::get('/search-spider/{id}', [\App\Http\Controllers\SearchSpiderController::class, 'spider_article']);

@@ -69,15 +69,7 @@ class ArticleController extends Controller
     public function create_source_article($article_id)
     {
         $article = Article::find($article_id);
-        $sources = [
-            '525uc',
-            'mayi',
-            '69shu',
-            'tt',
-            'meigui',
-            '9it',
-            'biqu789',
-        ];
+        $sources = SourceEnum::SOURCES;;
 
         return view('create-source', ['sources' => $sources, 'article' => $article]);
     }

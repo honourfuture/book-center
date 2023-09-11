@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Enums\SourceEnum;
 use App\Models\Article;
 use App\Models\HandArticle;
 use App\Models\NginxAccessLog;
@@ -10,6 +11,7 @@ use App\Models\SourceArticle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use function PHPUnit\Framework\isEmpty;
 
 class SearchSpiderController extends Controller
@@ -44,45 +46,37 @@ class SearchSpiderController extends Controller
             ->get();
 
         $source_article_groups = $source_articles->groupBy(function ($article) {
-                return md5($article->article_name . '-' .$article->author);
-            });
+            return md5($article->article_name . '-' . $article->author);
+        });
 
-        $sources = [
-            '525uc',
-            'mayi',
-            '69shu',
-            'tt',
-            'meigui',
-            '9it',
-            'biqu789',
-        ];
+        $sources = SourceEnum::SOURCES;
 
         $source_article_group_sources = [];
-        foreach ($sources as $source){
+        foreach ($sources as $source) {
             $source_article_group_sources[$source] = [];
         }
 
+        foreach ($article_logs as $log) {
+            $md5 = md5($log->articlename . '-' . $log->author);
 
-        foreach ($article_logs as $log){
-            $md5 = md5($log->articlename . '-' .$log->author);
-
-            if(!isset($source_article_groups[$md5])){
-               continue;
+            if (!isset($source_article_groups[$md5])) {
+                continue;
             }
-            foreach ($sources as $source){
+            foreach ($sources as $source) {
                 $source_article = $source_article_groups[$md5]->where('source', $source)->first();
 
-                if($source_article){
-                    $source_article_group_sources[$source][] =  $source_article->toArray();
+                if ($source_article) {
+                    $source_article_group_sources[$source][] = $source_article->toArray();
                     break;
                 }
             }
         }
-
+        $bind_sources = $this->_get_bind_sources();
         return view('spider-article-list', [
             'article_logs' => $article_logs,
             'source_article_groups' => $source_article_groups,
-            'source_article_group_sources' => $source_article_group_sources
+            'source_article_group_sources' => $source_article_group_sources,
+            'bind_sources' => $bind_sources,
         ]);
     }
 
@@ -180,5 +174,43 @@ class SearchSpiderController extends Controller
         }
 
         return view('spider-statics', ['data' => $result, 'sources' => $sources]);
+    }
+
+    private function _get_bind_sources()
+    {
+        $storage = Storage::disk();
+        $sources = [];
+        if ($storage->exists('/sources.json')) {
+            $sources = $storage->get('/sources.json');
+            $sources = json_decode($sources, true);
+        }
+        $all_sources = SourceEnum::SOURCES;
+        foreach ($all_sources as $source) {
+            if (!isset($sources[$source])) {
+                $sources[$source] = [];
+            }
+        }
+        return $sources;
+    }
+
+    public function create_sources()
+    {
+        $sources = $this->_get_bind_sources();
+        return view('create-sources', ['sources' => $sources]);
+    }
+
+    public function do_create_sources(Request $request)
+    {
+        $sources = $request->get('sources');
+
+        $json_sources = [];
+        foreach ($sources as $source => $ids) {
+            $json_sources[$source] = array_filter(array_unique(explode(',', $ids)));
+        }
+        $json_sources = json_encode($json_sources);
+        $storage = Storage::disk();
+        $storage->put("/sources.json", $json_sources);
+
+        return redirect()->route('create-sources');
     }
 }

@@ -75,7 +75,7 @@
                         </button>
                         <br/>
                         @if(isset($source_article_groups[$md5]))
-                            @foreach($source_article_groups[$md5] as $source_article_group)
+                            @foreach($source_article_groups[$md5] as $key => $source_article_group)
                                 <?php
                                     if($source_article_group->source == 'mayi'){
                                         $source_article_group->origin_url = str_replace('m.', 'www.', $source_article_group->origin_url);
@@ -83,11 +83,20 @@
                                     if($source_article_group->source == 'biqu789'){
                                         $source_article_group->origin_url = str_replace('com', 'net', $source_article_group->origin_url);
                                     }
+                                    $style = '';
+                                    if(in_array($source_article_group->article_id, $bind_sources[$source_article_group->source])){
+                                        $style = 'btn-success';
+                                    }
                                 ?>
-                                <a href="{{$source_article_group->origin_url}}" target="_blank"><button class="btn btn-xs">
+                                <a href="{{$source_article_group->origin_url}}" target="_blank"><button class="btn btn-xs {{$style}}">
                                     {{$source_article_group->source}}
                                 </button>
                                 </a>
+                                <?php
+                                    if(($key+1) % 3 == 0){
+                                        echo "<br/>";
+                                    }
+                                ?>
                             @endforeach
                         @endif
                     </td>
