@@ -20,6 +20,7 @@ class SourceEnum
         'meigui',
         '9it',
         'biqu789',
-        '4ksw'
+        '4ksw',
+        'kdzw'
     ];
 }
