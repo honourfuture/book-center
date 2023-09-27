@@ -102,6 +102,9 @@ class ArticleController extends Controller
         if (strpos($content, "灵魂契约")) {
             $error_message[] = "灵魂契约";
         }
+        if (strpos($content, "夜的命名术作者")) {
+            $error_message[] = "夜的命名术";
+        }
         if (strpos($content, "小侯爷")) {
             $error_message[] = "小侯爷";
         }
@@ -116,6 +119,9 @@ class ArticleController extends Controller
         }
         if (strpos($content, "也杀死了多位八阶强者")) {
             $error_message[] = "浩瀚宇宙";
+        }
+        if (strpos($content, "夜的命名术作者")) {
+            $error_message[] = "夜的命名术";
         }
         if ($str_len < 666) {
             $error_message[] = "字数异常";

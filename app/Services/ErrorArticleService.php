@@ -88,6 +88,9 @@ class ErrorArticleService
         if (strpos($content, "灵魂契约") !== false) {
             return 1;
         }
+        if (strpos($content, "夜的命名术作者") !== false) {
+            return 1;
+        }
         if (strpos($content, "小侯爷，您快点起来吧，轮到我们巡逻了") !== false) {
             return 1;
         }

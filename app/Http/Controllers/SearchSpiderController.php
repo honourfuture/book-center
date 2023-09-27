@@ -68,8 +68,13 @@ class SearchSpiderController extends Controller
             if (!isset($source_article_groups[$md5])) {
                 continue;
             }
+
             foreach ($sources as $source) {
-                $source_article = $source_article_groups[$md5]->where('source', $source)->first();
+                $where_source = $source;
+                if($source == 'do_525uc'){
+                    $where_source = '525uc';
+                }
+                $source_article = $source_article_groups[$md5]->where('source', $where_source)->first();
 
                 if ($source_article) {
                     $source_article_group_sources[$source][] = $source_article->toArray();

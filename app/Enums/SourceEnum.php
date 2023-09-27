@@ -22,6 +22,7 @@ class SourceEnum
         'biqu789',
         '4ksw',
         'kdzw',
-        'local'
+        'local',
+        'do_525uc'
     ];
 }

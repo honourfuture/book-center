@@ -39,12 +39,16 @@
                     if(in_array($article_log->article_id, $local_article_ids)){
                         $style = "text-red-600";
                     }
+                    $color_style = "";
+                    if($article_log->is_proofread){
+                        $color_style = "text-green-600";
+                    }
 
                 ?>
                 <tr>
                     <th ><span class="{{$style}}">{{$article_log->article_id}}</span></th>
-                    <td>
-                        {{$article_log->articlename ? $article_log->articlename : '-'}}
+                    <td class="{{$color_style}}">
+                        <span>{{$article_log->articlename ? $article_log->articlename : '-'}}</span>
                         <p class="font-light text-sm">{{$article_log->lastchapter}}</p>
                         <p class="font-light text-sm">{{$article_log->lastupdate ? date('Y-m-d H:i:s', $article_log->lastupdate) : '-'}}</p>
                         <p class="font-light text-sm">{{$article_log->author}}</p>
@@ -91,7 +95,7 @@
                                         $source_article_group->origin_url = str_replace('m.', 'www.', $source_article_group->origin_url);
                                     }
                                     if($source_article_group->source == 'biqu789'){
-                                        $source_article_group->origin_url = str_replace('com', 'net', $source_article_group->origin_url);
+                                        $source_article_group->origin_url = str_replace('net', 'com', $source_article_group->origin_url);
                                     }
                                     $style = '';
                                     if(in_array($source_article_group->article_id, $bind_sources[$source_article_group->source])){
