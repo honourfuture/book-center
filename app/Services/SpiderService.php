@@ -19,9 +19,12 @@ class SpiderService
 {
     private $config;
 
+    private $source;
+
     public function __construct($param)
     {
         $site = $param['site'];
+        $this->source = $site;
         $site_config = config("spider");
         $this->config = $site_config[$site];
     }
@@ -133,13 +136,16 @@ class SpiderService
     public function get_origin_url($article)
     {
         $key = $this->config['name'];
-        $article_id = OriginArticleId::where('article_id', $article->articleid)->first();
 
-        if(!$article_id || !$article_id[$key] ){
-            return  false;
+        $source_article = SourceArticle::where('article_name', $article->articlename)
+            ->where('author', $article->author)
+            ->where('source', $key)->first();
+
+        if(!$source_article){
+            return false;
         }
 
-        return $this->build_article_url($article_id[$key]);
+        return $this->build_article_url($source_article->article_id);
 
 
         $origin_articles = SourceArticle::where('article_name', $article->articlename)->get();
