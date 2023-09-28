@@ -17,6 +17,11 @@ class TestController extends Controller
 {
     public function test()
     {
+        Artisan::call("fix:chapter", [
+            '--article_id' => 1703,
+            '--site' => 'XWbiquge',
+        ]);
+        die;
         $chapterNames = [
             '第176章 人道的诱惑，鸿钧不满',
             '第177章 诸圣出手，圣人级别大战',

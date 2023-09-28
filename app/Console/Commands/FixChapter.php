@@ -125,8 +125,7 @@ class FixChapter extends Command
             exit;
         }
 
-
-        if ($repeat_chapter_count > 30) {
+        if ($repeat_chapter_count > 60) {
             throw new FixChapterException(400, '重复章节过多中止');
         }
 
@@ -147,7 +146,6 @@ class FixChapter extends Command
 
             if(isset($full_origin_chapters[$chapter_name])){
                 $url = $full_origin_chapters[$chapter_name]['url'];
-
                 $this->_line_log("[{$article_id}] 开始修复章节[{$chapter->chapterid}]: {$chapter->chaptername}");
 
                 $text = $this->_get_origin_chapter($url);

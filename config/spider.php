@@ -92,7 +92,7 @@ return [
             ], '', $text);
 
             $str = preg_replace('/<div class="bottem">.*$/si', '', $text);
-            if($str){
+            if ($str) {
                 $text = $str;
             }
 
@@ -140,6 +140,8 @@ return [
             $text = str_replace([
                 '<p>',
                 '</p>',
+                'M。97',
+                'Xiaoshuo'
             ], '', $text);
 
             $text = preg_replace('/(<div\b[^>]*>|<\/div>|<h1\b[^>]*>[^<]*<\/h1>|<script\b[^>]*>[^<]*<\/script>|<span\b[^>]*>[^<]*<\/span>|<a\b[^>]*>[^<]*<\/a>)/i', '', $text);
@@ -148,10 +150,61 @@ return [
             $text = htmlentities($text);
 
             $text = str_replace('&lt;br&gt;', "", $text);
-            $text = str_replace('&emsp;&emsp;','', $text);
+            $text = str_replace('&emsp;&emsp;', '', $text);
             $text = str_replace('                ', '', $text);
             $text = html_entity_decode($text);
             return $text;
         }
+    ],
+
+    'XWbiquge' => [
+        'name' => 'XWbiquge',
+        'charset' => 'utf-8',
+        'domain' => 'http://www.xwbiquge.com',
+        'url' => 'http://www.xwbiquge.com',
+        'get_article_info_rule' => [
+            'book_name' => ['meta:eq(14)', 'content'],
+            'author' => ['meta:eq(12)', 'content'],
+            'desc' => ['meta:eq(6)', 'content']
+        ],
+
+        'get_article_rule' => [
+            'chapters' => ['a', 'texts'],
+            // DOM解析链接
+            'chapter_hrefs' => ['a', 'attrs(href)'],
+        ],
+
+        'get_article_range' => '#list>dl',
+
+        'get_chapter_find' => '#booktxt:text',
+
+        'article_url' => "http://www.xwbiquge.com/biquge_{--article_id--}/",
+
+        'content_preg' => function ($text) {
+            $text = str_replace([
+                '<p>',
+                '</p>',
+            ], '', $text);
+
+            $text = preg_replace('/(<div\b[^>]*>|<\/div>|<h1\b[^>]*>[^<]*<\/h1>|<script\b[^>]*>[^<]*<\/script>|<span\b[^>]*>[^<]*<\/span>|<a\b[^>]*>[^<]*<\/a>)/i', '', $text);
+            //删除多余的空行
+            $text = preg_replace('/^\h*\v+/m', '', $text);
+            $text = htmlentities($text);
+
+            $text = str_replace('&lt;br&gt;', "", $text);
+            $text = str_replace('&emsp;&emsp;', '', $text);
+            $text = str_replace('                ', '', $text);
+            $text = html_entity_decode($text);
+            return $text;
+        },
+        'next_page' => [
+            'rule' => [
+                'url' => ['#next_url:eq(0)', 'attrs(href)'],
+                'text' => ['#next_url:eq(0)', 'texts'],
+            ],
+            'has_text' => '下一页',
+            'range' => '.bottem1'
+        ],
+
     ],
 ];

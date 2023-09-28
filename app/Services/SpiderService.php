@@ -73,7 +73,6 @@ class SpiderService
         ];
 
         $rules = $this->config['get_article_rule'];
-        $range = '#list>dl';
         $range = $this->config['get_article_range'];
 
         $rt = QueryList::html($html)->rules($rules)
@@ -90,7 +89,7 @@ class SpiderService
         return $data;
     }
 
-    public function get_chapter($url)
+    public function get_chapter($url, $content = '')
     {
         /** @var HttpProxyService $httpProxyService */
         $httpProxyService = app('HttpProxyService');
@@ -101,15 +100,23 @@ class SpiderService
             $html = iconv('gbk', 'utf-8//IGNORE', $html);
         }
 
-        $find = '#content';
         $find = $this->config['get_chapter_find'];
         $text = QueryList::html($html)->find($find)->html();
+        $content .= $this->config['content_preg']($text);
 
-        $text = $this->config['content_preg']($text);
+        if (isset($this->config['next_page'])) {
+            $next_page = $this->config['next_page'];
+            $next_info = QueryList::html($html)->rules($next_page['rule'])->range($next_page['range'])->query()->getData();
 
-        sleep(5);
+            if($next_info[0]['text'][0] == $this->config['next_page']['has_text']){
+                $next_url = $this->config['url'] . $next_info[0]['url'][0];
+                $content = $this->get_chapter($next_url, $content);
+            }
+        }
 
-        return $text;
+        sleep(2);
+
+        return $content;
     }
 
     /**
@@ -141,7 +148,7 @@ class SpiderService
             ->where('author', $article->author)
             ->where('source', $key)->first();
 
-        if(!$source_article){
+        if (!$source_article) {
             return false;
         }
 
