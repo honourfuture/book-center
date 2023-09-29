@@ -19,7 +19,7 @@ class TestController extends Controller
     {
         Artisan::call("fix:chapter", [
             '--article_id' => 1703,
-            '--site' => 'XWbiquge',
+            '--site' => 'xwbiquge',
         ]);
         die;
         $chapterNames = [

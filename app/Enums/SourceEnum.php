@@ -17,6 +17,7 @@ class SourceEnum
         'mayi',
         '69shu',
         'tt',
+        'xwbiquge',
         'meigui',
         '9it',
         'biqu789',

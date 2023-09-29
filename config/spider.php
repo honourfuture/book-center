@@ -157,8 +157,8 @@ return [
         }
     ],
 
-    'XWbiquge' => [
-        'name' => 'XWbiquge',
+    'xwbiquge' => [
+        'name' => 'xwbiquge',
         'charset' => 'utf-8',
         'domain' => 'http://www.xwbiquge.com',
         'url' => 'http://www.xwbiquge.com',
