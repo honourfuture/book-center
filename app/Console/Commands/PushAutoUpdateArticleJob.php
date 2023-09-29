@@ -6,6 +6,7 @@ use App\Enums\QueueNameEnum;
 use App\Jobs\AutoArticleMayiJob;
 use App\Jobs\AutoArticleTTJob;
 
+use App\Jobs\AutoArticleXWBiQuGeJob;
 use Illuminate\Console\Command;
 
 class PushAutoUpdateArticleJob extends Command
@@ -58,6 +59,9 @@ class PushAutoUpdateArticleJob extends Command
                     break;
                 case 'tt':
                     dispatch((new AutoArticleTTJob($article_id, $site))->onQueue(QueueNameEnum::UPDATE_TT_JOB));
+                    break;
+                case 'xwbiquge':
+                    dispatch((new AutoArticleXWBiQuGeJob($article_id, $site))->onQueue(QueueNameEnum::UPDATE_XW_BiQuGe_JOB));
                     break;
             }
         }

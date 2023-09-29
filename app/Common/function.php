@@ -16,6 +16,7 @@ function clear_text($str)
 {
     $str = preg_replace('/第(?:\d+|[一二三四五六七八九十百千]+)章/u', '第章', $str);
     $str = str_replace([
+        '加更求月票',
         '求收藏',
         '求订阅',
         '求月票',
