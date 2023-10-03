@@ -61,7 +61,7 @@ class SpiderService
     {
         $client = new Client([
             'base_uri' => $url,
-            'timeout' => 3.0
+            'timeout' => 6.0
         ]);
 
         $response = $client->request('GET', '', [
@@ -107,7 +107,7 @@ class SpiderService
         $user_agent = $httpProxyService->user_agent();
         $client = new Client([
             'base_uri' => $url,
-            'timeout' => 3.0
+            'timeout' => 6.0
         ]);
 
         $response = $client->request('GET', '', [
