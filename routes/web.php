@@ -19,6 +19,7 @@ Route::get('/get-tieshu', [\App\Http\Controllers\SqliteController::class, 'get_t
 
 //获取120错误
 Route::get('/get-tieshu-list', [\App\Http\Controllers\SqliteController::class, 'get_tieshu_list']);
+Route::get('/get-tieshu-replace', [\App\Http\Controllers\SqliteController::class, 'get_auto_replace']);
 
 //关键词
 Route::get('/get-keyword', [\App\Http\Controllers\KeywordController::class, 'get_keyword']);
@@ -67,6 +68,7 @@ Route::get('/test', [\App\Http\Controllers\TestController::class, 'test']);
 
 //nginx spider
 Route::get('/search-spider', [\App\Http\Controllers\SearchSpiderController::class, 'spider_articles']);
+Route::get('/get-artisan', [\App\Http\Controllers\SearchSpiderController::class, 'get_artisan']);
 Route::get('/search-spider/{id}', [\App\Http\Controllers\SearchSpiderController::class, 'spider_article']);
 Route::post('/search-spider/{id}', [\App\Http\Controllers\SearchSpiderController::class, 'set_article_peg']);
 Route::get('/spider_statics', [\App\Http\Controllers\SearchSpiderController::class, 'spider_statics']);

@@ -27,4 +27,8 @@ class RuleEnum
         'Rules\p1_69shu_com.xml',
         'Rules\v1_69shu_com.xml',
     ];
+
+    const MAYI_AUTO = [
+        'Rules\A_mayiwxw_com_auto_replace.xml'
+    ];
 }

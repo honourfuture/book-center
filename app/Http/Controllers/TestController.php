@@ -7,6 +7,7 @@ use App\Models\ErrorChapter;
 use App\Models\HandArticle;
 use App\Services\ExcellentArticleService;
 use App\Services\SpiderService;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use Illuminate\Support\Facades\Artisan;
@@ -17,6 +18,25 @@ class TestController extends Controller
 {
     public function test()
     {
+        $client = new Client([
+            'base_uri' => 'https://www.mayiwxw.com/115_115985/index.html',
+            'timeout' => 3.0
+        ]);
+
+        $response = $client->request('GET', '', [
+            'query' => [
+                'time' => time(),
+            ]
+        ]);
+        echo $response->getBody();die;
+        $opts = [
+            'http' => [
+                'header' => 'Content-Type: text/html; charset=utf-8'
+            ]
+        ];
+        $context = stream_context_create($opts);
+        $content = file_get_contents('http://www.mayiwxw.com/115_115985/index.html', false, $context);
+        echo $content;die;
         Artisan::call("fix:chapter", [
             '--article_id' => 1703,
             '--site' => 'xwbiquge',

@@ -64,12 +64,6 @@ class FixChapter extends Command
         $loggerService = app('LoggerService');
         $this->logger = $loggerService->getLogger($site, 'fix_chapter');
 
-//        $article = collect([]);
-//        $article->articleid = 60258;
-//        $origin_article = $this->_get_origin_article($article);
-//        $origin_article = isset($origin_article[0]) ? $origin_article[0] : [];
-//        print_R($origin_article['chapters']);die;
-
         $article = Article::find($article_id);
 
         $this->_line_log("[{$article_id}] 开始修复:  {$article->articlename}");
@@ -80,6 +74,7 @@ class FixChapter extends Command
         $error_article_service = app('ErrorArticleService');
         $chapters = $error_article_service->check_error_chapters($article);
 
+
         $right_chapters = $chapters->where('is_error_chapter', 0);
         $right_chapter_ids = $right_chapters->pluck('chapterid')->toArray();
         if ($right_chapter_ids) {
@@ -88,6 +83,11 @@ class FixChapter extends Command
 
         $all_error_chapters = $chapters->where('is_error_chapter', 1);
         $this->_line_log("[{$article_id}] 错误章节数: {$all_error_chapters->count()} ");
+
+        if($all_error_chapters->count() > 500){
+            $this->_error_log("[{$article_id}] [10003] 错误章节过多");
+            throw new FixChapterException(400, '错误章节过多');
+        }
 
         if ($all_error_chapters->isEmpty()) {
             $this->_info_log("[{$article_id}] 当前书籍无错误章节");
@@ -104,7 +104,7 @@ class FixChapter extends Command
             foreach ($origin_article['chapters'] as $key => $origin_chapter) {
 
                 if (!isset($origin_article['chapter_hrefs'][$key])) {
-                    $this->_error_log("[{$article_id}] 当前URL对数量不一致");
+                    $this->_error_log("[{$article_id}] [10001] 当前URL对数量不一致");
                     throw new FixChapterException(400, '当前URL对数量不一致');
                 }
 
@@ -126,6 +126,7 @@ class FixChapter extends Command
         }
 
         if ($repeat_chapter_count > 60) {
+            $this->_error_log("[{$article_id}] [10002] 重复章节过多中止");
             throw new FixChapterException(400, '重复章节过多中止');
         }
 

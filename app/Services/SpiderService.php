@@ -14,6 +14,7 @@ use App\Models\Article;
 use App\Models\OriginArticleId;
 use App\Models\SourceArticle;
 use QL\QueryList;
+use GuzzleHttp\Client;
 
 class SpiderService
 {
@@ -58,7 +59,17 @@ class SpiderService
 
     public function get_article($url)
     {
-        $html = file_get_contents($url);
+        $client = new Client([
+            'base_uri' => $url,
+            'timeout' => 3.0
+        ]);
+
+        $response = $client->request('GET', '', [
+            'query' => [
+                'time' => time(),
+            ]
+        ]);
+        $html = $response->getBody();
 
         if ($this->config['charset'] == 'gbk') {
             $html = iconv('gbk', 'utf-8//IGNORE', $html);
@@ -94,7 +105,17 @@ class SpiderService
         /** @var HttpProxyService $httpProxyService */
         $httpProxyService = app('HttpProxyService');
         $user_agent = $httpProxyService->user_agent();
-        $html = file_get_contents($url);
+        $client = new Client([
+            'base_uri' => $url,
+            'timeout' => 3.0
+        ]);
+
+        $response = $client->request('GET', '', [
+            'query' => [
+                'time' => time(),
+            ]
+        ]);
+        $html = $response->getBody();
 
         if ($this->config['charset'] == 'gbk') {
             $html = iconv('gbk', 'utf-8//IGNORE', $html);
@@ -114,7 +135,7 @@ class SpiderService
             }
         }
 
-        sleep(2);
+        sleep(5);
 
         return $content;
     }

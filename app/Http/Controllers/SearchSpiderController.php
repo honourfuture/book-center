@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Enums\RuleEnum;
 use App\Enums\SourceEnum;
 use App\Models\Article;
 use App\Models\HandArticle;
@@ -232,5 +233,65 @@ class SearchSpiderController extends Controller
         $storage->put("/sources.json", $json_sources);
 
         return redirect()->route('create-sources');
+    }
+
+    public function get_artisan(Request $request)
+    {
+        $sqlite = $request->get('db_name', date('Ymd'));
+        $sqlites = explode(',', $sqlite);
+
+        $article_ids = NginxAccessLog::groupBy('article_id')->pluck('article_id');
+
+        $sources = ['mayi' => [], 'tt' => [], 'xwbiquge' => []];
+        $taskLogs = [];
+        foreach ($sqlites as $sqlite) {
+            $taskLog = DB::connection($sqlite)->table('taskLog')
+                ->whereIn('EXID', [120])
+                ->where('TASKFILE', '<>', 'C:\Users\Administrator\Desktop\方案\kdzw\kdzw_go.xml')
+                ->whereIn('RULEFILE', RuleEnum::MAYI_AUTO)
+                ->get()
+                ->toArray();
+
+            $taskLogs = array_merge($taskLogs, $taskLog);
+        }
+        $sources['mayi'] = array_column($taskLogs, 'NID');
+
+        $articles = Article::select([
+            'jieqi_article_article.articleid',
+            'jieqi_article_article.author',
+            'jieqi_article_article.lastchapter',
+            'jieqi_article_article.articlename',
+            'jieqi_article_article.lastupdate'
+        ])->whereIn('articleid', $article_ids)->get()->keyBy(function ($article){
+            return md5($article->articlename . '-' . $article->author);
+        });
+
+        $source_articles = $articles->pluck('articlename', 'author')->unique()->toArray();
+
+        $source_articles = SourceArticle::whereIn('author', array_filter(array_keys($source_articles)))
+            ->whereIn('article_name', array_filter(array_values($source_articles)))
+            ->whereIn('source', array_keys($sources))
+            ->get();
+
+        $source_article_groups = $source_articles->groupBy(function ($article) {
+            return md5($article->article_name . '-' . $article->author);
+        });
+
+        foreach ($source_article_groups as $key => $source_articles){
+            foreach ($source_articles as $source_article){
+                $sources[$source_article->source][] = $articles[$key]['articleid'];
+            }
+        }
+        $artisans = [];
+        foreach ($sources as $source => $article_ids){
+            $article_ids = implode(',', array_unique($article_ids));
+            $artisans[] = sprintf('php74 artisan push:article --site=%s --article_ids=%s', $article_ids, $source);
+        }
+
+        return view('spider-artisan', [
+            'artisans' => $artisans,
+        ]);
+
+
     }
 }
