@@ -285,7 +285,7 @@ class SearchSpiderController extends Controller
         $artisans = [];
         foreach ($sources as $source => $article_ids){
             $article_ids = implode(',', array_unique($article_ids));
-            $artisans[] = sprintf('php74 artisan push:article --site=%s --article_ids=%s', $article_ids, $source);
+            $artisans[] = sprintf('php74 artisan push:article --site=%s --article_ids=%s', $source, $article_ids);
         }
 
         return view('spider-artisan', [
