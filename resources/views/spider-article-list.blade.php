@@ -43,7 +43,6 @@
                     if($article_log->is_proofread){
                         $color_style = "text-green-600";
                     }
-
                 ?>
                 <tr>
                     <th ><span class="{{$style}}">{{$article_log->article_id}}</span></th>

@@ -38,7 +38,9 @@ class SearchSpiderController extends Controller
         if ($source) {
             $article_logs->where('source', $source);
         }
+
         $bind_sources = $this->_get_bind_sources();
+
         if($hide_check){
             $check_article_id = isset($bind_sources['local']) ? $bind_sources['local'] : [];
             $article_logs->whereNotIn('articleid', $check_article_id);
