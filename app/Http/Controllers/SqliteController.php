@@ -141,7 +141,7 @@ class SqliteController extends Controller
         return array_chunk($article_ids, 50);
     }
 
-    public function get_meigui_list(Request $request)
+    public function get_source_list(Request $request)
     {
         $sqlite = $request->get('db_name', date('Ymd'));
         $sqlites = explode(',', $sqlite);
