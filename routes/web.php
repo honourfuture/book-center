@@ -20,6 +20,7 @@ Route::get('/get-tieshu', [\App\Http\Controllers\SqliteController::class, 'get_t
 //获取120错误
 Route::get('/get-tieshu-list', [\App\Http\Controllers\SqliteController::class, 'get_tieshu_list']);
 Route::get('/get-meigui-list', [\App\Http\Controllers\SqliteController::class, 'get_source_list']);
+Route::get('/get-mayi-list', [\App\Http\Controllers\SqliteController::class, 'get_mayi_list']);
 Route::get('/get-tieshu-replace', [\App\Http\Controllers\SqliteController::class, 'get_auto_replace']);
 
 //关键词

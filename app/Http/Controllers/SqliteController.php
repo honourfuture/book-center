@@ -141,6 +141,87 @@ class SqliteController extends Controller
         return array_chunk($article_ids, 50);
     }
 
+    public function get_mayi_list(Request $request)
+    {
+        $sqlite = $request->get('db_name', date('Ymd'));
+        $sqlites = explode(',', $sqlite);
+        $source = $request->get('source', 'mayi');
+        $max_date = $request->get('max_date', date('Y-m-d 00:00:00'));
+        $min_date = $request->get('min_date', date('1970-01-01 00:00:00'));
+        $is_all = $request->get('is_all', 1);
+
+        $rules = [
+            'mayi' => RuleEnum::MA_YI_120,
+        ];
+
+        $rule_ids = [];
+
+        $max_date = strtotime($max_date);
+        $min_date = strtotime($min_date);
+
+        $rule = $rules[$source];
+
+        $taskLogs = [];
+        foreach ($sqlites as $sqlite) {
+            $taskLog = DB::connection($sqlite)->table('taskLog')
+                ->whereIn('EXID', [120])
+                ->whereIn('RULEFILE', $rule)
+                ->get()
+                ->toArray();
+
+            $taskLogs = array_merge($taskLogs, $taskLog);
+        }
+
+        $nids = array_column($taskLogs, 'NID');
+        $source_articles = Article::select(['articleid', 'lastupdate', 'articlename', 'author'])->whereIn('articleid', $nids)->get();
+        $articles = $source_articles->keyBy('articleid')->toArray();
+
+        $source_articles = $source_articles->pluck('articlename', 'author')->unique()->toArray();
+        $source_articles = SourceArticle::whereIn('author', array_filter(array_keys($source_articles)))
+            ->whereIn('article_name', array_filter(array_values($source_articles)));
+
+        $source_articles = $source_articles->where('source', 'mayi');
+        $source_articles = $source_articles->get();
+
+        $source_article_groups = $source_articles->groupBy(function ($article) {
+            return md5($article->article_name . '-' . $article->author);
+        });
+
+        foreach ($taskLogs as $log) {
+            $all_ids[] = $log->NID;
+
+            if (!isset($articles[$log->NID])) {
+                continue;
+            }
+            $article = $articles[$log->NID];
+            $md5 = md5($article['articlename'] . '-' . $article['author']);
+
+            $last_update = isset($article) ? $article['lastupdate'] : time();
+            if (!$is_all) {
+                if ($last_update >= $max_date) {
+                    continue;
+                }
+                if ($last_update <= $min_date) {
+                    continue;
+                }
+            }
+
+            if (!isset($source_article_groups[$md5])) {
+                if(in_array($log, [
+                    'Rules\A_xs5300_net.xml',
+                    'Rules\A_biqusk_com.xml'
+                ])){
+                    continue;
+                }
+            }
+
+            $rule_ids[$log->GETID] = date('Y-m-d H:i:s', $last_update);
+        }
+
+        asort($rule_ids);
+        echo implode(',', array_keys($rule_ids));
+    }
+
     public function get_source_list(Request $request)
     {
         $sqlite = $request->get('db_name', date('Ymd'));
