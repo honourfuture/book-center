@@ -207,7 +207,7 @@ class SqliteController extends Controller
             }
 
             if (!isset($source_article_groups[$md5])) {
-                if(in_array($log, [
+                if(in_array($log->RULEFILE, [
                     'Rules\A_xs5300_net.xml',
                     'Rules\A_biqusk_com.xml'
                 ])){
