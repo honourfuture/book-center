@@ -183,7 +183,7 @@ class SqliteController extends Controller
         $source_articles = $source_articles->where('source', 'mayi');
         $source_articles = $source_articles->get();
 
-        $source_article_groups = $source_articles->groupBy(function ($article) {
+        $source_article_groups = $source_articles->keyBy(function ($article) {
             return md5($article->article_name . '-' . $article->author);
         });
 
@@ -214,8 +214,12 @@ class SqliteController extends Controller
                     continue;
                 }
             }
+            $gid = $log->GETID;
+            if(isset($source_article_groups[$md5])){
+                $gid = $source_article_groups[$md5]['article_id'];
+            }
 
-            $rule_ids[$log->GETID] = date('Y-m-d H:i:s', $last_update);
+            $rule_ids[$gid] = date('Y-m-d H:i:s', $last_update);
         }
 
         asort($rule_ids);
