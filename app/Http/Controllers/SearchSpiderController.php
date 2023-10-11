@@ -280,14 +280,19 @@ class SearchSpiderController extends Controller
         });
 
         foreach ($source_article_groups as $key => $source_articles){
+            if($key == '3f8ca62a6da6d8b78a195cf4b5f1e20b'){
+                continue;
+            }
             foreach ($source_articles as $source_article){
                 $sources[$source_article->source][] = $articles[$key]['articleid'];
             }
         }
         $artisans = [];
         foreach ($sources as $source => $article_ids){
+            $count = count($article_ids);
             $article_ids = implode(',', array_unique($article_ids));
-            $artisans[] = sprintf('php74 artisan push:article --site=%s --article_ids=%s', $source, $article_ids);
+            $artisans['artisan'] = sprintf('php74 artisan push:article --site=%s --article_ids=%s', $source, $article_ids);
+            $artisans['count'] = $count;
         }
 
         return view('spider-artisan', [

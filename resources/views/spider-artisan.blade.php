@@ -2,7 +2,7 @@
 @section('content')
     @foreach($artisans as $artisan)
         <div class="mockup-code">
-            <pre data-prefix="$"><code>{{ $artisan }}</code></pre>
+            <pre data-prefix="${{ $artisan['count'] }}"><code>{{ $artisan['artisan'] }}</code></pre>
         </div>
         <div class="mb-4"></div>
     @endforeach
