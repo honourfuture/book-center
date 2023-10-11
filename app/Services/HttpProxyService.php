@@ -11,12 +11,13 @@ namespace App\Services;
 
 
 use GuzzleHttp\Client;
+use Jaeger\Cache;
 
 class HttpProxyService
 {
     public function proxy()
     {
-        $proxy = $this->_api();
+        return $this->_api();
 
         return [
             'ip' => $proxy[0],
@@ -47,6 +48,7 @@ class HttpProxyService
 
     public function _api()
     {
+        return $this->qg();
         return $this->_hide_my_name();
     }
 
@@ -63,4 +65,34 @@ class HttpProxyService
 
         return explode(':', $proxies[$rand]);
     }
+
+    private function qg(){
+        $cacheKey = 'qg_key';
+
+
+        $server = \Illuminate\Support\Facades\Cache::get($cacheKey);
+        // 如果缓存存在，则返回缓存中的server值，否则发送请求获取server值
+        if ($server) {
+            return $server;
+        } else {
+            // 发送请求
+            $client = new Client();
+            $response = $client->get('https://share.proxy.qg.net/get?key=DS2ZMP8Q&num=1&area=&isp=&format=json&seq=&distinct=false&pool=1');
+            // 解析返回的JSON数据
+            $jsonData = $response->getBody();
+            $data = json_decode($jsonData, true);
+
+            // 提取server的值
+            if ($data && isset($data['data'][0]['server'])) {
+                $server = $data['data'][0]['server'];
+
+                // 设置一分钟缓存
+                $minutes = 1;
+                \Illuminate\Support\Facades\Cache::put($cacheKey, $server, $minutes);
+            }
+
+            return $server;
+        }
+    }
+
 }

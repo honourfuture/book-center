@@ -22,12 +22,22 @@ class SpiderService
 
     private $source;
 
+    private $proxy = false;
+
     public function __construct($param)
     {
         $site = $param['site'];
         $this->source = $site;
         $site_config = config("spider");
         $this->config = $site_config[$site];
+
+        if($this->source == 'xwbiquge'){
+            /** @var HttpProxyService $httpProxyService */
+            $httpProxyService = app("HttpProxyService");
+            $proxy = $httpProxyService->proxy();
+            $this->proxy = $proxy;
+        }
+
     }
 
     public function get_article_info($url)
@@ -64,11 +74,17 @@ class SpiderService
             'timeout' => 6.0
         ]);
 
-        $response = $client->request('GET', '', [
+        $options =[
             'query' => [
                 'time' => time(),
             ]
-        ]);
+        ];
+
+        $response = $client->request('GET', '', $options);
+
+        if($this->proxy){
+            $options['proxy'] = $this->proxy;
+        }
         $html = $response->getBody();
 
         if ($this->config['charset'] == 'gbk') {
@@ -110,11 +126,17 @@ class SpiderService
             'timeout' => 6.0
         ]);
 
-        $response = $client->request('GET', '', [
+        $options = [
             'query' => [
                 'time' => time(),
             ]
-        ]);
+        ];
+
+        if($this->proxy){
+            $options['proxy'] = $this->proxy;
+        }
+
+        $response = $client->request('GET', '', $options);
         $html = $response->getBody();
 
         if ($this->config['charset'] == 'gbk') {
