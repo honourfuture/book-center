@@ -87,8 +87,7 @@ class HttpProxyService
                 $server = $data['data'][0]['server'];
 
                 // 设置一分钟缓存
-                $minutes = 1;
-                \Illuminate\Support\Facades\Cache::put($cacheKey, $server, $minutes);
+                \Illuminate\Support\Facades\Cache::put($cacheKey, $server, 60);
             }
 
             return $server;
