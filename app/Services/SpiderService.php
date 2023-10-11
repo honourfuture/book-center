@@ -84,6 +84,10 @@ class SpiderService
 
         if($this->proxy){
             $options['proxy'] = $this->proxy;
+            $proxyAuth = base64_encode('DS2ZMP8Q' . ":" . '5F7CFBFE8427');
+            $options["headers"] = [
+                "Proxy-Authorization" => "Basic " . $proxyAuth
+            ];
         }
         $html = $response->getBody();
 
@@ -134,6 +138,10 @@ class SpiderService
 
         if($this->proxy){
             $options['proxy'] = $this->proxy;
+            $proxyAuth = base64_encode('DS2ZMP8Q' . ":" . '5F7CFBFE8427');
+            $options["headers"] = [
+                "Proxy-Authorization" => "Basic " . $proxyAuth
+            ];
         }
 
         $response = $client->request('GET', '', $options);
