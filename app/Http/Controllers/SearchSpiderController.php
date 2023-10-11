@@ -41,7 +41,7 @@ class SearchSpiderController extends Controller
 
         $bind_sources = $this->_get_bind_sources();
 
-        if($hide_check){
+        if ($hide_check) {
             $check_article_id = isset($bind_sources['local']) ? $bind_sources['local'] : [];
             $article_logs->whereNotIn('articleid', $check_article_id);
         }
@@ -74,7 +74,7 @@ class SearchSpiderController extends Controller
 
             foreach ($sources as $source) {
                 $where_source = $source;
-                if($source == 'do_525uc'){
+                if ($source == 'do_525uc') {
                     $where_source = '525uc';
                 }
                 $source_article = $source_article_groups[$md5]->where('source', $where_source)->first();
@@ -119,7 +119,8 @@ class SearchSpiderController extends Controller
 
     }
 
-    public function do_low_article($id){
+    public function do_low_article($id)
+    {
         $sources = $this->_get_bind_sources();
         $sources['local'][] = $id;
         $json_sources = json_encode($sources);
@@ -264,7 +265,7 @@ class SearchSpiderController extends Controller
             'jieqi_article_article.lastchapter',
             'jieqi_article_article.articlename',
             'jieqi_article_article.lastupdate'
-        ])->whereIn('articleid', $article_ids)->get()->keyBy(function ($article){
+        ])->whereIn('articleid', $article_ids)->get()->keyBy(function ($article) {
             return md5($article->articlename . '-' . $article->author);
         });
 
@@ -279,22 +280,23 @@ class SearchSpiderController extends Controller
             return md5($article->article_name . '-' . $article->author);
         });
 
-        foreach ($source_article_groups as $key => $source_articles){
-            if($key == '3f8ca62a6da6d8b78a195cf4b5f1e20b'){
+        foreach ($source_article_groups as $key => $source_articles) {
+            if ($key == '3f8ca62a6da6d8b78a195cf4b5f1e20b') {
                 continue;
             }
-            foreach ($source_articles as $source_article){
+            foreach ($source_articles as $source_article) {
                 $sources[$source_article->source][] = $articles[$key]['articleid'];
             }
         }
         $artisans = [];
-        foreach ($sources as $source => $article_ids){
-            $count = count($article_ids);
+        foreach ($sources as $source => $article_ids) {
+            $count = count(array_unique($article_ids));
             $article_ids = implode(',', array_unique($article_ids));
-            $artisans['artisan'] = sprintf('php74 artisan push:article --site=%s --article_ids=%s', $source, $article_ids);
-            $artisans['count'] = $count;
+            $artisans[] = [
+                'artisan' => sprintf('php74 artisan push:article --site=%s --article_ids=%s', $source, $article_ids),
+                'count' => $count,
+            ];
         }
-
         return view('spider-artisan', [
             'artisans' => $artisans,
         ]);
