@@ -270,7 +270,7 @@ class SearchSpiderController extends Controller
 
         $source_articles = $articles->pluck('articlename', 'author')->unique()->toArray();
 
-        $source_articles = SourceArticle::whereIn('articleid', $article_ids)
+        $source_articles = SourceArticle::whereIn('local_article_id', $article_ids)
             ->whereIn('source', array_keys($sources))
             ->get();
 

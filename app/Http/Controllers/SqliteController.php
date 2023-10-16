@@ -173,12 +173,8 @@ class SqliteController extends Controller
         }
 
         $nids = array_column($taskLogs, 'NID');
-        $source_articles = Article::select(['articleid', 'lastupdate', 'articlename', 'author'])->whereIn('articleid', $nids)->get();
-        $articles = $source_articles->keyBy('articleid')->toArray();
 
-        $source_articles = $source_articles->pluck('articlename', 'author')->unique()->toArray();
-        $source_articles = SourceArticle::whereIn('author', array_filter(array_keys($source_articles)))
-            ->whereIn('article_name', array_filter(array_values($source_articles)));
+        $source_articles = SourceArticle::whereIn('local_article_id', $nids);
 
         $source_articles = $source_articles->where('source', 'mayi');
         $source_articles = $source_articles->get();
@@ -268,12 +264,8 @@ class SqliteController extends Controller
         }
 
         $nids = array_column($taskLogs, 'NID');
-        $source_articles = Article::select(['articleid', 'lastupdate', 'articlename', 'author'])->whereIn('articleid', $nids)->get();
-        $articles = $source_articles->keyBy('articleid')->toArray();
 
-        $source_articles = $source_articles->pluck('articlename', 'author')->unique()->toArray();
-        $source_articles = SourceArticle::whereIn('author', array_filter(array_keys($source_articles)))
-            ->whereIn('article_name', array_filter(array_values($source_articles)));
+        $source_articles = SourceArticle::whereIn('local_article_id', $nids);
 
         if ($source == 'meigui') {
             $source_articles = $source_articles->where('source', '<>', '9it');
