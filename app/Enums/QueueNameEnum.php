@@ -12,7 +12,9 @@ class QueueNameEnum
     //mayi
     const UPDATE_MAYI_JOB = 'updateMayiJob';
 
-    const UPDATE_XW_BiQuGe_JOB = 'updateXWBiQuGeob';
+    const UPDATE_XW_BiQuGe_JOB = 'updateXWBiQuGeJob';
+
+    const UPDATE_XW_00Shu_JOB = 'update00ShuJob';
 
     const UPDATE_TT_JOB = 'updateTTJob';
 

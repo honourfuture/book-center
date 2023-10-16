@@ -50,9 +50,8 @@ class SearchSpiderController extends Controller
 
         $source_articles = $article_logs->pluck('articlename', 'author')->unique()->toArray();
 
-        $source_articles = SourceArticle::whereIn('author', array_filter(array_keys($source_articles)))
-            ->whereIn('article_name', array_filter(array_values($source_articles)))
-            ->get();
+        $source_artilce_ids = $article_logs->pluck('article_id');
+        $source_articles = SourceArticle::whereIn('local_article_id', $source_artilce_ids)->get();
 
         $source_article_groups = $source_articles->groupBy(function ($article) {
             return md5($article->article_name . '-' . $article->author);
@@ -245,7 +244,7 @@ class SearchSpiderController extends Controller
 
         $article_ids = NginxAccessLog::groupBy('article_id')->pluck('article_id');
 
-        $sources = ['mayi' => [], 'tt' => [], 'xwbiquge' => []];
+        $sources = ['mayi' => [], 'tt' => [], 'xwbiquge' => [], '00shu' => []];
         $taskLogs = [];
         foreach ($sqlites as $sqlite) {
             $taskLog = DB::connection($sqlite)->table('taskLog')
@@ -271,8 +270,7 @@ class SearchSpiderController extends Controller
 
         $source_articles = $articles->pluck('articlename', 'author')->unique()->toArray();
 
-        $source_articles = SourceArticle::whereIn('author', array_filter(array_keys($source_articles)))
-            ->whereIn('article_name', array_filter(array_values($source_articles)))
+        $source_articles = SourceArticle::whereIn('articleid', $article_ids)
             ->whereIn('source', array_keys($sources))
             ->get();
 

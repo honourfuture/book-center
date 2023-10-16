@@ -24,6 +24,7 @@ class SourceEnum
         '4ksw',
         'kdzw',
         'local',
+        '00shu',
         'do_525uc'
     ];
 }

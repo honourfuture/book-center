@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Article;
 use App\Models\NginxAccessLog;
 use App\Models\SourceArticle;
 use Diwms\NginxLogAnalyzer\Parse;
@@ -44,6 +45,16 @@ class SourceUpdate extends Command
      */
     public function handle()
     {
+        Article::select(['articleid', 'articlename', 'author'])->orderBy('articleid', 'asc')->chunk(500, function ($artciles){
+            foreach ($artciles as $artcile){
+                $this->info("{$artcile->articleid} {$artcile->articlename}");
+                SourceArticle::where('article_name', $artcile->articlename)->where('author', $artcile->author)->update([
+                    'local_article_id' => $artcile->articleid
+                ]);
+            }
+        });
+        die;
+
         $source_articles = SourceArticle::select('*')->whereNull('article_id')->chunk(1000, function ($source_articles) {
 
             foreach ($source_articles as $article) {
