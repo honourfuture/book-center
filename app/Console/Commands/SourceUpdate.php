@@ -47,9 +47,12 @@ class SourceUpdate extends Command
     public function handle()
     {
         $type = $this->option('type');
+        if(!$type || !in_array($type, ['all', 'append'])){
+            $this->error("type值 [all] [append]");
+        }
 
         $article_model = Article::select(['articleid', 'articlename', 'author'])->orderBy('articleid', 'asc');
-        if($type == 'continue'){
+        if($type == 'append'){
             $max_id = SourceArticle::select([DB::raw('max(local_article_id) as id')])->first();
             $article_model = $article_model->where('local_article_id', '>', $max_id);
         }

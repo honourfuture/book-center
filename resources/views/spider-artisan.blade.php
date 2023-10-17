@@ -10,14 +10,20 @@
     <div class="mb-4"></div>
     <div class="mockup-code">
         <pre data-prefix="$"><code>service:(nginx_log_source OR nginx_log_source_tianz) @http.referer:(*sm.cn* OR *m.baidu.com* OR *sogou.com*)</code></pre>
+
+        <pre data-prefix="$"><code>service:nginx_log_source @http.useragent_details.device.brand:Spider </code></pre>
     </div>
     <div class="mb-4"></div>
 
     <div class="mb-4"></div>
     <div class="mockup-code">
-        <pre data-prefix="$"><code>php74 artisan fix:chapter --site=mayi --article_id=66637</code></pre>
-        <pre data-prefix="$"><code>php74 artisan fix:chapter --site=tt --article_id=66637</code></pre>
-        <pre data-prefix="$"><code>php74 artisan fix:chapter --site=xwbiquge --article_id=66637</code></pre>
+        <pre data-prefix="$"><code>php74 artisan fix:chapter --site=mayi --article_id= </code></pre>
+        <pre data-prefix="$"><code>php74 artisan fix:chapter --site=tt --article_id= </code></pre>
+        <pre data-prefix="$"><code>php74 artisan fix:chapter --site=xwbiquge --article_id= </code></pre>
+        <pre data-prefix="$"><code>php74 artisan fix:chapter --site=00shu --article_id= </code></pre>
+
+        <pre data-prefix="$"><code>php74 artisan source:update --type=append</code></pre>
+
     </div>
     <div class="mb-4"></div>
 
@@ -54,8 +60,6 @@
                 pm2 start page.js
                 pm2 monit
 
-
-
                  npm config set puppeteer_download_host=https://npm.taobao.org/mirrors
                  npm config set registry https://registry.npm.taobao.org
 
@@ -76,7 +80,6 @@
                     "puppeteer": "^10.4.0"
                   }
                 }
-
 
                 cd remote-origin
                 npm install express puppeteer
