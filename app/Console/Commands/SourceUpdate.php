@@ -20,14 +20,14 @@ class SourceUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'source:update';
+    protected $signature = 'source:update {--type=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'source:update {--type=}';
+    protected $description = 'source:update';
 
     /**
      * Create a new command instance.
