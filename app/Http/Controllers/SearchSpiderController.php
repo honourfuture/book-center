@@ -240,23 +240,27 @@ class SearchSpiderController extends Controller
     public function get_artisan(Request $request)
     {
         $sqlite = $request->get('db_name', date('Ymd'));
+        $is_spider = $request->get('is_spider', 0);
         $sqlites = explode(',', $sqlite);
 
         $article_ids = NginxAccessLog::groupBy('article_id')->pluck('article_id');
 
         $sources = ['mayi' => [], 'tt' => [], 'xwbiquge' => [], '00shu' => []];
-        $taskLogs = [];
-        foreach ($sqlites as $sqlite) {
-            $taskLog = DB::connection($sqlite)->table('taskLog')
-                ->whereIn('EXID', [120])
-                ->where('TASKFILE', '<>', 'C:\Users\Administrator\Desktop\方案\kdzw\kdzw_go.xml')
-                ->whereIn('RULEFILE', RuleEnum::MAYI_AUTO)
-                ->get()
-                ->toArray();
 
-            $taskLogs = array_merge($taskLogs, $taskLog);
+        if(!$is_spider){
+            $taskLogs = [];
+            foreach ($sqlites as $sqlite) {
+                $taskLog = DB::connection($sqlite)->table('taskLog')
+                    ->whereIn('EXID', [120])
+                    ->where('TASKFILE', '<>', 'C:\Users\Administrator\Desktop\方案\kdzw\kdzw_go.xml')
+                    ->whereIn('RULEFILE', RuleEnum::MAYI_AUTO)
+                    ->get()
+                    ->toArray();
+
+                $taskLogs = array_merge($taskLogs, $taskLog);
+            }
+            $sources['mayi'] = array_column($taskLogs, 'NID');
         }
-        $sources['mayi'] = array_column($taskLogs, 'NID');
 
         $articles = Article::select([
             'jieqi_article_article.articleid',
