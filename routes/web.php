@@ -15,7 +15,7 @@ use Inertia\Inertia;
 |
 */
 Route::get('/get-empty-article', [\App\Http\Controllers\SqliteController::class, 'get_empty_article']);
-Route::get('/get-tieshu', [\App\Http\Controllers\SqliteController::class, 'get_tieshu']);
+Route::get('/get-add', [\App\Http\Controllers\SqliteController::class, 'get_add']);
 
 //获取120错误
 Route::get('/get-tieshu-list', [\App\Http\Controllers\SqliteController::class, 'get_tieshu_list']);

@@ -27,8 +27,9 @@ class RuleEnum
         'Rules\A_mayiwxw_com.xml',
         'Rules\A_mayiwxw_com_add.xml',
         'Rules\A_mayiwxw_com_update.xml',
-        'Rules\A_xs5300_net.xml',
-        'Rules\A_biqusk_com.xml'
+        'Rules\A_biqusk_com.xml',
+        'Rules\p1_biqusk_com.xml'
+
     ];
 
     const TT = ['Rules\m_ttshuba_org.xml'];

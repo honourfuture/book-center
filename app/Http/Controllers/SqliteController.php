@@ -83,20 +83,48 @@ class SqliteController extends Controller
         }
     }
 
-    public function get_tieshu()
+    public function get_add(Request $request)
     {
-        $taskLog = DB::connection('20230725')->table('taskLog')
-            ->whereIn('EXID', [120])
-            ->where('TASKFILE', '<>', 'C:\Users\Administrator\Desktop\方案\kdzw\kdzw_go.xml')
-            ->where('RULEFILE', 'Rules\kdzw_net.xml')
-            ->get()
-            ->toArray();
+        $source = $request->get('source', 'mayi');
+        $sqlite = $request->get('db_name', date('Ymd'));
+        $sqlites = explode(',', $sqlite);
 
-        foreach ($taskLog as $log) {
-            $update[] = $log->GETID;
+        $rules = [
+            'mayi' => RuleEnum::MA_YI,
+            'tt' => RuleEnum::TT,
+            'lwxs' => ['Rules\S_www_lwxs_com.xml'],
+            '4ksw' => ['Rules\lewen2_com_gz.xml', 'Rules\4ksw_com.xml'],
+            'bixia' => ['Rules\v2_bixia66.xml'],
+            'bqg789_co' => ['Rules\p1_bqg789_co.xml', 'Rules\bqg789_co.xml'],
+            '69shu' => ['Rules\p1_69shu_com.xml'],
+            'meigui' => ['Rules\jj_meiguixs_net.xml', 'Rules\jj_meiguixs_net_v1.xml', 'Rules\jj_meiguixs_net_v2.xml'],
+            'kdzw' => ['Rules\kdzw_net.xml'],
+            '9it' => ['Rules\9itan_cc.xml'],
+            'biquge5200' => ['Rules\biquge5200_cc.xml'],
+        ];
+        $taskLogs = [];
+        foreach ($sqlites as $sqlite) {
+            $taskLog = DB::connection($sqlite)->table('taskLog')
+                ->whereIn('EXID', [120])
+                ->whereIn('RULEFILE', $rules[$source])
+                ->get()
+                ->toArray();
+
+            $taskLogs = array_merge($taskLogs, $taskLog);
         }
 
-        print_r(implode(',', $update));
+        $source_article_ids = [];
+        foreach ($taskLogs as $log) {
+            $source_article_ids[] = $log->GETID;
+        }
+
+        $add_article_ids = SourceArticle::select('article_id')
+            ->whereIn('article_id', $source_article_ids)
+            ->where('source', $source)
+            ->where('local_article_id', 0)
+            ->get()->toArray();
+
+        print_r(implode(',', $add_article_ids));
     }
 
     public function get_empty_article()
@@ -173,6 +201,8 @@ class SqliteController extends Controller
         }
 
         $nids = array_column($taskLogs, 'NID');
+        $source_articles = Article::select(['articleid', 'lastupdate', 'articlename', 'author'])->whereIn('articleid', $nids)->get();
+        $articles = $source_articles->keyBy('articleid')->toArray();
 
         $source_articles = SourceArticle::whereIn('local_article_id', $nids);
 
@@ -205,7 +235,10 @@ class SqliteController extends Controller
             if (!isset($source_article_groups[$md5])) {
                 if(in_array($log->RULEFILE, [
                     'Rules\A_xs5300_net.xml',
-                    'Rules\A_biqusk_com.xml'
+                    'Rules\A_biqusk_com.xml',
+                    'Rules\A_biqusk_com.xml',
+                    'Rules\p1_biqusk_com.xml'
+
                 ])){
                     continue;
                 }

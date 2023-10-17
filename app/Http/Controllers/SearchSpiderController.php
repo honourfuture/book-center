@@ -268,8 +268,6 @@ class SearchSpiderController extends Controller
             return md5($article->articlename . '-' . $article->author);
         });
 
-        $source_articles = $articles->pluck('articlename', 'author')->unique()->toArray();
-
         $source_articles = SourceArticle::whereIn('local_article_id', $article_ids)
             ->whereIn('source', array_keys($sources))
             ->get();

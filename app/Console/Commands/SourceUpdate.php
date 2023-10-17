@@ -10,6 +10,7 @@ use Diwms\NginxLogAnalyzer\NginxAccessLogFormat;
 use Diwms\NginxLogAnalyzer\RegexPattern;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class SourceUpdate extends Command
@@ -26,7 +27,7 @@ class SourceUpdate extends Command
      *
      * @var string
      */
-    protected $description = 'source:update';
+    protected $description = 'source:update {--type=}';
 
     /**
      * Create a new command instance.
@@ -45,7 +46,15 @@ class SourceUpdate extends Command
      */
     public function handle()
     {
-        Article::select(['articleid', 'articlename', 'author'])->orderBy('articleid', 'asc')->chunk(500, function ($artciles){
+        $type = $this->option('type');
+
+        $article_model = Article::select(['articleid', 'articlename', 'author'])->orderBy('articleid', 'asc');
+        if($type == 'continue'){
+            $max_id = SourceArticle::select([DB::raw('max(local_article_id) as id')])->first();
+            $article_model = $article_model->where('local_article_id', '>', $max_id);
+        }
+
+        $article_model->chunk(500, function ($artciles){
             foreach ($artciles as $artcile){
                 $this->info("{$artcile->articleid} {$artcile->articlename}");
                 SourceArticle::where('article_name', $artcile->articlename)->where('author', $artcile->author)->update([
