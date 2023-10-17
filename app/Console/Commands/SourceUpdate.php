@@ -54,7 +54,7 @@ class SourceUpdate extends Command
         $article_model = Article::select(['articleid', 'articlename', 'author'])->orderBy('articleid', 'asc');
         if($type == 'append'){
             $max_id = SourceArticle::select([DB::raw('max(local_article_id) as id')])->first();
-            $article_model = $article_model->where('local_article_id', '>', $max_id);
+            $article_model = $article_model->where('articleid', '>', $max_id);
         }
 
         $article_model->chunk(500, function ($artciles){
