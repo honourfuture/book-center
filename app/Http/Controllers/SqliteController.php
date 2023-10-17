@@ -122,7 +122,7 @@ class SqliteController extends Controller
             ->whereIn('article_id', $source_article_ids)
             ->where('source', $source)
             ->where('local_article_id', 0)
-            ->get()->toArray();
+            ->pluck('article_id')->toArray();
 
         print_r(implode(',', $add_article_ids));
     }
