@@ -13,6 +13,8 @@ namespace App\Services;
 use App\Models\Article;
 use App\Models\OriginArticleId;
 use App\Models\SourceArticle;
+use GuzzleHttp\Pool;
+use GuzzleHttp\Psr7\Request;
 use QL\QueryList;
 use GuzzleHttp\Client;
 
@@ -68,7 +70,28 @@ class SpiderService
     }
 
 
-    public function get_article($url)
+    public function get_69shu($url)
+    {
+        $client = new Client([
+            'base_uri' => $url,
+            'timeout' => 6.0
+        ]);
+
+        $options =[
+            'query' => [
+                'time' => time(),
+            ]
+        ];
+        $request = new Request('GET', $url, $options);
+
+        $promise = $client->sendAsync($request)->then(function ($response) {
+            return $response->getBody()->getContents();
+        });
+
+        return $promise->wait();
+    }
+
+    public function get_other($url)
     {
         $client = new Client([
             'base_uri' => $url,
@@ -83,15 +106,16 @@ class SpiderService
 
         $response = $client->request('GET', '', $options);
 
-//        if($this->proxy){
-//            $options['proxy'] = $this->proxy;
-//            $proxyAuth = base64_encode('DS2ZMP8Q' . ":" . '5F7CFBFE8427');
-//            $options["headers"] = [
-//                "Proxy-Authorization" => "Basic " . $proxyAuth
-//            ];
-//        }
+        return $response->getBody();
+    }
 
-        $html = $response->getBody();
+    public function get_article($url)
+    {
+        if($this->source == '69shu'){
+            $html = $this->get_69shu($url);
+        }else{
+            $html = $this->get_other($url);
+        }
 
         if ($this->config['charset'] == 'gbk') {
             $html = iconv('gbk', 'utf-8//IGNORE', $html);
@@ -124,30 +148,11 @@ class SpiderService
 
     public function get_chapter($url, $content = '')
     {
-        /** @var HttpProxyService $httpProxyService */
-        $httpProxyService = app('HttpProxyService');
-        $user_agent = $httpProxyService->user_agent();
-        $client = new Client([
-            'base_uri' => $url,
-            'timeout' => 6.0
-        ]);
-
-        $options = [
-            'query' => [
-                'time' => time(),
-            ]
-        ];
-
-//        if($this->proxy){
-//            $options['proxy'] = $this->proxy;
-//            $proxyAuth = base64_encode('DS2ZMP8Q' . ":" . '5F7CFBFE8427');
-//            $options["headers"] = [
-//                "Proxy-Authorization" => "Basic " . $proxyAuth
-//            ];
-//        }
-
-        $response = $client->request('GET', '', $options);
-        $html = $response->getBody();
+        if($this->source == '69shu'){
+            $html = $this->get_69shu($url);
+        }else{
+            $html = $this->get_other($url);
+        }
 
         if ($this->config['charset'] == 'gbk') {
             $html = iconv('gbk', 'utf-8//IGNORE', $html);
