@@ -20,6 +20,7 @@
         <pre data-prefix="$"><code>php74 artisan fix:chapter --site=mayi --article_id= </code></pre>
         <pre data-prefix="$"><code>php74 artisan fix:chapter --site=tt --article_id= </code></pre>
         <pre data-prefix="$"><code>php74 artisan fix:chapter --site=xwbiquge --article_id= </code></pre>
+        <pre data-prefix="$"><code>php74 artisan fix:chapter --site=69shu --article_id= </code></pre>
         <pre data-prefix="$"><code>php74 artisan fix:chapter --site=00shu --article_id= </code></pre>
 
         <pre data-prefix="$"><code>php74 artisan source:update --type=append</code></pre>

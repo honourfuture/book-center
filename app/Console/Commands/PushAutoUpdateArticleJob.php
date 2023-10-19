@@ -6,6 +6,7 @@ use App\Enums\QueueNameEnum;
 use App\Jobs\AutoArticle00ShuJob;
 use App\Jobs\AutoArticleMayiJob;
 use App\Jobs\AutoArticleTTJob;
+use App\Jobs\AutoArticle69ShuJob;
 
 use App\Jobs\AutoArticleXWBiQuGeJob;
 use Illuminate\Console\Command;
@@ -66,6 +67,9 @@ class PushAutoUpdateArticleJob extends Command
                     break;
                 case '00shu':
                     dispatch((new AutoArticle00ShuJob($article_id, $site))->onQueue(QueueNameEnum::UPDATE_XW_00Shu_JOB));
+                    break;
+                case '69shu':
+                    dispatch((new AutoArticle69ShuJob($article_id, $site))->onQueue(QueueNameEnum::UPDATE_69SHU_JOB));
                     break;
             }
         }
