@@ -245,7 +245,7 @@ class SearchSpiderController extends Controller
 
         $article_ids = NginxAccessLog::groupBy('article_id')->pluck('article_id');
 
-        $sources = ['mayi' => [], 'tt' => [], 'xwbiquge' => [], '00shu' => []];
+        $sources = ['mayi' => [], 'tt' => [], 'xwbiquge' => [], '00shu' => [], '69shu' => []];
 
         if(!$is_spider){
             $taskLogs = [];
