@@ -15,6 +15,7 @@ class SourceArticleController extends Controller
     {
         $max_id = $request->get('max_id');
         $source = $request->get('source');
+        $min_id = $request->get('min_id', 1);
 
         if(!$max_id || !$source){
             echo "max_id source is not empty";
@@ -29,7 +30,7 @@ class SourceArticleController extends Controller
         ];
 
         $article_ids = [];
-        for($i = 1; $i <= $max_id; $i++){
+        for($i = $min_id; $i <= $max_id; $i++){
             $article_ids[] = $i;
         }
 
