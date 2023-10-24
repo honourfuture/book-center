@@ -16,6 +16,7 @@ class SourceArticleController extends Controller
         $max_id = $request->get('max_id');
         $source = $request->get('source');
         $min_id = $request->get('min_id', 1);
+        $prefix = $request->get('prefix', 99);
 
         if(!$max_id || !$source){
             echo "max_id source is not empty";
@@ -31,7 +32,7 @@ class SourceArticleController extends Controller
 
         $article_ids = [];
         for($i = $min_id; $i <= $max_id; $i++){
-            $article_ids[] = $i;
+            $article_ids[] = $prefix.$i;
         }
 
         $source_article_ids = SourceArticle::select('article_id')->where('source', $source)->pluck('article_id')->toArray();
