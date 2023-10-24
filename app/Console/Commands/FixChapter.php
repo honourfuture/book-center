@@ -53,6 +53,9 @@ class FixChapter extends Command
         $article_id = $this->option('article_id');
         $site = $this->option('site');
         $limit = $this->option('limit');
+        if(!$limit){
+            $limit = 0;
+        }
         if (!$site) {
             $site = 'mayi';
         }

@@ -18,7 +18,7 @@ class PushAutoUpdateArticleJob extends Command
      *
      * @var string
      */
-    protected $signature = 'push:article {--article_ids=} {--site=}';
+    protected $signature = 'push:article {--article_ids=} {--site=} {--limit=}';
 
     /**
      * The console command description.
@@ -49,7 +49,11 @@ class PushAutoUpdateArticleJob extends Command
         $article_ids = explode(',', $article_ids);
 
         $site = $this->option('site');
+        $limit = $this->option('limit');
 
+        if(!$limit){
+            $limit = 0;
+        }
         if(!$site){
             $site = 'mayi';
         }
@@ -57,19 +61,19 @@ class PushAutoUpdateArticleJob extends Command
         foreach ($article_ids as $article_id) {
             switch ($site) {
                 case 'mayi':
-                    dispatch((new AutoArticleMayiJob($article_id, $site))->onQueue(QueueNameEnum::UPDATE_MAYI_JOB));
+                    dispatch((new AutoArticleMayiJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_MAYI_JOB));
                     break;
                 case 'tt':
-                    dispatch((new AutoArticleTTJob($article_id, $site))->onQueue(QueueNameEnum::UPDATE_TT_JOB));
+                    dispatch((new AutoArticleTTJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_TT_JOB));
                     break;
                 case 'xwbiquge':
-                    dispatch((new AutoArticleXWBiQuGeJob($article_id, $site))->onQueue(QueueNameEnum::UPDATE_XW_BiQuGe_JOB));
+                    dispatch((new AutoArticleXWBiQuGeJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_XW_BiQuGe_JOB));
                     break;
                 case '00shu':
-                    dispatch((new AutoArticle00ShuJob($article_id, $site))->onQueue(QueueNameEnum::UPDATE_XW_00Shu_JOB));
+                    dispatch((new AutoArticle00ShuJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_XW_00Shu_JOB));
                     break;
                 case '69shu':
-                    dispatch((new AutoArticle69ShuJob($article_id, $site))->onQueue(QueueNameEnum::UPDATE_69SHU_JOB));
+                    dispatch((new AutoArticle69ShuJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_69SHU_JOB));
                     break;
             }
         }
