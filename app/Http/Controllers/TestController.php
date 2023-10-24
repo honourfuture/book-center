@@ -6,18 +6,62 @@ use App\Models\Chapter;
 use App\Models\ErrorChapter;
 use App\Models\HandArticle;
 use App\Services\ExcellentArticleService;
+use App\Services\HttpProxyService;
 use App\Services\SpiderService;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use QL\QueryList;
 use function Livewire\str;
 
 class TestController extends Controller
 {
     public function test()
     {
+
+        /** @var HttpProxyService $httpProxyService */
+        $httpProxyService = app("HttpProxyService");
+
+        for ($i = 7; $i< 488; $i++){
+            $proxy = $httpProxyService->proxy();
+            $proxyAuth = base64_encode('DS2ZMP8Q' . ":" . '5F7CFBFE8427');
+            $url = "https://top.aizhan.com/top/t3-15/p{$i}.html";
+
+            try {
+                $rt = QueryList::get($url, [], [
+                    'proxy' => "http://".$proxy,
+                    'headers' => [
+                        'User-Agent' =>  $httpProxyService->user_agent(),
+                        'Accept-Encoding' => 'gzip, deflate, br',
+                        "Proxy-Authorization" => "Basic " . $proxyAuth
+                    ],
+                    'timeout' => 30,
+                ]);
+                $rt = $rt->rules([
+                    'name' => ['a', 'text'],
+                    'domain' => ['em', 'text'],
+                ])
+                    ->range('.text>h2')->query()->getData();
+
+                print_r($rt);die;
+                foreach ($rt as $value){
+                    $info = [ $value['name'].'-'.$value['domain'] ];
+                    logger('success', $info);
+                }
+                sleep(3);
+                die;
+            }catch (\Exception $exception){
+                sleep(1);
+                print_r($exception->getMessage());
+                logger('error', [$url]);
+                die;
+//                print_r($exception->getMessage());
+            }
+        }
+
+        die;
         $client = new Client([
             'base_uri' => 'https://www.mayiwxw.com/115_115985/index.html',
             'timeout' => 3.0
@@ -28,7 +72,8 @@ class TestController extends Controller
                 'time' => time(),
             ]
         ]);
-        echo $response->getBody();die;
+        echo $response->getBody();
+        die;
         $opts = [
             'http' => [
                 'header' => 'Content-Type: text/html; charset=utf-8'
@@ -36,7 +81,8 @@ class TestController extends Controller
         ];
         $context = stream_context_create($opts);
         $content = file_get_contents('http://www.mayiwxw.com/115_115985/index.html', false, $context);
-        echo $content;die;
+        echo $content;
+        die;
         Artisan::call("fix:chapter", [
             '--article_id' => 1703,
             '--site' => 'xwbiquge',
@@ -65,14 +111,15 @@ class TestController extends Controller
             '第195章 盘古心脏',
         ];
 
-        foreach ($chapterNames as $chapterName){
+        foreach ($chapterNames as $chapterName) {
             $convertedChapterName = $this->convertChapterNameToChinese($chapterName);
             echo $convertedChapterName . "\n";
         }
 
     }
 
-    function numberToChinese($number) {
+    function numberToChinese($number)
+    {
         $chineseNumArr = array('零', '一', '二', '三', '四', '五', '六', '七', '八', '九');
         $chineseUnitArr = array('', '十', '百', '千', '万');
         $chineseNumber = '';
@@ -95,7 +142,8 @@ class TestController extends Controller
         return $chineseNumber;
     }
 
-    function convertChapterNameToChinese($chapterName) {
+    function convertChapterNameToChinese($chapterName)
+    {
         $pattern = '/第(\d+)章/';
         preg_match_all($pattern, $chapterName, $matches);
 

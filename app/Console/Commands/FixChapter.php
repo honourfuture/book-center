@@ -20,7 +20,7 @@ class FixChapter extends Command
      *
      * @var string
      */
-    protected $signature = 'fix:chapter {--article_id=} {--site=}';
+    protected $signature = 'fix:chapter {--article_id=} {--site=} {--limit=}';
 
     /**
      * The console command description.
@@ -52,6 +52,7 @@ class FixChapter extends Command
     {
         $article_id = $this->option('article_id');
         $site = $this->option('site');
+        $limit = $this->option('limit');
         if (!$site) {
             $site = 'mayi';
         }
@@ -72,7 +73,7 @@ class FixChapter extends Command
 
         /** @var ErrorArticleService $error_article_service */
         $error_article_service = app('ErrorArticleService');
-        $chapters = $error_article_service->check_error_chapters($article);
+        $chapters = $error_article_service->check_error_chapters($article, $limit);
 
 
         $right_chapters = $chapters->where('is_error_chapter', 0);

@@ -15,18 +15,22 @@ use Illuminate\Support\Facades\Storage;
 
 class ErrorArticleService
 {
-    public function check_error_chapters($article)
+    public function check_error_chapters($article, $limit = 0)
     {
         $article_id = $article->articleid;
 
         $chapters = Chapter::select([
-            'chapterid', 'articleid',
+            'chapterid', 'articleid', 'error_nums',
             'chaptername', 'lastupdate', 'chapterorder'
         ])->where('articleid', $article_id)
             ->where('chaptertype', 0)
             ->where('is_right', 0)
-            ->orderBy('chapterorder', 'desc')
-            ->get();
+            ->orderBy('chapterorder', 'desc');
+
+        if($limit){
+            $chapters = $chapters->limit($limit);
+        }
+        $chapters = $chapters->get();
 
         $short_id = intval($article->articleid / 1000);
 
@@ -95,6 +99,9 @@ class ErrorArticleService
             return 1;
         }
         if (strpos($content, "我是一个失败者") !== false) {
+            return 1;
+        }
+        if (strpos($content, "普通的小红狐") !== false) {
             return 1;
         }
         if (strpos($content, "作为捕蛇者") !== false) {

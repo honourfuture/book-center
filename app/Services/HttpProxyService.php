@@ -61,37 +61,26 @@ class HttpProxyService
             '185.238.214.96:48641',
         ];
 
-        $rand = rand(0,1);
+        $rand = rand(0, 1);
 
         return explode(':', $proxies[$rand]);
     }
 
-    private function qg(){
-        $cacheKey = 'qg_key';
+    private function qg()
+    {
+        // 发送请求
+        $client = new Client();
+        $response = $client->get('https://share.proxy.qg.net/get?key=DS2ZMP8Q&num=1&area=&isp=&format=json&seq=&distinct=false&pool=1');
+        // 解析返回的JSON数据
+        $jsonData = $response->getBody();
+        $data = json_decode($jsonData, true);
 
-
-        $server = \Illuminate\Support\Facades\Cache::get($cacheKey);
-        // 如果缓存存在，则返回缓存中的server值，否则发送请求获取server值
-        if ($server) {
-            return $server;
-        } else {
-            // 发送请求
-            $client = new Client();
-            $response = $client->get('https://share.proxy.qg.net/get?key=DS2ZMP8Q&num=1&area=&isp=&format=json&seq=&distinct=false&pool=1');
-            // 解析返回的JSON数据
-            $jsonData = $response->getBody();
-            $data = json_decode($jsonData, true);
-
-            // 提取server的值
-            if ($data && isset($data['data'][0]['server'])) {
-                $server = $data['data'][0]['server'];
-
-                // 设置一分钟缓存
-                \Illuminate\Support\Facades\Cache::put($cacheKey, $server, 60);
-            }
-
-            return $server;
+        // 提取server的值
+        if ($data && isset($data['data'][0]['server'])) {
+            $server = $data['data'][0]['server'];
         }
+
+        return $server;
     }
 
 }

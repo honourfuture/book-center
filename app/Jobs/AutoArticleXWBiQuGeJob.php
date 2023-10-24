@@ -21,16 +21,18 @@ class AutoArticleXWBiQuGeJob implements ShouldQueue
     private $article_id;
 
     private $site;
+    private $limit;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($article_id, $site)
+    public function __construct($article_id, $site, $limit = 0)
     {
         $this->article_id = $article_id;
         $this->site = $site;
+        $this->limit = $limit;
     }
 
     /**
@@ -44,6 +46,7 @@ class AutoArticleXWBiQuGeJob implements ShouldQueue
             Artisan::call("fix:chapter", [
                 '--article_id' => $this->article_id,
                 '--site' => $this->site,
+                '--limit' => $this->limit,
             ]);
         } catch (FixChapterException $e) {
         }

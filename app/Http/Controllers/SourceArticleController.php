@@ -25,6 +25,7 @@ class SourceArticleController extends Controller
             'mayi' => 'https://www.mayiwxw.com/109_{article_id}/index.html',
             'tt' => 'https://www.ttshuba.org/info-{article_id}.html',
             'xwbiquge' => 'http://www.xwbiquge.com/biquge_{article_id}/',
+            '69shuba' => 'https://www.69shuba.com/book/{article_id}.htm',
         ];
 
         $article_ids = [];
