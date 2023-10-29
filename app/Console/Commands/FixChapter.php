@@ -147,6 +147,11 @@ class FixChapter extends Command
                 continue;
             }
 
+            if($chapter->error_nums > 15){
+                $this->_error_log("[{$article_id}] [10003] [{$chapter->chapterid} - {$chapter->chaptername}]错误次数过多跳出");
+                continue;
+            }
+
             $chapter_name = clear_text($chapter->chaptername);
 
             if(isset($full_origin_chapters[$chapter_name])){

@@ -20,6 +20,8 @@ class TestController extends Controller
 {
     public function test()
     {
+        Artisan::call("collect:article", []);
+        die;
 
         /** @var HttpProxyService $httpProxyService */
         $httpProxyService = app("HttpProxyService");

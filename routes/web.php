@@ -48,6 +48,8 @@ Route::get('/fl-article-list', [\App\Http\Controllers\ArticleController::class, 
 
 //static
 Route::get('/static', [\App\Http\Controllers\StaticController::class, 'build_static']);
+Route::get('/update-article', [\App\Http\Controllers\StaticController::class, 'update_article']);
+Route::get('/update-article-crontab', [\App\Http\Controllers\StaticController::class, 'update_article_crontab']);
 //source
 Route::get('/create-source/{id}', [\App\Http\Controllers\ArticleController::class, 'create_source_article'])->name('create-source');
 Route::post('/do-create-source-article', [\App\Http\Controllers\ArticleController::class, 'do_create_source_article'])->name('do-create-source-article');
