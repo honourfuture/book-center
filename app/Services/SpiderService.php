@@ -33,13 +33,6 @@ class SpiderService
         $site_config = config("spider");
         $this->config = $site_config[$site];
 
-        if($this->source == 'xwbiquge'){
-//            /** @var HttpProxyService $httpProxyService */
-//            $httpProxyService = app("HttpProxyService");
-//            $proxy = $httpProxyService->proxy();
-//            $this->proxy = $proxy;
-
-        }
 
     }
 
@@ -111,7 +104,7 @@ class SpiderService
 
     public function get_article($url)
     {
-        if($this->source == '69shu'){
+        if($this->source == '69shu' || $this->source == 'xwbiquge'){
             $html = $this->get_69shu($url);
         }else{
             $html = $this->get_other($url);
@@ -148,7 +141,7 @@ class SpiderService
 
     public function get_chapter($url, $content = '')
     {
-        if($this->source == '69shu'){
+        if($this->source == '69shu' || $this->source == 'xwbiquge'){
             $html = $this->get_69shu($url);
         }else{
             $html = $this->get_other($url);

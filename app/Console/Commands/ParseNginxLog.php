@@ -65,18 +65,19 @@ class ParseNginxLog extends Command
                 $timestamp = date('Y-m-d H:i:s', strtotime($date));
 
                 $date = date('Y-m-d', strtotime($date));
-                $article_id = 0;
-                if (strpos($log['url'], 'read') !== false) {
-                    preg_match('/read\/(\d+)\//', $log['url'], $matches);
-                    if (isset($matches[1])) {
+                if(strpos($log['url'], 'read') !== false){
+                        preg_match('/read\/(\d+)\//', $log['url'], $matches);
+                        if(!isset($matches[1])){
+                            continue;
+                        }
                         $article_id = $matches[1];
                         $article_id = $article_id - 5;
-                    }
-                } else {
+                }else {
                     preg_match('/\/\d+_(\d+)\//', $log['url'], $matches);
-                    if (isset($matches[1])) {
-                        $article_id = $matches[1];
+                    if(!isset($matches[1])){
+                        continue;
                     }
+                    $article_id = $matches[1];
                 }
 
                 $source = 'Baidu';
