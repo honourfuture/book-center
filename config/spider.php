@@ -117,7 +117,7 @@ return [
         'name' => '69shu',
         'charset' => 'gbk',
         'domain' => 'http://46.149.201.72/q.php?url=https://www.69shuba.com',
-        'url' => 'http://46.149.201.72/q.php?url=',
+        'url' => 'http://46.149.201.72/q.php?url=https://www.69shuba.com',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(11)', 'content'],
             'author' => ['meta:eq(10)', 'content'],
@@ -160,8 +160,8 @@ return [
     'xwbiquge' => [
         'name' => 'xwbiquge',
         'charset' => 'utf-8',
-        'domain' => 'http://www.xwbiquge.com',
-        'url' => 'http://www.xwbiquge.com',
+        'domain' => 'http://81.68.159.206/remote-site?target=http://www.xwbiquge.com',
+        'url' => 'http://81.68.159.206/remote-site?target=http://www.xwbiquge.com',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(14)', 'content'],
             'author' => ['meta:eq(12)', 'content'],
@@ -178,7 +178,7 @@ return [
 
         'get_chapter_find' => '#booktxt:text',
 
-        'article_url' => "http://www.xwbiquge.com/biquge_{--article_id--}/",
+        'article_url' => "http://81.68.159.206/remote-site?target=http://www.xwbiquge.com/biquge_{--article_id--}/",
 
         'content_preg' => function ($text) {
             $text = str_replace([

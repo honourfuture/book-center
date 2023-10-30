@@ -40,8 +40,8 @@ class AutoArticleAllJob implements ShouldQueue
             $configs = config("spider");
             $sites = array_keys($configs);
             foreach ($sites as $site){
-                Artisan::call("fix:chapter", [
-                    '--article_id' => $this->article_id,
+                Artisan::call("push:article", [
+                    '--article_ids' => $this->article_id,
                     '--site' => $site,
                     '--limit' => 30,
                 ]);
