@@ -32,8 +32,6 @@ class SpiderService
         $this->source = $site;
         $site_config = config("spider");
         $this->config = $site_config[$site];
-
-
     }
 
     public function get_article_info($url)
@@ -106,6 +104,7 @@ class SpiderService
     {
         if($this->source == '69shu' || $this->source == 'xwbiquge'){
             $html = $this->get_69shu($url);
+            sleep(5);
         }else{
             $html = $this->get_other($url);
         }
