@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\ArticleLangtail;
 use App\Models\NginxAccessLog;
 use Diwms\NginxLogAnalyzer\Parse;
 use Diwms\NginxLogAnalyzer\NginxAccessLogFormat;
@@ -65,13 +66,28 @@ class ParseNginxLog extends Command
                 $timestamp = date('Y-m-d H:i:s', strtotime($date));
 
                 $date = date('Y-m-d', strtotime($date));
-                if(strpos($log['url'], 'read') !== false){
-                        preg_match('/read\/(\d+)\//', $log['url'], $matches);
+                $article_id = 0;
+                $lang_id = 0;
+                if(strpos($log['url'], 'books') !== false){
+                    preg_match('/books\/(\d+)/', $log['url'], $matches);
+
+                    if(!isset($matches[1])){
+                        preg_match('/books\/(\d+)\//', $log['url'], $matches);
                         if(!isset($matches[1])){
                             continue;
                         }
-                        $article_id = $matches[1];
-                        $article_id = $article_id - 5;
+                    }
+                    $lang_id = $matches[1];
+                }else if(strpos($log['url'], 'read') !== false){
+                    preg_match('/read\/(\d+)\//', $log['url'], $matches);
+                    if(!isset($matches[1])){
+                        preg_match('/read\/(\d+)/', $log['url'], $matches);
+                        if(!isset($matches[1])){
+                            continue;
+                        }
+                    }
+                    $article_id = $matches[1];
+                    $article_id = $article_id - 5;
                 }else {
                     preg_match('/\/\d+_(\d+)\//', $log['url'], $matches);
                     if(!isset($matches[1])){
@@ -109,11 +125,21 @@ class ParseNginxLog extends Command
                     'url' => $log['url'],
                     'source' => $source,
                     'article_id' => $article_id,
+                    'lang_id' => $lang_id
                 ];
 
-                $log['md5_unique'] = md5(implode("", $log));
-
                 $logs[] = $log;
+            }
+            $langIds = array_column($logs, 'lang_id');
+            $langArticles = ArticleLangtail::whereIn('lang_id', $langIds)->get()->keyBy('langid')->toArray();
+
+            foreach ($logs as $k => $log){
+                $lang_id = $log['lang_id'];
+                if($lang_id && isset($langArticles[$lang_id])){
+                    $logs[$k]['article_id'] = $langArticles[$lang_id]['sourceid'];
+                }
+                unset($logs[$k]['lang_id']);
+                $logs[$k]['md5_unique'] = md5(implode("", $log));
             }
 
             $chunk_logs = array_chunk($logs, 500);
@@ -121,7 +147,6 @@ class ParseNginxLog extends Command
             foreach ($chunk_logs as $chunk_log) {
                 NginxAccessLog::insertIgnore($chunk_log);
             }
-//            $storage->delete($file_name);
         }
     }
 
