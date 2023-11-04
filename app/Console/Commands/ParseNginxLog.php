@@ -131,7 +131,7 @@ class ParseNginxLog extends Command
                 $logs[] = $log;
             }
             $langIds = array_column($logs, 'lang_id');
-            $langArticles = ArticleLangtail::whereIn('lang_id', $langIds)->get()->keyBy('langid')->toArray();
+            $langArticles = ArticleLangtail::whereIn('langid', $langIds)->get()->keyBy('langid')->toArray();
 
             foreach ($logs as $k => $log){
                 $lang_id = $log['lang_id'];
