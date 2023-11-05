@@ -243,7 +243,8 @@ class SearchSpiderController extends Controller
         $is_spider = $request->get('is_spider', 0);
         $sqlites = explode(',', $sqlite);
 
-        $article_ids = NginxAccessLog::groupBy('article_id')->pluck('article_id');
+
+        $article_ids = NginxAccessLog::groupBy('article_id')->pluck('article_id')->toArray();
 
         $sources = ['mayi' => [], 'tt' => [], 'xwbiquge' => [], '00shu' => [], '69shu' => []];
 
@@ -261,7 +262,6 @@ class SearchSpiderController extends Controller
             }
             $sources['mayi'] = array_column($taskLogs, 'NID');
         }
-
         $articles = Article::select([
             'jieqi_article_article.articleid',
             'jieqi_article_article.author',
@@ -272,22 +272,30 @@ class SearchSpiderController extends Controller
             return md5($article->articlename . '-' . $article->author);
         });
 
-        $source_articles = SourceArticle::whereIn('local_article_id', $article_ids)
-            ->whereIn('source', array_keys($sources))
-            ->get();
+        $article_id_groups = array_chunk($article_ids, 200);
 
-        $source_article_groups = $source_articles->groupBy(function ($article) {
-            return md5($article->article_name . '-' . $article->author);
-        });
+        foreach($article_id_groups as $article_ids){
+            $article_ids = array_filter($article_ids);
+            $source_articles = SourceArticle::whereIn('local_article_id', $article_ids)
+                ->whereIn('source', array_keys($sources))
+                ->get();
 
-        foreach ($source_article_groups as $key => $source_articles) {
-            if ($key == '3f8ca62a6da6d8b78a195cf4b5f1e20b') {
-                continue;
-            }
-            foreach ($source_articles as $source_article) {
-                $sources[$source_article->source][] = $articles[$key]['articleid'];
+            $source_article_groups = $source_articles->groupBy(function ($article) {
+                return md5($article->article_name . '-' . $article->author);
+            });
+
+
+            foreach ($source_article_groups as $key => $source_articles) {
+                if ($key == '3f8ca62a6da6d8b78a195cf4b5f1e20b') {
+                    continue;
+                }
+                foreach ($source_articles as $source_article) {
+                    $sources[$source_article->source][] = $articles[$key]['articleid'];
+                }
             }
         }
+
+
         $artisans = [];
         foreach ($sources as $source => $article_ids) {
             $count = count(array_unique($article_ids));

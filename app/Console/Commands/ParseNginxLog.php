@@ -76,8 +76,12 @@ class ParseNginxLog extends Command
                         if(!isset($matches[1])){
                             continue;
                         }
+                        $lang_id = $matches[1];
+                    }else{
+                        $lang_id = $matches[1];
+                        $lang_id = $lang_id - 5;
                     }
-                    $lang_id = $matches[1];
+
                 }else if(strpos($log['url'], 'read') !== false){
                     preg_match('/read\/(\d+)\//', $log['url'], $matches);
                     if(!isset($matches[1])){
