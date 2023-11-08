@@ -116,8 +116,8 @@ return [
     '69shu' => [
         'name' => '69shu',
         'charset' => 'gbk',
-        'domain' => 'http://154.9.27.55/q.php?url=https://www.69shuba.com',
-        'url' => 'http://154.9.27.55/q.php?url=',
+        'domain' => 'http://46.149.201.72/q.php?url=https://www.69shuba.com',
+        'url' => 'http://46.149.201.72/q.php?url=',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(11)', 'content'],
             'author' => ['meta:eq(10)', 'content'],
@@ -134,7 +134,7 @@ return [
 
         'get_chapter_find' => '.txtnav:text',
 
-        'article_url' => "http://154.9.27.55/q.php?url=https://www.69shuba.com/{--article_id--}/",
+        'article_url' => "http://46.149.201.72/q.php?url=https://www.69shuba.com/{--article_id--}/",
 
         'content_preg' => function ($text) {
             $text = str_replace([
@@ -160,8 +160,8 @@ return [
     'xwbiquge' => [
         'name' => 'xwbiquge',
         'charset' => 'utf-8',
-        'domain' => 'http://81.68.159.206/remote-site?target=http://www.xwbiquge.com',
-        'url' => 'http://81.68.159.206/remote-site?target=',
+        'domain' => 'http://101.42.27.27/tieshuw.php?url=http://www.xwbiquge.com',
+        'url' => 'http://101.42.27.27/tieshuw.php?url=',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(14)', 'content'],
             'author' => ['meta:eq(12)', 'content'],
@@ -178,7 +178,7 @@ return [
 
         'get_chapter_find' => '#booktxt:text',
 
-        'article_url' => "http://81.68.159.206/remote-site?target=http://www.xwbiquge.com/biquge_{--article_id--}/",
+        'article_url' => "http://101.42.27.27/tieshuw.php?url=http://www.xwbiquge.com/biquge_{--article_id--}/",
 
         'content_preg' => function ($text) {
             $text = str_replace([
