@@ -55,8 +55,11 @@ class ArticleController extends Controller
             $chapter->size = $storage->size($chapter_file_path);
             $chapter_file = $storage->get($chapter_file_path);
 
-            $chapter->content = @iconv('gbk', 'utf-8//IGNORE', $chapter_file);
-
+            try{
+                $chapter->content = iconv('gbk', 'utf-8//IGNORE', $chapter_file);
+            }catch (\Exception $e){
+                $chapter->content = mb_convert_encoding($chapter_file, 'utf-8', 'GBK');
+            }
 
             $chapter->strlen = mb_strlen($chapter->content);
 

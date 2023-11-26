@@ -45,13 +45,19 @@ class ErrorArticleService
             }
 
             $all_chapter = $chapter;
+
             $chapter_file = $storage->get($chapter_file_path);
-            $content = iconv('gbk', 'utf-8//IGNORE', $chapter_file);
+
+            try{
+                $content = iconv('gbk', 'utf-8//IGNORE', $chapter_file);
+            }catch (\Exception $e){
+                $content = mb_convert_encoding($content, 'utf-8', 'GBK');
+            }
 
             $all_chapter->file_path = $chapter_file_path;
 
             $is_no_check = $this->is_no_check_chapter_name($chapter->chaptername);
-            if ($is_no_check) {
+            if ($is_no_check || !$content) {
                 $all_chapter->is_error_chapter = 0;
             } else {
                 $all_chapter->is_error_chapter = $this->is_error_chapter($content);

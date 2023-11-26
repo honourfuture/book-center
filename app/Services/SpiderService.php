@@ -110,7 +110,11 @@ class SpiderService
         }
 
         if ($this->config['charset'] == 'gbk') {
-            $html = iconv('gbk', 'utf-8//IGNORE', $html);
+            try{
+                $html = iconv('gbk', 'utf-8//IGNORE', $html);
+            }catch (\Exception $e){
+                $html = mb_convert_encoding($html, 'utf-8', 'GBK');
+            }
         }
 
         // 元数据DOM解析规则
