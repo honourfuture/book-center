@@ -167,8 +167,11 @@ class SpiderService
                 $content = $this->get_chapter($next_url, $content);
             }
         }
+        sleep(2);
 
-        sleep(5);
+        if($this->source != 'tt'){
+            sleep(3);
+        }
 
         return $content;
     }
