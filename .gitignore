@@ -17,4 +17,5 @@ yarn-error.log
 nginx.htaccess
 /storage/files
 /storage/ocr
+/storage/excellent
 /database/sqlite/
