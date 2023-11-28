@@ -1,0 +1,16 @@
+
+.arrow-up:before {
+    content: "\25B2"; /* 向上箭头符号 */
+}
+
+.arrow-down:before {
+    content: "\25BC"; /* 向下箭头符号 */
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}

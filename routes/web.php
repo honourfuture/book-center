@@ -34,7 +34,7 @@ Route::get('/remote-site/cookie', [\App\Http\Controllers\RemoteSiteController::c
 Route::get('/update-article', [\App\Http\Controllers\UpdateArticleController::class, 'article']);
 
 //校对
-Route::get('/article/{id}', [\App\Http\Controllers\ArticleController::class, 'article']);
+Route::get('/article/{id}', [\App\Http\Controllers\ArticleController::class, 'article'])->name('check-error-article');
 Route::any('/check-articles', [\App\Http\Controllers\ArticleController::class, 'check_articles']);
 Route::get('/error-articles', [\App\Http\Controllers\ArticleController::class, 'error_articles']);
 
@@ -77,7 +77,10 @@ Route::get('/search-spider/{id}', [\App\Http\Controllers\SearchSpiderController:
 Route::post('/search-spider/{id}', [\App\Http\Controllers\SearchSpiderController::class, 'set_article_peg']);
 Route::get('/spider_statics', [\App\Http\Controllers\SearchSpiderController::class, 'spider_statics']);
 Route::get('/do-low-article/{id}', [\App\Http\Controllers\SearchSpiderController::class, 'do_low_article']);
+//loss
+Route::get('/trend-article', [\App\Http\Controllers\SearchSpiderController::class, 'trend_article']);
 //source
 Route::get('/add-source-article', [\App\Http\Controllers\SourceArticleController::class, 'add_source_article']);
+
 
 

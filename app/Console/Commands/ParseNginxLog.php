@@ -44,7 +44,8 @@ class ParseNginxLog extends Command
      */
     public function handle()
     {
-        NginxAccessLog::truncate();
+        ini_set('memory_limit', '1024M');
+//        NginxAccessLog::truncate();
         $storage = Storage::disk('nginx_log');
         $parse = new Parse(new NginxAccessLogFormat(), new RegexPattern());
         foreach ($storage->allFiles() as $file_name) {
@@ -146,7 +147,7 @@ class ParseNginxLog extends Command
                 $logs[$k]['md5_unique'] = md5(implode("", $log));
             }
 
-            $chunk_logs = array_chunk($logs, 500);
+            $chunk_logs = array_chunk($logs, 1000);
 
             foreach ($chunk_logs as $chunk_log) {
                 NginxAccessLog::insertIgnore($chunk_log);

@@ -161,7 +161,7 @@ return [
         'name' => 'xwbiquge',
         'charset' => 'utf-8',
         'domain' => 'http://101.42.27.27/tieshuw.php?url=http://www.xwbiquge.com',
-        'url' => 'http://101.42.27.27/tieshuw.php?url=',
+        'url' => 'http://101.42.27.27/tieshuw.php?url=http://www.xwbiquge.com',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(14)', 'content'],
             'author' => ['meta:eq(12)', 'content'],

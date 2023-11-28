@@ -58,7 +58,7 @@
                             $search_url = "/search-spider/{$article_log->article_id}?source=".$count->source;
                             ?>
                             <div class="indicator">
-                            <span class="indicator-item badge badge-primary">
+                            <span class="indicator-item badge badge-primary badge-xs">
                                 {{$count->total}}
                             </span>
                                 <button class="btn btn-xs">

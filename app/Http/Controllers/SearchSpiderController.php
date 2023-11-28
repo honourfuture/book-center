@@ -17,6 +17,72 @@ use function PHPUnit\Framework\isEmpty;
 
 class SearchSpiderController extends Controller
 {
+
+    public function trend_article(Request $request)
+    {
+        $date = $request->get('date', date('Y-m-d'));
+        $week_day = date('Y-m-d', strtotime($date . '-7 day'));
+        $page_size = $request->get('page_size', 100);
+
+//        $page = NginxAccessLog::select(
+//            DB::raw('count(*) as total'),
+//            'date', 'url',
+//            'article_id'
+//        )->groupBy(['article_id'])->orderByDesc('total')->paginate($page_size);;
+//
+//        $article_ids = $page->pluck('article_id');
+
+        $article_logs = NginxAccessLog::select(
+            DB::raw('count(*) as total'),
+            'date', 'url',
+            'article_id'
+        )
+            ->groupBy(['article_id', 'date']);
+        $article_logs = $article_logs
+            ->where('date', '<=', $date)
+            ->where('date', '>=', $week_day);
+
+        $article_logs = $article_logs->orderByDesc('date')->orderByDesc('total')->get();
+
+        $article_ids = $article_logs->pluck('article_id');
+        $articles = Article::select([
+            'jieqi_article_article.articleid',
+            'jieqi_article_article.author',
+            'jieqi_article_article.lastchapter',
+            'jieqi_article_article.articlename',
+            'jieqi_article_article.lastupdate',
+            'jieqi_article_article.fullflag',
+        ])->whereIn('articleid', $article_ids)->get()->keyBy('articleid')->toArray();
+
+        $article_log_groups = $article_logs->groupBy('article_id');
+
+        $date_total = [];
+        foreach (range(strtotime($date), strtotime($week_day), 86400) as $timestamp) {
+            $day = date('Y-m-d', $timestamp);
+            $date_total[$day] = 0;
+        }
+
+        $spider_articles = [];
+        foreach ($article_log_groups as $article_id => $article_logs) {
+            $spider_article = [];
+            foreach ($article_logs as $log) {
+                $date_total[$log['date']] = $log['total'];
+            }
+
+            if (isset($articles[$article_id])) {
+                $spider_article['article'] = $articles[$article_id];
+            }
+            $spider_article['total'] = $date_total;
+            $spider_articles[$article_id] = $spider_article;
+        }
+
+        return view('spider-trend', [
+            'spider_articles' => $spider_articles,
+            'date_total' => $date_total,
+        ]);
+
+    }
+
     public function spider_articles(Request $request)
     {
         $date = $request->get('date', date('Y-m-d'));
@@ -248,7 +314,7 @@ class SearchSpiderController extends Controller
 
         $sources = ['mayi' => [], 'tt' => [], 'xwbiquge' => [], '00shu' => [], '69shu' => []];
 
-        if(!$is_spider){
+        if (!$is_spider) {
             $taskLogs = [];
             foreach ($sqlites as $sqlite) {
                 $taskLog = DB::connection($sqlite)->table('taskLog')
@@ -274,7 +340,7 @@ class SearchSpiderController extends Controller
 
         $article_id_groups = array_chunk($article_ids, 200);
 
-        foreach($article_id_groups as $article_ids){
+        foreach ($article_id_groups as $article_ids) {
             $article_ids = array_filter($article_ids);
             $source_articles = SourceArticle::whereIn('local_article_id', $article_ids)
                 ->whereIn('source', array_keys($sources))
