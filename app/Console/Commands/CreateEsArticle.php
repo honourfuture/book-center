@@ -60,7 +60,7 @@ class CreateEsArticle extends Command
                 } catch (\Exception $exception) {
                     $res = $exception->getMessage();
                 }
-                $this->info($res);
+                $this->info(json_encode($res));
             }
         });
 
