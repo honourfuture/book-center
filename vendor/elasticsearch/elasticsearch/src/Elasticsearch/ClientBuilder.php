@@ -383,6 +383,7 @@ class ClientBuilder
         }
 
         $this->connectionParams['client']['curl'] += [
+            CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD  => $username.':'.$password
         ];

@@ -48,23 +48,22 @@ class CreateEsArticle extends Command
             $params = [
                 'body' => []
             ];
-            $docsToCreate = [];
+            $documents = [];
+
             foreach ($articles as $article) {
-                $docsToCreate[] = [
-                    '_index' => config('database.connections.elasticsearch.index'),
-                    '_id' => $article->articleid,
-                    'body' => [
-                        'author' => $article->author,
-                        'article_name' => $article->articlename
+                $documents[] = [
+                    'index' => [
+                        '_index' => config('database.connections.elasticsearch.index'),
+                        '_id' => $article->articleid,
                     ]
+                ];
+                $documents[] = [
+                    'author' => $article->author,
+                    'article_name' => $article->articlename
                 ];
             }
 
-            foreach ($docsToCreate as $doc) {
-                $params['body'][] = [
-                    'index' => $doc
-                ];
-            }
+            $params['body'] = $documents;
 
             try {
                 $response = $client->bulk($params);
