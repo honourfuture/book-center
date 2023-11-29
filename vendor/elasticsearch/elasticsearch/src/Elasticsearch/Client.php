@@ -5,8 +5,8 @@
  * @link      https://github.com/elastic/elasticsearch-php/
  * @copyright Copyright (c) Elasticsearch B.V (https://www.elastic.co)
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @license   https://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License, Version 2.1 
- * 
+ * @license   https://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License, Version 2.1
+ *
  * Licensed to Elasticsearch B.V under one or more agreements.
  * Elasticsearch B.V licenses this file to you under the Apache 2.0 License or
  * the GNU Lesser General Public License, Version 2.1, at your option.
@@ -93,162 +93,162 @@ class Client
      * @var CatNamespace
      */
     protected $cat;
-    
+
     /**
      * @var ClusterNamespace
      */
     protected $cluster;
-    
+
     /**
      * @var DanglingIndicesNamespace
      */
     protected $danglingIndices;
-    
+
     /**
      * @var FeaturesNamespace
      */
     protected $features;
-    
+
     /**
      * @var IndicesNamespace
      */
     protected $indices;
-    
+
     /**
      * @var IngestNamespace
      */
     protected $ingest;
-    
+
     /**
      * @var NodesNamespace
      */
     protected $nodes;
-    
+
     /**
      * @var SnapshotNamespace
      */
     protected $snapshot;
-    
+
     /**
      * @var TasksNamespace
      */
     protected $tasks;
-    
+
     /**
      * @var AsyncSearchNamespace
      */
     protected $asyncSearch;
-    
+
     /**
      * @var AutoscalingNamespace
      */
     protected $autoscaling;
-    
+
     /**
      * @var CcrNamespace
      */
     protected $ccr;
-    
+
     /**
      * @var DataFrameTransformDeprecatedNamespace
      */
     protected $dataFrameTransformDeprecated;
-    
+
     /**
      * @var EnrichNamespace
      */
     protected $enrich;
-    
+
     /**
      * @var EqlNamespace
      */
     protected $eql;
-    
+
     /**
      * @var GraphNamespace
      */
     protected $graph;
-    
+
     /**
      * @var IlmNamespace
      */
     protected $ilm;
-    
+
     /**
      * @var LicenseNamespace
      */
     protected $license;
-    
+
     /**
      * @var LogstashNamespace
      */
     protected $logstash;
-    
+
     /**
      * @var MigrationNamespace
      */
     protected $migration;
-    
+
     /**
      * @var MlNamespace
      */
     protected $ml;
-    
+
     /**
      * @var MonitoringNamespace
      */
     protected $monitoring;
-    
+
     /**
      * @var RollupNamespace
      */
     protected $rollup;
-    
+
     /**
      * @var SearchableSnapshotsNamespace
      */
     protected $searchableSnapshots;
-    
+
     /**
      * @var SecurityNamespace
      */
     protected $security;
-    
+
     /**
      * @var SlmNamespace
      */
     protected $slm;
-    
+
     /**
      * @var SqlNamespace
      */
     protected $sql;
-    
+
     /**
      * @var SslNamespace
      */
     protected $ssl;
-    
+
     /**
      * @var TextStructureNamespace
      */
     protected $textStructure;
-    
+
     /**
      * @var TransformNamespace
      */
     protected $transform;
-    
+
     /**
      * @var WatcherNamespace
      */
     protected $watcher;
-    
+
     /**
      * @var XpackNamespace
      */
     protected $xpack;
-    
+
 
     /**
      * Client constructor

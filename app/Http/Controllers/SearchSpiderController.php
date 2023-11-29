@@ -37,7 +37,7 @@ class SearchSpiderController extends Controller
             'date', 'url',
             'article_id'
         )
-            ->groupBy(['article_id', 'date']);
+            ->groupBy(['article_id', 'remote_addr', 'date']);
         $article_logs = $article_logs
             ->where('date', '<=', $date)
             ->where('date', '>=', $week_day);

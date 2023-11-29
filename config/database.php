@@ -91,7 +91,12 @@ $db = [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
-
+        'elasticsearch' => [
+            'host' => env('ELASTICSEARCH_HOST', 'localhost'),
+            'user' => env('ELASTICSEARCH_USER', ''),
+            'pass' => env('ELASTICSEARCH_PASS', ''),
+            'index' => env('ELASTICSEARCH_INDEX', ''),
+        ],
     ],
 
     /*

@@ -579,7 +579,7 @@ class ClientBuilder
 
             $this->endpoint = function ($class) use ($serializer) {
                 $fullPath = '\\Elasticsearch\\Endpoints\\' . $class;
-                
+
                 $reflection = new ReflectionClass($fullPath);
                 $constructor = $reflection->getConstructor();
 
