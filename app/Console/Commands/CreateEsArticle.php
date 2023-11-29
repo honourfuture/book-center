@@ -45,23 +45,35 @@ class CreateEsArticle extends Command
             ->build();
 
         Article::select(['articleid', 'author', 'articlename'])->chunk(200, function ($articles) use ($client) {
+            $params = [
+                'body' => []
+            ];
+            $docsToCreate = [];
             foreach ($articles as $article) {
-                $params = [
-                    'index' => config('database.connections.elasticsearch.index'),
-                    'id' => $article->articleid,
-                    'type' => '_doc',
+                $docsToCreate[] = [
+                    '_index' => config('database.connections.elasticsearch.index'),
+                    '_id' => $article->articleid,
                     'body' => [
                         'author' => $article->author,
                         'article_name' => $article->articlename
                     ]
                 ];
-                try {
-                    $res = $client->index($params);
-                } catch (\Exception $exception) {
-                    $res = $exception->getMessage();
-                }
-                $this->info(json_encode($res));
             }
+
+            foreach ($docsToCreate as $doc) {
+                $params['body'][] = [
+                    'index' => $doc
+                ];
+            }
+
+            try {
+                $response = $client->bulk($params);
+
+            } catch (\Exception $exception) {
+                $response = $exception->getMessage();
+            }
+
+            $this->info(json_encode($response));
         });
 
 //        $params = [
