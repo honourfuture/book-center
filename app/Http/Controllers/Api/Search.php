@@ -17,10 +17,16 @@ class Search extends Controller
 {
     public function search_articles(Request $request)
     {
+
         $keyword = $request->get('keyword');
 
+        // 判断参数编码
+        $encoding = mb_detect_encoding($keyword, ['UTF-8', 'GBK', 'GB2312']);
+
+        // 将参数转换为 UTF-8 编码
+        $keyword = mb_convert_encoding($keyword, 'UTF-8', $encoding);
         if(!$keyword){
-            return [];
+            return response()->json([]);
         }
 
         $secret = $request->get('secret');
