@@ -19,6 +19,8 @@ class AutoArticleAllJob implements ShouldQueue
 
 
     public $timeout = 86400;
+    public $tries = 0;
+
     /**
      * Create a new job instance.
      *
@@ -39,14 +41,14 @@ class AutoArticleAllJob implements ShouldQueue
         try {
             $configs = config("spider");
             $sites = array_keys($configs);
-            foreach ($sites as $site){
+            foreach ($sites as $site) {
                 Artisan::call("push:article", [
                     '--article_ids' => $this->article_id,
                     '--site' => $site,
                     '--limit' => 30,
                 ]);
             }
-        }catch (FixChapterException $e){
+        } catch (FixChapterException $e) {
 
         }
 

@@ -33,6 +33,7 @@ class Search extends Controller
         $params = [
             'index' => config('database.connections.elasticsearch.index'),
             'body' => [
+                'size' => 50,
                 'query' => [
                     'bool' => [
                         'should' => [

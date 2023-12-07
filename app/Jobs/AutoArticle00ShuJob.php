@@ -21,6 +21,7 @@ class AutoArticle00ShuJob implements ShouldQueue
     private $limit;
 
     public $timeout = 86400;
+    public $tries = 0;
     /**
      * Create a new job instance.
      *

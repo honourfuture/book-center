@@ -17,7 +17,7 @@ class AutoArticleMayiJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $timeout = 86400;
-
+    public $tries = 0;
     private $article_id;
 
     private $site;

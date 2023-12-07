@@ -21,7 +21,10 @@ class AutoArticleXWBiQuGeJob implements ShouldQueue
     private $article_id;
 
     private $site;
+
     private $limit;
+
+    public $tries = 0;
 
     /**
      * Create a new job instance.
