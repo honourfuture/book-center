@@ -58,26 +58,26 @@ class TextTypeSetService
             if ($sectionstart && in_array($tmpstr, $this->errstartchars)) $sectionstart = false;
 
             //某些重复字符处理
-            $tmpprivate = $repeatnum;
-            if (in_array($tmpstr, $this->fmore)) {
-                if ($tmpstr == $tmpstr1) {
-                    $repeatnum++;
-                } else {
-                    $tmpstr1 = $tmpstr;
-                    $repeatnum = 1;
-                }
-                continue;
-            }
-            if ($tmpprivate > 0 && $tmpprivate == $repeatnum) {
-                if ($repeatnum == 1) {
-                    $ret .= $tmpstr1;
-                } else {
-                    $key = array_search($tmpstr1, $this->fmore);
-                    if ($key) $ret .= $this->tmore[$key];
-                }
-                $tmpstr1 = '';
-                $repeatnum = 0;
-            }
+            // $tmpprivate = $repeatnum;
+            // if (in_array($tmpstr, $this->fmore)) {
+            //     if ($tmpstr == $tmpstr1) {
+            //         $repeatnum++;
+            //     } else {
+            //         $tmpstr1 = $tmpstr;
+            //         $repeatnum = 1;
+            //     }
+            //     continue;
+            // }
+            // if ($tmpprivate > 0 && $tmpprivate == $repeatnum) {
+            //     if ($repeatnum == 1) {
+            //         $ret .= $tmpstr1;
+            //     } else {
+            //         $key = array_search($tmpstr1, $this->fmore);
+            //         if ($key) $ret .= $this->tmore[$key];
+            //     }
+            //     $tmpstr1 = '';
+            //     $repeatnum = 0;
+            // }
             //段首处理
             if ($sectionstart) {
                 if (!$start) $ret .= "\r\n\r\n";
@@ -87,13 +87,16 @@ class TextTypeSetService
             }
             $ret .= $tmpstr;
         }
-        //最后一个可能缓存的字符
-        if ($repeatnum == 1) {
-            $ret .= $tmpstr1;
-        } elseif ($repeatnum > 1) {
-            $key = array_search($tmpstr1, $this->fmore);
-            if ($key) $$ret .= $this->tmore[$key];
-        }
+        $ret .= $tmpstr1;
+        // //最后一个可能缓存的字符
+        // if ($repeatnum == 1) {
+        //     $ret .= $tmpstr1;
+        // } elseif ($repeatnum > 1) {
+        //     $key = array_search($tmpstr1, $this->fmore);
+        //     print_r($tmpstr1);die;
+        //     if ($key) $$ret .= $this->tmore[$key];
+        // }
+
         return $ret;
     }
 

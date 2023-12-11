@@ -16,7 +16,7 @@ class SourceArticleController extends Controller
         $max_id = $request->get('max_id');
         $source = $request->get('source');
         $min_id = $request->get('min_id', 1);
-        $prefix = $request->get('prefix', 99);
+        $prefix = $request->get('prefix', '');
 
         if(!$max_id || !$source){
             echo "max_id source is not empty";

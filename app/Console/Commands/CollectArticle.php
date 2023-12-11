@@ -107,7 +107,7 @@ class CollectArticle extends Command
                 'author' => $author,
                 'last_chapter' => $last_chapter,
                 'article_id' => $article_id,
-                'unique_md5' => md5($article_name . '-' . $author . '-' . $last_chapter),
+                'unique_md5' => md5($article_name . '-' . $author),
                 'site' => $site,
                 'type' => 1,
             ];
@@ -119,7 +119,7 @@ class CollectArticle extends Command
                 'author' => $add_author,
                 'last_chapter' => '新增',
                 'article_id' => $add_article_id,
-                'unique_md5' => md5($add_article_name . '-' . $add_author . '-新增'),
+                'unique_md5' => md5($add_article_name),
                 'site' => $site,
                 'type' => 2,
             ];
