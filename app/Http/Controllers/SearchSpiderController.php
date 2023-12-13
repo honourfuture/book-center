@@ -75,11 +75,13 @@ class SearchSpiderController extends Controller
             $spider_article['total'] = $date_total;
             $spider_articles[$article_id] = $spider_article;
         }
-
-        return view('spider-trend', [
+        $static = view('spider-trend', [
             'spider_articles' => $spider_articles,
             'date_total' => $date_total,
-        ]);
+        ])->__toString();;
+
+        file_put_contents("trend/{$date}.html", $static);
+
 
     }
 
