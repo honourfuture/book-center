@@ -52,6 +52,10 @@ class AutoArticleXWBiQuGeJob implements ShouldQueue
                 '--limit' => $this->limit,
             ]);
         } catch (FixChapterException $e) {
+
+        }catch (\Exception $e){
+            logger('9999', ['article_id' => $this->article_id, 'site' => $this->site, 'limit' => $this->limit]);
+            logger($e);
         }
 
     }
