@@ -22,4 +22,6 @@ class QueueNameEnum
 
     const UPDATE_ALL_JOB = 'updateAllJob';
 
+    const UPDATE_ARTICLE_JOB = 'updateArticleJob';
+
 }

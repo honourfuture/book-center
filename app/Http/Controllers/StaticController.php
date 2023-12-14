@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Enums\QueueNameEnum;
 use App\Jobs\AutoArticleAllJob;
+use App\Jobs\CrontabUpdateArticleJob;
 use App\Models\BookUpdateArticle;
 use App\Models\SourceArticle;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
@@ -51,6 +53,12 @@ class StaticController extends Controller
 
     public function update_article_crontab()
     {
-        Artisan::call("collect:article", []);
+        dispatch((new CrontabUpdateArticleJob())->onQueue(QueueNameEnum::UPDATE_ARTICLE_JOB));
+        dispatch((new CrontabUpdateArticleJob())->onQueue(QueueNameEnum::UPDATE_ARTICLE_JOB))->delay(Carbon::now()->addSeconds(10));
+        dispatch((new CrontabUpdateArticleJob())->onQueue(QueueNameEnum::UPDATE_ARTICLE_JOB))->delay(Carbon::now()->addSeconds(20));
+        dispatch((new CrontabUpdateArticleJob())->onQueue(QueueNameEnum::UPDATE_ARTICLE_JOB))->delay(Carbon::now()->addSeconds(30));
+        dispatch((new CrontabUpdateArticleJob())->onQueue(QueueNameEnum::UPDATE_ARTICLE_JOB))->delay(Carbon::now()->addSeconds(40));
+        dispatch((new CrontabUpdateArticleJob())->onQueue(QueueNameEnum::UPDATE_ARTICLE_JOB))->delay(Carbon::now()->addSeconds(50));
+
     }
 }
