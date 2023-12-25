@@ -103,7 +103,9 @@ class BuildSitemap extends Command
         ];
         $page = 1;
         $article_ids = Article::select(['articleid'])->where('allvisit', '>', 0)->pluck('articleid');
-        Chapter::select(['articleid', 'chapterid'])->whereIn('articleid', $article_ids)->chunk(500, function ($chapters) use (&$i, &$lines, &$page) {
+        $count = Chapter::select(['articleid', 'chapterid'])->where('size', '>', 0)->whereIn('articleid', $article_ids)->count();
+        $total = 0;
+        Chapter::select(['articleid', 'chapterid'])->where('size', '>', 0)->whereIn('articleid', $article_ids)->chunk(500, function ($chapters) use (&$i, &$lines, &$page, &$total, $count) {
             $urls = [
                 'pc' => [
                     'old' => 'https://www.tieshuw.com',
@@ -120,9 +122,10 @@ class BuildSitemap extends Command
             ];
 
             foreach ($chapters as $chapter){
+                $total++;
                 $i++;
                 $index = intval($chapter->articleid / 1000);
-                $href = "/{$index}_{$chapter->articleid}/{$chapter->chapterid}";
+                $href = "/{$index}_{$chapter->articleid}/{$chapter->chapterid}.html";
                 $new_article_id = $chapter->articleid + 13;
 
                 $chapter_id = $chapter->chapterid + 13;
@@ -134,7 +137,7 @@ class BuildSitemap extends Command
                     $lines[$key][] = $static_url;
                 }
 
-                if($i == 40000){
+                if($i == 40000 || $total == $count){
                     foreach ($lines as $key => $line){
                         Storage::put("/{$key}_chapter_{$page}.txt", $line);
                     }
