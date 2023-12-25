@@ -48,8 +48,9 @@ class BuildSitemap extends Command
             'top' => []
         ];
         $page = 1;
-
-        Article::select(['articleid'])->orderby('articleid', 'asc')->chunk(500, function ($articles) use (&$i, &$lines, &$page) {
+        $count = Article::select(['articleid'])->orderby('articleid', 'asc')->count();
+        $total = 0;
+        Article::select(['articleid'])->orderby('articleid', 'asc')->chunk(500, function ($articles) use (&$i, &$lines, &$page, &$total, $count) {
             $urls = [
                 'pc' => [
                     'old' => 'https://www.tieshuw.com',
@@ -66,6 +67,8 @@ class BuildSitemap extends Command
             ];
 
             foreach ($articles as $article){
+                $total++;
+
                 $i++;
                 $index = intval($article->articleid / 1000);
                 $href = "/{$index}_{$article->articleid}/";
@@ -77,8 +80,7 @@ class BuildSitemap extends Command
                     $static_url = $url['old'].$href.' '.$url['new'].$new_href."\n";
                     $lines[$key][] = $static_url;
                 }
-
-                if($i == 2000){
+                if($i == 40000 || $total == $count){
                     foreach ($lines as $key => $line){
                         Storage::put("/{$key}_{$page}.txt", $line);
                     }
@@ -88,18 +90,64 @@ class BuildSitemap extends Command
                         'top' => []
                     ];
                     $page++;
-                    echo $page;
-
                     $i=0;
                 }
             }
         });
 
+        $i = 0;
+        $lines = [
+            'pc' => [],
+            'wap' => [],
+            'top' => []
+        ];
+        $page = 1;
+        $article_ids = Article::select(['articleid'])->where('allvisit', '>', 0)->pluck('articleid');
+        Chapter::select(['articleid', 'chapterid'])->whereIn('articleid', $article_ids)->chunk(500, function ($chapters) use (&$i, &$lines, &$page) {
+            $urls = [
+                'pc' => [
+                    'old' => 'https://www.tieshuw.com',
+                    'new' => 'https://www.lexinren.top'
+                ],
+                'wap' => [
+                    'old' => 'https://m.tieshuw.com',
+                    'new' => 'https://m.lexinren.top'
+                ],
+                'top' => [
+                    'old' => 'https://tieshuw.com',
+                    'new' => 'https://lexinren.top'
+                ],
+            ];
 
-//        Chapter::select(['articleid', 'chapterid'])->chunk(500, function ($articles) use ($i) {
-//
-//
-//        });
+            foreach ($chapters as $chapter){
+                $i++;
+                $index = intval($chapter->articleid / 1000);
+                $href = "/{$index}_{$chapter->articleid}/{$chapter->chapterid}";
+                $new_article_id = $chapter->articleid + 13;
+
+                $chapter_id = $chapter->chapterid + 13;
+
+                $new_href = "/biquge_{$new_article_id}/{$chapter_id}.html";
+
+                foreach ($urls as $key => $url){
+                    $static_url = $url['old'].$href.' '.$url['new'].$new_href."\n";
+                    $lines[$key][] = $static_url;
+                }
+
+                if($i == 40000){
+                    foreach ($lines as $key => $line){
+                        Storage::put("/{$key}_chapter_{$page}.txt", $line);
+                    }
+                    $lines = [
+                        'pc' => [],
+                        'wap' => [],
+                        'top' => []
+                    ];
+                    $page++;
+                    $i=0;
+                }
+            }
+        });
     }
 
 }
