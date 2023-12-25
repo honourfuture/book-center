@@ -36,7 +36,7 @@ class StaticController extends Controller
     {
         $site = $request->get('site', 'mayi');
         $type = $request->get('type', 1);
-        $update_articles = BookUpdateArticle::where('type', $type)->where('site', $site)->get();
+        $update_articles = BookUpdateArticle::where('type', $type)->where('site', $site)->limit(200)->get();
         $ids = $update_articles->pluck('id');
 
         $update_article_ids = $update_articles->pluck('local_article_id')->unique()->toArray();
