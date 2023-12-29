@@ -10,8 +10,8 @@ return [
     'mayi' => [
         'name' => 'mayi',
         'charset' => 'utf-8',
-        'domain' => 'https://www.mayiwxw.com',
-        'url' => 'https://www.mayiwxw.com',
+        'domain' => 'https://www.mayiwsk.com',
+        'url' => 'https://www.mayiwsk.com',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(11)', 'content'],
             'author' => ['meta:eq(10)', 'content'],
@@ -28,13 +28,13 @@ return [
 
         'get_chapter_find' => '#content',
 
-        'article_url' => "https://www.mayiwxw.com/{--index--}_{--article_id--}/index.html",
+        'article_url' => "https://www.mayiwsk.com/{--index--}_{--article_id--}/index.html",
 
         'content_preg' => function ($text) {
             $text = str_replace([
-                '最新网址：www.mayiwxw.com',
+                '最新网址：www.mayiwsk.com',
                 '蚂蚁文学',
-                'www.mayiwxw.com',
+                'www.mayiwsk.com',
                 '全文字更新,牢记网址:',
                 '<div id="center_tip"><b></b></div>',
                 '<p>',

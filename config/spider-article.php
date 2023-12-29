@@ -10,10 +10,10 @@ return [
     'mayi' => [
         'name' => 'mayi',
         'charset' => 'utf-8',
-        'domain' => 'https://www.mayiwxw.com',
+        'domain' => 'https://www.mayiwsk.com',
         'pages' => [
             'home' => [
-                'url' => 'https://www.mayiwxw.com',
+                'url' => 'https://www.mayiwsk.com',
                 'rule' => [
                     'article_names' => ['.s2>a', 'texts'],
                     // DOM解析链接

@@ -30,6 +30,7 @@ class SqliteController extends Controller
             'bqg789_co' => ['Rules\p1_bqg789_co.xml', 'Rules\bqg789_co.xml'],
             '69shu' => ['Rules\p1_69shu_com.xml'],
             'meigui' => ['Rules\jj_meiguixs_net.xml', 'Rules\jj_meiguixs_net_v1.xml', 'Rules\jj_meiguixs_net_v2.xml'],
+            '121du' => ['Rules\121du_cc.xml'],
             'kdzw' => ['Rules\kdzw_net.xml'],
             '9it' => ['Rules\9itan_cc.xml'],
             'biquge5200' => ['Rules\biquge5200_cc.xml'],

@@ -24,7 +24,7 @@ class SourceArticleController extends Controller
         }
 
         $urls = [
-            'mayi' => 'https://www.mayiwxw.com/109_{article_id}/index.html',
+            'mayi' => 'https://www.mayiwsk.com/109_{article_id}/index.html',
             'tt' => 'https://www.ttshuba.org/info-{article_id}.html',
             'xwbiquge' => 'http://www.xwbiquge.com/biquge_{article_id}/',
             '69shu' => 'https://www.69shuba.com/book/{article_id}.htm',
