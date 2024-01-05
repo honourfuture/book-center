@@ -134,7 +134,7 @@ return [
 
         'get_chapter_find' => '.txtnav:text',
 
-        'article_url' => "http://154.9.27.55/q.php?url=https://www.69shuba.com/{--article_id--}/",
+        'article_url' => "http://154.9.27.55/q.php?url=https://www.69shuba.com/book/{--article_id--}/",
 
         'content_preg' => function ($text) {
             $text = str_replace([
