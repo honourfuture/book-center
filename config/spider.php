@@ -160,8 +160,8 @@ return [
     'xwbiquge' => [
         'name' => 'xwbiquge',
         'charset' => 'utf-8',
-        'domain' => 'http://101.42.27.27/tieshuw.php?url=http://www.xwbiquge.com',
-        'url' => 'http://101.42.27.27/tieshuw.php?url=http://www.xwbiquge.com',
+        'domain' => 'http://101.200.132.193/tieshuw.php?url=http://www.xwbiquge.com',
+        'url' => 'http://101.200.132.193/tieshuw.php?url=http://www.xwbiquge.com',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(14)', 'content'],
             'author' => ['meta:eq(12)', 'content'],
@@ -178,7 +178,7 @@ return [
 
         'get_chapter_find' => '#booktxt:text',
 
-        'article_url' => "http://101.42.27.27/tieshuw.php?url=http://www.xwbiquge.com/biquge_{--article_id--}/",
+        'article_url' => "http://101.200.132.193/tieshuw.php?url=http://www.xwbiquge.com/biquge_{--article_id--}/",
 
         'content_preg' => function ($text) {
             $text = str_replace([
