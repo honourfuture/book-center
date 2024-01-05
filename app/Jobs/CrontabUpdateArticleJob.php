@@ -15,7 +15,7 @@ class CrontabUpdateArticleJob implements ShouldQueue
 
     public $timeout = 86400;
 
-    public $tries = 0;
+    public $tries = 1;
     /**
      * Execute the job.
      *
