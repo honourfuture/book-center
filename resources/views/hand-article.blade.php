@@ -29,9 +29,9 @@
                     <td>
                         <?php
                             $index = intval($article->article_id / 1000);
-                            $local_url = "https://www.tieshuw.com/{$index}_{$article->article_id}/";
-                            $backend_url = "https://www.tieshuw.com/modules/article/articlemanage.php?id={$article->article_id}";
-                            $check_url = "http://help.tieshuw.com/article/{$article->article_id}";
+                            $local_url = config('app.target_url')."/{$index}_{$article->article_id}/";
+                            $backend_url = config('app.target_url')."/modules/article/articlemanage.php?id={$article->article_id}";
+                            $check_url = config('app.url')."/article/{$article->article_id}";
                         ?>
 
                             <button class="btn btn-xs">

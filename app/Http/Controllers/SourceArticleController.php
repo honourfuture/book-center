@@ -28,6 +28,7 @@ class SourceArticleController extends Controller
             'tt' => 'https://www.ttshuba.org/info-{article_id}.html',
             'xwbiquge' => 'http://www.xwbiquge.com/biquge_{article_id}/',
             '69shu' => 'https://www.69shuba.com/book/{article_id}.htm',
+            '00shu' => 'http://www.00kanshu.cc/book/{article_id}/',
         ];
 
         $article_ids = [];

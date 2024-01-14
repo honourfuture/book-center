@@ -35,7 +35,7 @@
                     <th>{{$log->time}}</th>
                     <th>{{$log->request}}</th>
                     <th>
-                        <a href="https://www.tieshuw.com{{$log->url}}" target="_blank">{{$log->url}}</a>
+                        <a href="{{ config('app.target_url') }}{{$log->url}}" target="_blank">{{$log->url}}</a>
                     </th>
                     <th>{{$log->http}}</th>
                     <th>{{$log->status}}</th>

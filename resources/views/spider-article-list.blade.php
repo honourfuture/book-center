@@ -30,9 +30,9 @@
             @foreach($article_logs as $article_log)
                 <?php
                     $index = intval($article_log->article_id / 1000);
-                    $local_url = "https://www.tieshuw.com/{$index}_{$article_log->article_id}/";
-                    $backend_url = "https://www.tieshuw.com/modules/article/articlemanage.php?id={$article_log->article_id}";
-                    $check_url = "http://help.tieshuw.com/article/{$article_log->article_id}";
+                    $local_url = config('app.target_url')."/{$index}_{$article_log->article_id}/";
+                    $backend_url = config('app.target_url')."/modules/article/articlemanage.php?id={$article_log->article_id}";
+                    $check_url = config('app.url')."/article/{$article_log->article_id}";
                     $md5 = md5($article_log->articlename .'-'. $article_log->author);
                     $style = "";
                     $local_article_ids = isset($bind_sources['local']) ? $bind_sources['local'] : [];
