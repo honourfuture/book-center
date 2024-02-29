@@ -201,9 +201,13 @@ class SpiderService
     {
         $key = $this->config['name'];
 
-        $source_article = SourceArticle::where('article_name', $article->articlename)
-            ->where('author', $article->author)
-            ->where('source', $key)->first();
+        $source_article = SourceArticle::where('local_article_id', $article['articleid'])->where('source', $key)->first();
+
+        if(!$source_article){
+            $source_article = SourceArticle::where('article_name', $article->articlename)
+                ->where('author', $article->author)
+                ->where('source', $key)->first();
+        }
 
         if (!$source_article) {
             return false;

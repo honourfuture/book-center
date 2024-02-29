@@ -51,7 +51,7 @@ class ErrorArticleService
             try{
                 $content = iconv('gbk', 'utf-8//IGNORE', $chapter_file);
             }catch (\Exception $e){
-                $content = mb_convert_encoding($content, 'utf-8', 'GBK');
+                $content = mb_convert_encoding($chapter_file, 'utf-8', 'GBK');
             }
 
             $all_chapter->file_path = $chapter_file_path;

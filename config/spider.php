@@ -56,8 +56,8 @@ return [
     'tt' => [
         'name' => 'tt',
         'charset' => 'utf-8',
-        'domain' => 'https://www.ttshuba.org',
-        'url' => 'https://www.ttshuba.org',
+        'domain' => 'https://www.ttshuba.cc',
+        'url' => 'https://www.ttshuba.cc',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(4)', 'content'],
             'author' => ['meta:eq(8)', 'content'],
@@ -74,7 +74,7 @@ return [
 
         'get_chapter_find' => '#content',
 
-        'article_url' => "https://www.ttshuba.org/shu/{--article_id--}",
+        'article_url' => "https://www.ttshuba.cc/shu/{--article_id--}",
 
         'content_preg' => function ($text) {
             $text = str_replace([
