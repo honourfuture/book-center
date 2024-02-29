@@ -81,6 +81,7 @@ class FixChapterName extends Command
         $right_search_key = 0;
         $error_pairs = [];
         $is_fix = 1;
+
         foreach ($chapters as $chapter) {
             if ($chapter['chaptername'] == '正文' || $chapter['chaptername'] == '全部章节') {
                 continue;
@@ -109,6 +110,11 @@ class FixChapterName extends Command
 
         if (!$is_fix) {
             $this->_line_log("[{$article_id}] 无需修复");
+            exit;
+        }
+
+        if(count(count($error_pair) > 20)){
+            $this->error("[{$article_id}] 错误章节过多跳出!");
             exit;
         }
 
