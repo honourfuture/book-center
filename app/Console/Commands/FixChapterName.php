@@ -113,7 +113,7 @@ class FixChapterName extends Command
             exit;
         }
 
-        if(count(count($error_pair) > 20)){
+        if(count($error_pairs) > 20){
             $this->error("[{$article_id}] 错误章节过多跳出!");
             exit;
         }
