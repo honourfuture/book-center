@@ -235,26 +235,33 @@ class SqliteController extends Controller
             }
 
             if (!isset($source_article_groups[$md5])) {
-                if(in_array($log->RULEFILE, [
+                if (in_array($log->RULEFILE, [
                     'Rules\A_xs5300_net.xml',
                     'Rules\A_biqusk_com.xml',
                     'Rules\A_biqusk_com.xml',
                     'Rules\p1_biqusk_com.xml'
 
-                ])){
+                ])) {
                     continue;
                 }
             }
             $gid = $log->GETID;
-            if(isset($source_article_groups[$md5])){
+            $local_article_id = $log->NID;
+            if (isset($source_article_groups[$md5])) {
                 $gid = $source_article_groups[$md5]['article_id'];
+                if ($source_article_groups[$md5]['local_article_id']) {
+                    $local_article_id = $source_article_groups[$md5]['local_article_id'];
+                }
             }
 
             $rule_ids[$gid] = date('Y-m-d H:i:s', $last_update);
+            $local_article_ids[$local_article_id] = date('Y-m-d H:i:s', $last_update);
         }
 
         asort($rule_ids);
-        echo implode(',', array_keys($rule_ids));
+        asort($local_article_ids);
+        echo implode(',', array_keys($rule_ids)) . "\n";
+        echo implode(',', array_keys($local_article_ids)) . "\n";
     }
 
     public function get_source_list(Request $request)

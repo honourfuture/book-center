@@ -82,21 +82,28 @@ class FixChapterName extends Command
         $error_pairs = [];
         $is_fix = 1;
 
+        $origin_article['chapters'] = array_flip(array_flip($origin_article['chapters']));
+        $origin_article['chapter_hrefs'] = array_flip(array_flip($origin_article['chapter_hrefs']));
         foreach ($chapters as $chapter) {
             if ($chapter['chaptername'] == '正文' || $chapter['chaptername'] == '全部章节') {
                 continue;
             }
 
             $search_key = array_search($chapter['chaptername'], $origin_article['chapters']);
+
             if ($search_key) {
                 $right_search_key = $search_key;
+                // $this->_error_log("[{$search_key}]  [{$chapter['chaptername']}]  [{$origin_article['chapters'][$search_key]}]");
             } else {
+
+                $right_search_key = $right_search_key + 1;
                 if (!isset($origin_article['chapters'][$right_search_key])) {
                     $is_fix = 0;
                     $this->_error_log("[{$chapter['articleid']}] [{$chapter['chapterid']}] [{$chapter['chaptername']}] 未找到对应章节");
                     break;
                 }
-                $right_search_key++;
+                // $this->_error_log("[{$right_search_key}]  [{$chapter['chaptername']}]  [{$origin_article['chapters'][$right_search_key]}]");
+
                 $error_pair = [
                     'local_chapter_id' => $chapter['chapterid'],
                     'local_chapter_name' => $chapter['chaptername'],
