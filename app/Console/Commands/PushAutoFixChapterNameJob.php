@@ -19,7 +19,7 @@ class PushAutoFixChapterNameJob extends Command
      *
      * @var string
      */
-    protected $signature = 'push:article {--article_ids=} {--site=} {--limit=}';
+    protected $signature = 'push:chapter {--article_ids=} {--site=} {--limit=}';
 
     /**
      * The console command description.
