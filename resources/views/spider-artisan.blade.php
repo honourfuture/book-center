@@ -50,11 +50,10 @@
 
                 sudo yum update
                 sudo yum install -y wget curl unzip fontconfig libX11-devel libXcomposite-devel libXcursor-devel libXdamage-devel libXext-devel libXi-devel libXtst-devel libXrandr-devel libXrender-devel libXss-devel libXScrnSaver-devel libappindicator-gtk3 libappindicator-devel
-
-
                 yum install pango.x86_64 libXcomposite.x86_64 libXcursor.x86_64 libXdamage.x86_64 libXext.x86_64 libXi.x86_64 libXtst.x86_64 cups-libs.x86_64 libXScrnSaver.x86_64 libXrandr.x86_64 GConf2.x86_64 alsa-lib.x86_64 atk.x86_64 gtk3.x86_64 nss.x86_64 -y
+                yum install
 
-                node page.js
+
                 npm install pm2@latest -g
                 pm2 start page.js
                 pm2 monit
@@ -83,6 +82,7 @@
                 cd remote-origin
                 npm install express puppeteer
                 npm i puppeteer-core
+                node page.js
             </code>
         </pre>
     </div>

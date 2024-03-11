@@ -29,7 +29,6 @@ class RuleEnum
         'Rules\A_mayiwxw_com_update.xml',
         'Rules\A_biqusk_com.xml',
         'Rules\p1_biqusk_com.xml'
-
     ];
 
     const TT = ['Rules\m_ttshuba_org.xml'];
