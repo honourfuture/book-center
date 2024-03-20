@@ -31,7 +31,7 @@ Route::get('/remote-site', [\App\Http\Controllers\RemoteSiteController::class, '
 Route::get('/remote-site/cookie', [\App\Http\Controllers\RemoteSiteController::class, 'get_origin_view_cookie']);
 
 //最近访问列表
-Route::get('/update-article', [\App\Http\Controllers\UpdateArticleController::class, 'article']);
+//Route::get('/update-article', [\App\Http\Controllers\UpdateArticleController::class, 'article']);
 
 //校对
 Route::get('/article/{id}', [\App\Http\Controllers\ArticleController::class, 'article'])->name('check-error-article');
@@ -49,6 +49,7 @@ Route::get('/fl-article-list', [\App\Http\Controllers\ArticleController::class, 
 //static
 Route::get('/static', [\App\Http\Controllers\StaticController::class, 'build_static']);
 Route::get('/update-article', [\App\Http\Controllers\StaticController::class, 'update_article']);
+Route::get('/add-article', [\App\Http\Controllers\StaticController::class, 'add_article']);
 Route::get('/update-article-crontab', [\App\Http\Controllers\StaticController::class, 'update_article_crontab']);
 //source
 Route::get('/create-source/{id}', [\App\Http\Controllers\ArticleController::class, 'create_source_article'])->name('create-source');
@@ -82,5 +83,6 @@ Route::get('/trend-article', [\App\Http\Controllers\SearchSpiderController::clas
 //source
 Route::get('/add-source-article', [\App\Http\Controllers\SourceArticleController::class, 'add_source_article']);
 
+Route::get('/log-shell', [\App\Http\Controllers\ToolController::class, 'shell']);
 
 

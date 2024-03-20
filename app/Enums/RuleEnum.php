@@ -42,4 +42,5 @@ class RuleEnum
     const MAYI_AUTO = [
         'Rules\A_mayiwxw_com_auto_replace.xml'
     ];
+
 }

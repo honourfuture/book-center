@@ -41,13 +41,29 @@ class StaticController extends Controller
 
         $update_article_ids = $update_articles->pluck('local_article_id')->unique()->toArray();
 
-        foreach ($update_article_ids as $article_id){
-            if($article_id == 0){
+        foreach ($update_article_ids as $article_id) {
+            if ($article_id == 0) {
                 continue;
             }
             dispatch((new AutoArticleAllJob($article_id))->onQueue(QueueNameEnum::UPDATE_ALL_JOB));
         }
         BookUpdateArticle::whereIn('id', $ids)->delete();
+        return view('static/mayi', ['update_articles' => $update_articles]);
+    }
+
+    public function add_article(Request $request)
+    {
+        $site = $request->get('site', 'mayi');
+        $type = $request->get('type', 2);
+        $update_articles = BookUpdateArticle::where('type', $type)
+            ->where('site', $site)
+            ->where('local_article_id', 0)
+            ->limit(10)
+            ->get();
+
+        $ids = $update_articles->pluck('id');
+
+//        BookUpdateArticle::whereIn('id', $ids)->delete();
         return view('static/mayi', ['update_articles' => $update_articles]);
     }
 
