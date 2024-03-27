@@ -58,12 +58,12 @@ class StaticController extends Controller
         $update_articles = BookUpdateArticle::where('type', $type)
             ->where('site', $site)
             ->where('local_article_id', 0)
-            ->limit(10)
+            ->limit(100)
             ->get();
 
         $ids = $update_articles->pluck('id');
 
-//        BookUpdateArticle::whereIn('id', $ids)->delete();
+        BookUpdateArticle::whereIn('id', $ids)->delete();
         return view('static/mayi', ['update_articles' => $update_articles]);
     }
 
