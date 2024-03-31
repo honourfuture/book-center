@@ -33,6 +33,8 @@ class FixChapter extends Command
 
     private $spiderService;
 
+    private $errorNums = 0;
+
     /**
      * Create a new command instance.
      *
@@ -152,6 +154,11 @@ class FixChapter extends Command
 //                continue;
             }
 
+            if($this->errorNums > 5){
+                $this->_error_log("[{$article_id}] [10004] [{$chapter->chapterid} - {$chapter->chaptername}]连续错误次数过多跳出");
+                continue;
+            }
+
             $chapter_name = clear_text($chapter->chaptername);
 
             if(isset($full_origin_chapters[$chapter_name])){
@@ -167,8 +174,10 @@ class FixChapter extends Command
                     $storage->put($chapter->file_path, $text);
                     $change_chapter_ids[] = $chapter->chapterid;
                     $this->_info_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 成功");
+                    $this->errorNums = 0;
                     continue;
                 } else {
+                    $this->errorNums++;
                     $this->_error_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 失败, 源站章节错误");
                     continue;
                 }
