@@ -84,5 +84,6 @@ Route::get('/trend-article', [\App\Http\Controllers\SearchSpiderController::clas
 Route::get('/add-source-article', [\App\Http\Controllers\SourceArticleController::class, 'add_source_article']);
 
 Route::get('/log-shell', [\App\Http\Controllers\ToolController::class, 'shell']);
+Route::post('/do-log-shell', [\App\Http\Controllers\ToolController::class, 'do_shell']);
 
 
