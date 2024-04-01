@@ -116,8 +116,8 @@ return [
     '69shu' => [
         'name' => '69shu',
         'charset' => 'gbk',
-        'domain' => 'http://154.9.27.55/q.php?url=https://www.69shu.pro',
-        'url' => 'http://154.9.27.55/q.php?url=',
+        'domain' => 'http://46.149.196.121/q.php?url=https://www.69shu.pro',
+        'url' => 'http://46.149.196.121/q.php?url=',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(11)', 'content'],
             'author' => ['meta:eq(10)', 'content'],
@@ -134,7 +134,7 @@ return [
 
         'get_chapter_find' => '.txtnav:text',
 
-        'article_url' => "http://154.9.27.55/q.php?url=https://www.69shu.pro/book/{--article_id--}/",
+        'article_url' => "http://46.149.196.121/q.php?url=https://www.69shu.pro/book/{--article_id--}/",
 
         'content_preg' => function ($text) {
             $text = str_replace([

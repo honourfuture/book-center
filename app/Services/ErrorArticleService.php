@@ -25,7 +25,7 @@ class ErrorArticleService
         ])->where('articleid', $article_id)
             ->where('chaptertype', 0)
             ->where('is_right', 0)
-            ->orderBy('chapterorder', 'desc');
+            ->orderBy('chapterorder', 'asc');
 
         if($limit){
             $chapters = $chapters->limit($limit);

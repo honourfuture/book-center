@@ -154,9 +154,9 @@ class FixChapter extends Command
                 continue;
             }
 
-            if($this->errorNums > 5){
+            if($this->errorNums > 8){
                 $this->_error_log("[{$article_id}] [10004] [{$chapter->chapterid} - {$chapter->chaptername}]连续错误次数过多跳出");
-                continue;
+                break;
             }
 
             $chapter_name = clear_text($chapter->chaptername);
