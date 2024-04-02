@@ -160,8 +160,8 @@ return [
     'xwbiquge' => [
         'name' => 'xwbiquge',
         'charset' => 'utf-8',
-        'domain' => 'http://101.200.132.193/tieshuw.php?url=http://www.xwbiquge.com',
-        'url' => 'http://101.200.132.193/tieshuw.php?url=http://www.xwbiquge.com',
+        'domain' => 'http://81.68.159.206/tieshuw.php?url=http://www.xwbiquge.com',
+        'url' => 'http://81.68.159.206/tieshuw.php?url=http://www.xwbiquge.com',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(14)', 'content'],
             'author' => ['meta:eq(12)', 'content'],
@@ -178,7 +178,7 @@ return [
 
         'get_chapter_find' => '#booktxt:text',
 
-        'article_url' => "http://101.200.132.193/tieshuw.php?url=http://www.xwbiquge.com/biquge_{--article_id--}/",
+        'article_url' => "http://81.68.159.206/tieshuw.php?url=http://www.xwbiquge.com/biquge_{--article_id--}/",
 
         'content_preg' => function ($text) {
             $text = str_replace([
@@ -210,8 +210,8 @@ return [
     '00shu' => [
         'name' => '00shu',
         'charset' => 'utf-8',
-        'domain' => 'http://www.00kanshu.cc',
-        'url' => 'http://www.00kanshu.cc',
+        'domain' => 'http://81.68.159.206/tieshuw.php?url=http://www.00kanshu.cc',
+        'url' => 'http://81.68.159.206/tieshuw.php?url=http://www.00kanshu.cc',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(14)', 'content'],
             'author' => ['meta:eq(12)', 'content'],
@@ -228,7 +228,7 @@ return [
 
         'get_chapter_find' => '#booktxt:text',
 
-        'article_url' => "http://www.00kanshu.cc/book/{--article_id--}/",
+        'article_url' => "http://81.68.159.206/tieshuw.php?url=http://www.00kanshu.cc/book/{--article_id--}/",
 
         'content_preg' => function ($text) {
             $text = str_replace([
