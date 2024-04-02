@@ -52,6 +52,7 @@ class FixChapter extends Command
      */
     public function handle()
     {
+        $this->errorNums = 0;
         $article_id = $this->option('article_id');
         $site = $this->option('site');
         $limit = $this->option('limit');
@@ -156,7 +157,7 @@ class FixChapter extends Command
 
             if($this->errorNums > 8){
                 $this->_error_log("[{$article_id}] [10004] [{$chapter->chapterid} - {$chapter->chaptername}]连续错误次数过多跳出");
-                break;
+//                break;
             }
 
             $chapter_name = clear_text($chapter->chaptername);
