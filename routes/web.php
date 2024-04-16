@@ -86,4 +86,5 @@ Route::get('/add-source-article', [\App\Http\Controllers\SourceArticleController
 Route::get('/log-shell', [\App\Http\Controllers\ToolController::class, 'shell']);
 Route::post('/do-log-shell', [\App\Http\Controllers\ToolController::class, 'do_shell']);
 
-
+Route::get('/day-counter', [\App\Http\Controllers\AnalyseController::class, 'day']);
+Route::get('/day-rule', [\App\Http\Controllers\AnalyseController::class, 'day_rule']);
