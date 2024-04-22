@@ -152,7 +152,7 @@ class FixChapter extends Command
 
             if($chapter->error_nums > 100){
                 $this->_error_log("[{$article_id}] [10003] [{$chapter->chapterid} - {$chapter->chaptername}]错误次数过多跳出");
-                continue;
+//                continue;
             }
 
             if($this->errorNums > 8){

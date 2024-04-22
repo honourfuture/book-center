@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RuleEnum;
+use App\Enums\SqliteErrorEnum;
 use App\Models\Chapter;
 use App\Models\Counter;
 use App\Models\Domain;
@@ -57,5 +58,41 @@ class AnalyseController extends Controller
             );
 
         }
+    }
+
+    public function show(Request $request)
+    {
+        $error_codes = $request->get('error_codes', '');
+        if ($error_codes) {
+            $error_codes = explode(',', $error_codes);
+        }
+
+        $counters = Counter::orderBy('date', 'desc')->get()->keyBy('date')->toArray();
+
+        $rule_errors = [];
+        $sqlite_error_codes = SqliteErrorEnum::ERROR_CODE;
+        foreach ($counters as $key => $counter) {
+
+            $rule_counters = json_decode($counter['rule_counter'], true);
+            foreach ($rule_counters as $k => $rule_counter) {
+                if ($error_codes) {
+                    if (!in_array($rule_counter['EXID'], $error_codes)) {
+                        unset($counters[$key]['rule_counters'][$k]);
+                        continue;
+                    }
+                }
+                $unique_key = md5($rule_counter['RULEFILE'] . '_' . $rule_counter['EXID']);
+                $counters[$key]['rule_counters'][$unique_key]['exid_lang'] = $sqlite_error_codes[$rule_counter['EXID']];
+                $counters[$key]['rule_counters'][$unique_key]['unique'] = $unique_key;
+                $counters[$key]['rule_counters'][$unique_key]['count'] = $rule_counter['COUNT'];
+                $counters[$key]['rule_counters'][$unique_key]['rule'] = str_replace('Rules\\', '', $rule_counter['RULEFILE']);
+                $rule_errors[$unique_key]['rule'] = str_replace('Rules\\', '', $rule_counter['RULEFILE']);
+                $rule_errors[$unique_key]['exid_lang'] = $sqlite_error_codes[$rule_counter['EXID']];
+            }
+        }
+        return view('analyse.counter', [
+            'rule_errors' => $rule_errors,
+            'counters' => $counters
+        ]);
     }
 }

@@ -88,3 +88,4 @@ Route::post('/do-log-shell', [\App\Http\Controllers\ToolController::class, 'do_s
 
 Route::get('/day-counter', [\App\Http\Controllers\AnalyseController::class, 'day']);
 Route::get('/day-rule', [\App\Http\Controllers\AnalyseController::class, 'day_rule']);
+Route::get('/day-show', [\App\Http\Controllers\AnalyseController::class, 'show']);
