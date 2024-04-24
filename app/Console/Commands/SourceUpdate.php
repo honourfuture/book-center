@@ -46,26 +46,26 @@ class SourceUpdate extends Command
      */
     public function handle()
     {
-        $type = $this->option('type');
-        if(!$type || !in_array($type, ['all', 'append'])){
-            $this->error("type值 [all] [append]");
-        }
-
-        $article_model = Article::select(['articleid', 'articlename', 'author'])->orderBy('articleid', 'asc');
-        if($type == 'append'){
-            $max_id = SourceArticle::select([DB::raw('max(local_article_id) as id')])->first();
-            $article_model = $article_model->where('articleid', '>', $max_id->id);
-        }
-
-        $article_model->chunk(500, function ($artciles){
-            foreach ($artciles as $artcile){
-                $this->info("{$artcile->articleid} {$artcile->articlename}");
-                SourceArticle::where('article_name', $artcile->articlename)->where('author', $artcile->author)->update([
-                    'local_article_id' => $artcile->articleid
-                ]);
-            }
-        });
-        die;
+//        $type = $this->option('type');
+//        if(!$type || !in_array($type, ['all', 'append'])){
+//            $this->error("type值 [all] [append]");
+//        }
+//
+//        $article_model = Article::select(['articleid', 'articlename', 'author'])->orderBy('articleid', 'asc');
+//        if($type == 'append'){
+//            $max_id = SourceArticle::select([DB::raw('max(local_article_id) as id')])->first();
+//            $article_model = $article_model->where('articleid', '>', $max_id->id);
+//        }
+//
+//        $article_model->chunk(500, function ($artciles){
+//            foreach ($artciles as $artcile){
+//                $this->info("{$artcile->articleid} {$artcile->articlename}");
+//                SourceArticle::where('article_name', $artcile->articlename)->where('author', $artcile->author)->update([
+//                    'local_article_id' => $artcile->articleid
+//                ]);
+//            }
+//        });
+//        die;
 
         $source_articles = SourceArticle::select('*')->whereNull('article_id')->chunk(1000, function ($source_articles) {
 
@@ -73,7 +73,7 @@ class SourceUpdate extends Command
                 $pattern = '/","copyright":".*/';
                 $article_name = preg_replace($pattern, '', $article->article_name);
                 $article_name = trim($article_name);
-                $pattern = '/https:\/\/www\.ttshuba\.org\/info-(\d+)\.html/';
+                $pattern = '/https:\/\/www\.ttshuba\.cc\/info-(\d+)\.html/';
 
                 preg_match($pattern, $article->origin_url, $matches);
 
