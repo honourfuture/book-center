@@ -67,7 +67,7 @@ class SourceUpdate extends Command
 //        });
 //        die;
 
-        $source_articles = SourceArticle::select('*')->whereNull('article_id')->chunk(1000, function ($source_articles) {
+        $source_articles = SourceArticle::select('*')->whereNull('article_id')->where('source', 'tt')->chunk(1000, function ($source_articles) {
 
             foreach ($source_articles as $article) {
                 $pattern = '/","copyright":".*/';
@@ -76,15 +76,17 @@ class SourceUpdate extends Command
                 $pattern = '/https:\/\/www\.ttshuba\.cc\/info-(\d+)\.html/';
 
                 preg_match($pattern, $article->origin_url, $matches);
-
                 $id = $matches[1];
 
-                SourceArticle::where('id', $article->id)->update([
-                    'article_name' => $article_name,
-                    'article_id' => $id,
-                    'source' => 'tt'
-                ]);
-                $this->info($article_name);
+                if ($id) {
+                    SourceArticle::where('id', $article->id)->update([
+                        'article_name' => $article_name,
+                        'article_id' => $id,
+                        'source' => 'tt'
+                    ]);
+                    $this->info($article_name);
+                }
+
             }
         });
     }

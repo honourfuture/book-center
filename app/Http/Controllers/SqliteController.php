@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\SourceArticle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function AlibabaCloud\Client\json;
 
 class SqliteController extends Controller
 {
@@ -179,6 +180,7 @@ class SqliteController extends Controller
         $max_date = $request->get('max_date', date('Y-m-d 00:00:00'));
         $min_date = $request->get('min_date', date('1970-01-01 00:00:00'));
         $is_all = $request->get('is_all', 1);
+        $format = $request->get('format', 'get');
 
         $rules = [
             'mayi' => RuleEnum::MA_YI_120,
@@ -260,8 +262,16 @@ class SqliteController extends Controller
 
         asort($rule_ids);
         asort($local_article_ids);
-        echo implode(',', array_keys($rule_ids)) . "\n";
-        echo implode(',', array_keys($local_article_ids)) . "\n";
+
+        if ($format == 'get') {
+            echo implode(',', array_keys($rule_ids)) . "\n";
+            echo implode(',', array_keys($local_article_ids)) . "\n";
+        } else {
+            return response()->json([
+                'rule_ids' => implode(',', array_keys($rule_ids)),
+                'local_article_ids' => implode(',', array_keys($local_article_ids)),
+            ]);
+        }
     }
 
     public function get_source_list(Request $request)

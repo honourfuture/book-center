@@ -37,8 +37,6 @@ class AnalyseController extends Controller
             ['date' => $date],
             ['day_update_counter' => $article_count]
         );
-
-
     }
 
     public function day_rule(Request $request)
