@@ -66,7 +66,7 @@ class PushFixChapterName extends Command
                 '--limit' => 30,
             ]);
         }
-        $target_url = config('app.url') . "day_rule?";
+        $target_url = config('app.url') . "day-rule?";
         $response = $client->request('GET', $target_url, [
             'query' => [
                 'db_name' => $date
