@@ -47,7 +47,7 @@ class PushFixChapterName extends Command
     public function handle()
     {
         $client = new Client();
-        $target_url = config('app.url') . "/get-mayi-list?";
+        $target_url = config('app.url') . "get-mayi-list?";
 
         $date = date('Ymd', strtotime('-1 day'));
 
@@ -66,7 +66,7 @@ class PushFixChapterName extends Command
                 '--limit' => 30,
             ]);
         }
-        $target_url = config('app.url') . "/day_rule?";
+        $target_url = config('app.url') . "day_rule?";
         $response = $client->request('GET', $target_url, [
             'query' => [
                 'db_name' => $date
