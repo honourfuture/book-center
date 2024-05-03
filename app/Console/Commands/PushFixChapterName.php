@@ -57,7 +57,7 @@ class PushFixChapterName extends Command
             ]
         ]);
         $result = $response->getBody()->getContents();
-        $result = json_decode($result);
+        $result = json_decode($result, true);
 
         if (isset($result['local_article_ids']) && $result['local_article_ids']) {
             Artisan::call("push:chapter", [
