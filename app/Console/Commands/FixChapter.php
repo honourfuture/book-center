@@ -62,6 +62,9 @@ class FixChapter extends Command
         if (!$site) {
             $site = 'mayi';
         }
+        if($site == 'tt'){
+            $limit = 500;
+        }
         /** @var SpiderService $spiderService */
         $this->spiderService = app('SpiderService', [
             'site' => $site,
