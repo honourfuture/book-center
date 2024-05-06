@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('push:fixChapterName')->dailyAt('01:00');
+         $schedule->command('push:fixChapterName')->dailyAt('00:15');
     }
 
     /**

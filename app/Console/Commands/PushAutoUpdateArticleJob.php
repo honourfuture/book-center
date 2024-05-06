@@ -70,7 +70,7 @@ class PushAutoUpdateArticleJob extends Command
                     dispatch((new AutoArticleXWBiQuGeJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_XW_BiQuGe_JOB));
                     break;
                 case '00shu':
-//                    dispatch((new AutoArticle00ShuJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_XW_00Shu_JOB));
+                    dispatch((new AutoArticle00ShuJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_XW_00Shu_JOB));
                     break;
                 case '69shu':
                     dispatch((new AutoArticle69ShuJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_69SHU_JOB));
