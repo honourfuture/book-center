@@ -78,6 +78,10 @@ class FixChapterName extends Command
         $origin_article = $this->_get_origin_article($article);
         $origin_article = isset($origin_article[0]) ? $origin_article[0] : [];
 
+        if (!$origin_article || !isset($origin_article['chapters'])) {
+            $this->_error_log(400, '远程章节获取失败');
+            exit();
+        }
         $right_search_key = 0;
         $error_pairs = [];
         $is_fix = 1;

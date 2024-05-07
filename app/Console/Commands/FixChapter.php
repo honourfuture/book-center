@@ -56,7 +56,7 @@ class FixChapter extends Command
         $article_id = $this->option('article_id');
         $site = $this->option('site');
         $limit = $this->option('limit');
-        if(!$limit){
+        if (!$limit) {
             $limit = 0;
         }
         if (!$site) {
@@ -92,7 +92,7 @@ class FixChapter extends Command
         $all_error_chapters = $chapters->where('is_error_chapter', 1);
         $this->_line_log("[{$article_id}] 错误章节数: {$all_error_chapters->count()} ");
 
-        if($all_error_chapters->count() > 500){
+        if ($all_error_chapters->count() > 500) {
             $this->_error_log("[{$article_id}] [10003] 错误章节过多");
             throw new FixChapterException(400, '错误章节过多');
         }
@@ -108,29 +108,27 @@ class FixChapter extends Command
         $origin_chapters = [];
         $full_origin_chapters = [];
         $repeat_chapter_count = 0;
-        try {
-            foreach ($origin_article['chapters'] as $key => $origin_chapter) {
+        if (!$origin_article || !isset($origin_article['chapters'])) {
+            throw new FixChapterException(400, '远程章节获取失败');
+        }
 
-                if (!isset($origin_article['chapter_hrefs'][$key])) {
-                    $this->_error_log("[{$article_id}] [10001] 当前URL对数量不一致");
-                    throw new FixChapterException(400, '当前URL对数量不一致');
-                }
+        foreach ($origin_article['chapters'] as $key => $origin_chapter) {
 
-                $clear_origin_chapter = clear_text($origin_chapter);
-                if (isset($origin_chapters[$clear_origin_chapter])) {
-                    $repeat_chapter_count++;
-                    continue;
-                }
-                $origin_chapters[$clear_origin_chapter]['original_chapter_name'] = $origin_chapter;
-                $origin_chapters[$clear_origin_chapter]['url'] = $origin_article['chapter_hrefs'][$key];
-
-                $full_origin_chapters[$origin_chapter]['original_chapter_name'] = $origin_chapter;
-                $full_origin_chapters[$origin_chapter]['url'] = $origin_article['chapter_hrefs'][$key];
+            if (!isset($origin_article['chapter_hrefs'][$key])) {
+                $this->_error_log("[{$article_id}] [10001] 当前URL对数量不一致");
+                throw new FixChapterException(400, '当前URL对数量不一致');
             }
-        } catch (\Exception $e) {
-            print_r($e->getMessage());
-            print_r($origin_article);
-            exit;
+
+            $clear_origin_chapter = clear_text($origin_chapter);
+            if (isset($origin_chapters[$clear_origin_chapter])) {
+                $repeat_chapter_count++;
+                continue;
+            }
+            $origin_chapters[$clear_origin_chapter]['original_chapter_name'] = $origin_chapter;
+            $origin_chapters[$clear_origin_chapter]['url'] = $origin_article['chapter_hrefs'][$key];
+
+            $full_origin_chapters[$origin_chapter]['original_chapter_name'] = $origin_chapter;
+            $full_origin_chapters[$origin_chapter]['url'] = $origin_article['chapter_hrefs'][$key];
         }
 
         if ($repeat_chapter_count > 60) {
@@ -151,19 +149,19 @@ class FixChapter extends Command
                 continue;
             }
 
-            if($chapter->error_nums > 100){
+            if ($chapter->error_nums > 100) {
                 $this->_error_log("[{$article_id}] [10003] [{$chapter->chapterid} - {$chapter->chaptername}]错误次数过多跳出");
 //                continue;
             }
 
-            if($this->errorNums > 8){
+            if ($this->errorNums > 8) {
                 $this->_error_log("[{$article_id}] [10004] [{$chapter->chapterid} - {$chapter->chaptername}]连续错误次数过多跳出");
 //                break;
             }
 
             $chapter_name = clear_text($chapter->chaptername);
 
-            if(isset($full_origin_chapters[$chapter_name])){
+            if (isset($full_origin_chapters[$chapter_name])) {
                 $url = $full_origin_chapters[$chapter_name]['url'];
                 $this->_line_log("[{$article_id}] 开始修复章节[{$chapter->chapterid}]: {$chapter->chaptername}");
 
