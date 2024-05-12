@@ -119,6 +119,22 @@ class ErrorArticleService
         if (strpos($content, "也杀死了多位八阶强者") !== false) {
             return 1;
         }
+        if(strpos($content, "LqOFWfg2cmn") !== false){
+            return 1;
+        }
+        $str_len = mb_strlen($content);
+        if ($str_len < 666) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    public function is_special_error_chapter($content)
+    {
+        if(strpos($content, "LqOFWfg2cmn") !== false){
+            return 1;
+        }
         $str_len = mb_strlen($content);
         if ($str_len < 666) {
             return 1;
