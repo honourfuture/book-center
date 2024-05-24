@@ -7,6 +7,7 @@ use App\Models\BookUpdateArticle;
 use App\Models\SourceArticle;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use QL\QueryList;
@@ -54,7 +55,7 @@ class CollectArticle extends Command
 
         $page = $config['pages'][$page];
 
-        $html = $this->_origin($page['url']);
+        $html = $this->get_proxy($page['url']);
 
         if ($config['charset'] == 'gbk') {
             $html = iconv('gbk', 'utf-8//IGNORE', $html);
@@ -164,6 +165,27 @@ class CollectArticle extends Command
         SourceArticle::insert($insert_source_articles);
 
         echo date('Y-m-d H:i:s', time());
+    }
+
+    public function get_proxy($url)
+    {
+        $client = new Client([
+            'base_uri' => $url,
+            'timeout' => 6.0
+        ]);
+
+        $options =[
+            'query' => [
+                'time' => time(),
+            ]
+        ];
+        $request = new Request('GET', $url, $options);
+
+        $promise = $client->sendAsync($request)->then(function ($response) {
+            return $response->getBody()->getContents();
+        });
+
+        return $promise->wait();
     }
 
     private function _match_article_id($url)

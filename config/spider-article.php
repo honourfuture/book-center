@@ -10,10 +10,10 @@ return [
     'mayi' => [
         'name' => 'mayi',
         'charset' => 'utf-8',
-        'domain' => 'https://www.mayiwsk.com',
+        'domain' => 'http://101.200.132.193/tieshuw.php?url=https://www.mayiwsk.com',
         'pages' => [
             'home' => [
-                'url' => 'https://www.mayiwsk.com',
+                'url' => 'http://101.200.132.193/tieshuw.php?url=https://www.mayiwsk.com',
                 'rule' => [
                     'article_names' => ['.s2>a', 'texts'],
                     // DOM解析链接
