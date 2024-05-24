@@ -82,7 +82,6 @@ class FixChapter extends Command
         $error_article_service = app('ErrorArticleService');
         $chapters = $error_article_service->check_error_chapters($article, $limit);
 
-
         $right_chapters = $chapters->where('is_error_chapter', 0);
         $right_chapter_ids = $right_chapters->pluck('chapterid')->toArray();
         if ($right_chapter_ids) {
@@ -141,7 +140,6 @@ class FixChapter extends Command
         /** @var TextTypeSetService $textTypeSetService */
         $textTypeSetService = app('TextTypeSetService');
 
-
         $error_chapter_ids = $change_chapter_ids = [];
         $storage = Storage::disk('article');
         foreach ($chapters as $chapter) {
@@ -163,6 +161,7 @@ class FixChapter extends Command
 
             if (isset($full_origin_chapters[$chapter_name])) {
                 $url = $full_origin_chapters[$chapter_name]['url'];
+                $url = str_replace('http://m.', 'http://www.', $url);
                 $this->_line_log("[{$article_id}] 开始修复章节[{$chapter->chapterid}]: {$chapter->chaptername}");
 
                 $text = $this->_get_origin_chapter($url);
@@ -187,6 +186,7 @@ class FixChapter extends Command
             if (isset($origin_chapters[$chapter_name])) {
                 $url = $origin_chapters[$chapter_name]['url'];
 
+                $url = str_replace('http://m.', 'http://www.', $url);
                 $this->_line_log("[{$article_id}] 开始修复章节[{$chapter->chapterid}]: {$chapter->chaptername}");
 
                 $text = $this->_get_origin_chapter($url);

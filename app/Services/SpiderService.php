@@ -61,7 +61,7 @@ class SpiderService
     }
 
 
-    public function get_69shu($url)
+    public function get_proxy($url)
     {
         $client = new Client([
             'base_uri' => $url,
@@ -102,9 +102,8 @@ class SpiderService
 
     public function get_article($url)
     {
-        if($this->source == '69shu' || $this->source == 'xwbiquge'){
-            $html = $this->get_69shu($url);
-            sleep(5);
+        if($this->config['is_proxy']){
+            $html = $this->get_proxy($url);
         }else{
             $html = $this->get_other($url);
         }
@@ -116,7 +115,6 @@ class SpiderService
                 $html = mb_convert_encoding($html, 'utf-8', 'GBK');
             }
         }
-
         // 元数据DOM解析规则
         $rules = [
             // DOM解析文章标题
@@ -144,8 +142,8 @@ class SpiderService
 
     public function get_chapter($url, $content = '')
     {
-        if($this->source == '69shu' || $this->source == 'xwbiquge'){
-            $html = $this->get_69shu($url);
+        if($this->config['is_proxy']){
+            $html = $this->get_proxy($url);
         }else{
             $html = $this->get_other($url);
         }
@@ -161,9 +159,8 @@ class SpiderService
         if (isset($this->config['next_page'])) {
             $next_page = $this->config['next_page'];
             $next_info = QueryList::html($html)->rules($next_page['rule'])->range($next_page['range'])->query()->getData();
-
             if($next_info[0]['text'][0] == $this->config['next_page']['has_text']){
-                $next_url = $this->config['url'] . $next_info[0]['url'][0];
+                $next_url = $this->config['next_url'] . $next_info[0]['url'][0];
                 $content = $this->get_chapter($next_url, $content);
             }
         }
@@ -214,7 +211,6 @@ class SpiderService
         }
 
         return $this->build_article_url($source_article->article_id);
-
 
         $origin_articles = SourceArticle::where('article_name', $article->articlename)->get();
 
