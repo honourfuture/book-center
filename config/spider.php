@@ -10,15 +10,15 @@ return [
     'mayi' => [
         'name' => 'mayi',
         'charset' => 'utf-8',
-        'domain' => 'https://www.mayiwsk.com',
-        'url' => 'https://www.mayiwsk.com',
+        'domain' => 'http://101.200.132.193/tieshuw.php?url=https://www.mayiwsk.com',
+        'url' => 'http://101.200.132.193/tieshuw.php?url=https://www.mayiwsk.com',
         'next_url' => 'https://www.mayiwsk.com',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(11)', 'content'],
             'author' => ['meta:eq(10)', 'content'],
             'desc' => ['#intro', 'text']
         ],
-        'is_proxy' => false,
+        'is_proxy' => true,
         'get_article_rule' => [
             'chapters' => ['a', 'texts'],
             // DOM解析链接
@@ -29,7 +29,7 @@ return [
 
         'get_chapter_find' => '#content',
 
-        'article_url' => "https://www.mayiwsk.com/{--index--}_{--article_id--}/index.html",
+        'article_url' => "http://101.200.132.193/tieshuw.php?url=https://www.mayiwsk.com/{--index--}_{--article_id--}/index.html",
 
         'content_preg' => function ($text) {
             $text = str_replace([
