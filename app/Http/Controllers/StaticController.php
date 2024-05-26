@@ -40,6 +40,16 @@ class StaticController extends Controller
         $update_articles = BookUpdateArticle::where('type', $type)->where('site', $site)->limit(200)->get();
         $ids = $update_articles->pluck('id');
 
+        return view('static/mayi', ['update_articles' => $update_articles]);
+    }
+
+    public function job_article(Request $request)
+    {
+        $site = $request->get('site', 'mayi');
+        $type = $request->get('type', 1);
+        $update_articles = BookUpdateArticle::where('type', $type)->where('site', $site)->where(['is_push_job' => 0])->get();
+        $ids = $update_articles->pluck('id');
+
         $update_article_ids = $update_articles->pluck('local_article_id')->unique()->toArray();
 
         foreach ($update_article_ids as $article_id) {
@@ -48,7 +58,7 @@ class StaticController extends Controller
             }
             dispatch((new AutoArticleAllJob($article_id))->onQueue(QueueNameEnum::UPDATE_ALL_JOB));
         }
-        BookUpdateArticle::whereIn('id', $ids)->delete();
+        BookUpdateArticle::whereIn('id', $ids)->update(['is_push_job' => 1]);
         return view('static/mayi', ['update_articles' => $update_articles]);
     }
 

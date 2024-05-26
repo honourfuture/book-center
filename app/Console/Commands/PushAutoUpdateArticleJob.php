@@ -75,6 +75,9 @@ class PushAutoUpdateArticleJob extends Command
                 case '69shu':
                     dispatch((new AutoArticle69ShuJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_69SHU_JOB));
                     break;
+                case 'aihao':
+                    dispatch((new AutoArticle69ShuJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_CHAPTER_AIHAO_JOB));
+                    break;
             }
         }
     }

@@ -67,13 +67,13 @@ class SourceUpdate extends Command
 //        });
 //        die;
 
-        $source_articles = SourceArticle::select('*')->whereNull('article_id')->where('source', 'tt')->chunk(1000, function ($source_articles) {
+        SourceArticle::select('*')->whereNull('article_id')->where('source', 'aihao')->chunk(1000, function ($source_articles) {
 
             foreach ($source_articles as $article) {
                 $pattern = '/","copyright":".*/';
                 $article_name = preg_replace($pattern, '', $article->article_name);
                 $article_name = trim($article_name);
-                $pattern = '/https:\/\/www\.ttshuba\.cc\/info-(\d+)\.html/';
+                $pattern = '/http:\/\/www\.aihaowenxue\.cc\/xiaoshuo\/(\d+)\//';
 
                 preg_match($pattern, $article->origin_url, $matches);
                 $id = $matches[1];
@@ -82,7 +82,7 @@ class SourceUpdate extends Command
                     SourceArticle::where('id', $article->id)->update([
                         'article_name' => $article_name,
                         'article_id' => $id,
-                        'source' => 'tt'
+                        'source' => 'aihao'
                     ]);
                     $this->info($article_name);
                 }
