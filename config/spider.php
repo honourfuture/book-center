@@ -291,7 +291,7 @@ return [
                 '</p>',
             ], '', $text);
             $text = str_replace([
-                '<br>',
+                '<br/>',
             ], '<br />', $text);
             $text = preg_replace('/(<div\b[^>]*>|<\/div>|<h1\b[^>]*>[^<]*<\/h1>|<script\b[^>]*>[^<]*<\/script>|<span\b[^>]*>[^<]*<\/span>|<a\b[^>]*>[^<]*<\/a>)/i', '', $text);
             //删除多余的空行
