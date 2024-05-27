@@ -75,7 +75,7 @@ class StaticController extends Controller
 
         $article_ids = Article::where('lastupdate', '>', $last_time)->where('lastupdate', '<', $time)->pluck('aritcleid');
         foreach ($article_ids as $article_id) {
-            dispatch((new AutoArticleAllJob($article_id))->onQueue(QueueNameEnum::UPDATE_ALL_JOB));
+            dispatch((new AutoArticleAllJob($article_id, true))->onQueue(QueueNameEnum::UPDATE_ALL_JOB));
         }
     }
 
