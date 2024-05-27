@@ -67,6 +67,18 @@ class StaticController extends Controller
         return view('static/mayi', ['update_articles' => $update_articles]);
     }
 
+
+    public function hour_job_article(Request $request)
+    {
+        $time = time() - 3600;
+        $last_time = time() - 7200;
+
+        $article_ids = Article::where('lastupdate', '>', $last_time)->where('lastupdate', '<', $time)->pluck('aritcleid');
+        foreach ($article_ids as $article_id) {
+            dispatch((new AutoArticleAllJob($article_id))->onQueue(QueueNameEnum::UPDATE_ALL_JOB));
+        }
+    }
+
     public function add_article(Request $request)
     {
         $site = $request->get('site', 'mayi');

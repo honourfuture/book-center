@@ -113,6 +113,9 @@ class ErrorArticleService
         if (strpos($content, "作为捕蛇者") !== false) {
             return 1;
         }
+        if (strpos($content, "亲爱的访客") !== false) {
+            return 1;
+        }
         if (strpos($content, "先祖在上") !== false) {
             return 1;
         }
