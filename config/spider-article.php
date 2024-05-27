@@ -33,4 +33,25 @@ return [
             ]
         ]
     ],
+    'biquduwx' => [
+        'name' => 'biquduwx',
+        'charset' => 'utf-8',
+        'domain' => 'http://58.87.95.199/bssw_com.php?url=http://wap.biquduwx.com/top/lastupdate_1/',
+        'pages' => [
+            'home' => [
+                'url' => 'http://58.87.95.199/bssw_com.php?url=http://wap.biquduwx.com/top/lastupdate_1/',
+                'rule' => [
+                    'article_names' => ['.p2>a', 'text'],
+                    // DOM解析链接
+                    'article_urls' => ['.p2>a', 'attr(href)'],
+                    'authors' => ['.p3', 'text'],
+                    'last_chapters' => ['.s3', 'text'],
+                ],
+
+                'range' => '.user_content .content_link',
+                'add_rule' => [],
+                'add_range' => '',
+            ]
+        ]
+    ],
 ];
