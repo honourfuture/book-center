@@ -92,15 +92,18 @@ class CollectArticle extends Command
                 break;
             case 'biquduwx':
                 $insert_articles = $this->_biquduwx($update_articles);
+
                 break;
         }
+
+
         $article_ids = array_column($insert_articles, 'article_id');
         $article_names = array_column($insert_articles, 'article_name');
         $authors = array_column($insert_articles, 'author');
 
         // 新增至source_article
         $source_articles = SourceArticle::whereIn('article_id', $article_ids)
-            ->where('source', $site)
+            ->where('source', 'mayi')
             ->get()->keyBy(function ($article) {
                 return md5($article->article_name . '-' . $article->author);
             })->toArray();
@@ -195,22 +198,31 @@ class CollectArticle extends Command
 
         }
         $article_names = array_column($insert_articles, 'article_name');
+        // print_r($article_names);
         $authors = array_column($insert_articles, 'author');
+        // print_r($authors);
 
         $source_articles = SourceArticle::select(['article_id', 'article_name', 'author'])->whereIn('article_name', $article_names)
             ->where('source', 'mayi')
             ->whereIn('author', $authors)->get()->keyBy(function ($article) {
-                return md5($article->articlename . '-' . $article->author);
+                return md5($article->article_name . '-' . $article->author);
             })->toArray();
+
 
         foreach ($insert_articles as $key => $insert_article){
             if(isset($source_articles[$key])){
-                $insert_articles[$key]['article_id'] = $insert_article['article_id'];
+                $article_id = $source_articles[$key]['article_id'];
+                $index = intval($article_id / 1000);
+                $href = "/{$index}_{$article_id}/";
+
+                $insert_articles[$key]['article_id'] = $source_articles[$key]['article_id'];
+                $insert_articles[$key]['article_url'] = $href;
                 continue;
             }
 
             unset($insert_articles[$key]);
         }
+
         return $insert_articles;
     }
 
