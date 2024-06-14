@@ -72,8 +72,7 @@ class StaticController extends Controller
     {
         $time = time() - 3600;
         $last_time = time() - 7200;
-
-        $article_ids = Article::where('lastupdate', '>', $last_time)->where('lastupdate', '<', $time)->pluck('aritcleid');
+        $article_ids = Article::where('lastupdate', '>', $last_time)->where('lastupdate', '<', $time)->pluck('articleid');
         foreach ($article_ids as $article_id) {
             dispatch((new AutoArticleAllJob($article_id, true))->onQueue(QueueNameEnum::UPDATE_ALL_JOB));
         }
@@ -84,7 +83,7 @@ class StaticController extends Controller
         $start_time = strtotime(date('Y-m-d 00:00:00'));
         $end_time = time();
 
-        $article_ids = Article::where('lastupdate', '>', $start_time)->where('lastupdate', '<', $end_time)->pluck('aritcleid');
+        $article_ids = Article::where('lastupdate', '>', $start_time)->where('lastupdate', '<', $end_time)->pluck('articleid');
         foreach ($article_ids as $article_id) {
             dispatch((new AutoArticleAllJob($article_id, false))->onQueue(QueueNameEnum::UPDATE_ALL_JOB));
         }
