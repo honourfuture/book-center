@@ -79,6 +79,17 @@ class StaticController extends Controller
         }
     }
 
+    public function day_job_article(Request $request)
+    {
+        $start_time = strtotime(date('Y-m-d 00:00:00'));
+        $end_time = time();
+
+        $article_ids = Article::where('lastupdate', '>', $start_time)->where('lastupdate', '<', $end_time)->pluck('aritcleid');
+        foreach ($article_ids as $article_id) {
+            dispatch((new AutoArticleAllJob($article_id, false))->onQueue(QueueNameEnum::UPDATE_ALL_JOB));
+        }
+    }
+
     public function add_article(Request $request)
     {
         $site = $request->get('site', 'mayi');

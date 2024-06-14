@@ -51,6 +51,7 @@ Route::get('/static', [\App\Http\Controllers\StaticController::class, 'build_sta
 Route::get('/update-article', [\App\Http\Controllers\StaticController::class, 'update_article']);
 Route::get('/job-article', [\App\Http\Controllers\StaticController::class, 'job_article']);
 Route::get('/hour-job-article', [\App\Http\Controllers\StaticController::class, 'hour_job_article']);
+Route::get('/day-job-article', [\App\Http\Controllers\StaticController::class, 'day_job_article']);
 Route::get('/add-article', [\App\Http\Controllers\StaticController::class, 'add_article']);
 Route::get('/update-article-crontab', [\App\Http\Controllers\StaticController::class, 'update_article_crontab']);
 //source
