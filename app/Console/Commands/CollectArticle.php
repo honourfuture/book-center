@@ -59,7 +59,6 @@ class CollectArticle extends Command
         $page = $config['pages'][$page];
 
         $html = $this->get_proxy($page['url']);
-
         if ($config['charset'] == 'gbk') {
             $html = iconv('gbk', 'utf-8//IGNORE', $html);
         }

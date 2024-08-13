@@ -80,7 +80,7 @@ class StaticController extends Controller
 
     public function day_job_article(Request $request)
     {
-        $start_time = strtotime(date('Y-m-d 00:00:00'));
+        $start_time = strtotime(date('Y-m-d 00:00:00'), strtotime('-1 day'));
         $end_time = time();
 
         $article_ids = Article::where('lastupdate', '>', $start_time)->where('lastupdate', '<', $end_time)->pluck('articleid');
