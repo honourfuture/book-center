@@ -264,9 +264,9 @@ return [
     'aihao' => [
         'name' => 'aihao',
         'charset' => 'utf-8',
-        'domain' => 'http://101.200.132.193/tieshuw.php?url=http://www.aihaowenxue.cc',
+        'domain' => 'http://101.200.132.193/tieshuw.php?url=http://www.aihaowenxue.org',
         'url' => 'http://101.200.132.193/tieshuw.php?url=',
-        'next_url' => 'http://101.200.132.193/tieshuw.php?url=http://www.aihaowenxue.cc',
+        'next_url' => 'http://101.200.132.193/tieshuw.php?url=http://www.aihaowenxue.org',
         'get_article_info_rule' => [
             'book_name' => ['meta:eq(14)', 'content'],
             'author' => ['meta:eq(12)', 'content'],
@@ -283,7 +283,7 @@ return [
 
         'get_chapter_find' => '#content:text',
 
-        'article_url' => "http://101.200.132.193/tieshuw.php?url=http://www.aihaowenxue.cc/xiaoshuo/{--article_id--}/",
+        'article_url' => "http://101.200.132.193/tieshuw.php?url=http://www.aihaowenxue.org/xiaoshuo/{--article_id--}/",
 
         'content_preg' => function ($text) {
             $text = str_replace([

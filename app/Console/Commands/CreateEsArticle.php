@@ -44,6 +44,7 @@ class CreateEsArticle extends Command
             ->setBasicAuthentication(config('database.connections.elasticsearch.user'), config('database.connections.elasticsearch.pass'))
             ->build();
 
+        //查看es总记录数
         Article::select(['articleid', 'author', 'articlename'])->where('articleid', '>', 133421)->chunk(200, function ($articles) use ($client) {
             $params = [
                 'body' => []
