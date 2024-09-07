@@ -44,7 +44,7 @@ class CreateEsArticle extends Command
             ->setBasicAuthentication(config('database.connections.elasticsearch.user'), config('database.connections.elasticsearch.pass'))
             ->build();
 
-        Article::select(['articleid', 'author', 'articlename'])->where('articleid', '>', 121000)->chunk(200, function ($articles) use ($client) {
+        Article::select(['articleid', 'author', 'articlename'])->where('articleid', '>', 133421)->chunk(200, function ($articles) use ($client) {
             $params = [
                 'body' => []
             ];
