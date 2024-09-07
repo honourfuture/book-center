@@ -20,7 +20,7 @@ class SourceUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'source:update {--type=}';
+    protected $signature = 'source:update {--site=}';
 
     /**
      * The console command description.
@@ -46,30 +46,23 @@ class SourceUpdate extends Command
      */
     public function handle()
     {
-//        $type = $this->option('type');
-//        if(!$type || !in_array($type, ['all', 'append'])){
-//            $this->error("type值 [all] [append]");
-//        }
-//
-//        $article_model = Article::select(['articleid', 'articlename', 'author'])->orderBy('articleid', 'asc');
-//        if($type == 'append'){
-//            $max_id = SourceArticle::select([DB::raw('max(local_article_id) as id')])->first();
-//            $article_model = $article_model->where('articleid', '>', $max_id->id);
-//        }
-//
-//        $article_model->chunk(500, function ($artciles){
-//            foreach ($artciles as $artcile){
-//                $this->info("{$artcile->articleid} {$artcile->articlename}");
-//                SourceArticle::where('article_name', $artcile->articlename)->where('author', $artcile->author)->update([
-//                    'local_article_id' => $artcile->articleid
-//                ]);
-//            }
-//        });
-//        die;
+        DB::statement("ALTER TABLE source_articles ADD COLUMN `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY;");
 
-        $source_articles = SourceArticle::select('*')
-            ->whereNull('article_id')->chunk(1000, function ($source_articles) {
+        SourceArticle::where('article_name', '')->delete();
 
+        if ($this->option('site') == 'tt') {
+            $this->_tt();
+        }
+
+        if ($this->option('site') == '69shu') {
+            $this->_69shu();
+        }
+        DB::statement("ALTER TABLE source_articles DROP COLUMN `id`");
+    }
+
+    private function _tt()
+    {
+        SourceArticle::select('*')->chunk(1000, function ($source_articles) {
             foreach ($source_articles as $article) {
                 $pattern = '/","copyright":".*/';
                 $article_name = preg_replace($pattern, '', $article->article_name);
@@ -87,9 +80,37 @@ class SourceUpdate extends Command
                     ]);
                     $this->info($article_name);
                 }
-
             }
         });
     }
 
+    private function _69shu()
+    {
+        SourceArticle::select('*')->chunk(1000, function ($source_articles) {
+            foreach ($source_articles as $article) {
+
+                $pattern = '/","copyright":".*/';
+                $article_name = preg_replace($pattern, '', $article->article_name);
+                $article_name = trim($article_name);
+                $pattern = '/https:\/\/69shuba\.cx\/book\/(\d+)\.htm/';
+
+                $id = $matches[1] ?? 0;
+                if (!$id) {
+                    $pattern = '/https:\/\/69shu\.me\/book\/(\d+)\.htm/';
+                    preg_match($pattern, $article->origin_url, $matches);
+                    $id = $matches[1];
+                }
+
+                if ($id) {
+                    SourceArticle::where('id', $article->id)->update([
+                        'article_name' => $article_name,
+                        'article_id' => $id,
+                        'source' => '69shu',
+                        'origin_url' => 'https://69shu.me/book/' . $id . '.htm'
+                    ]);
+                    $this->info($article_name);
+                }
+            }
+        });
+    }
 }
