@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\QueueNameEnum;
 use App\Jobs\AutoArticle00ShuJob;
+use App\Jobs\AutoArticleAiHaoJob;
 use App\Jobs\AutoArticleMayiJob;
 use App\Jobs\AutoArticleTTJob;
 use App\Jobs\AutoArticle69ShuJob;
@@ -76,7 +77,7 @@ class PushAutoUpdateArticleJob extends Command
                     dispatch((new AutoArticle69ShuJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_69SHU_JOB));
                     break;
                 case 'aihao':
-                    dispatch((new AutoArticle69ShuJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_CHAPTER_AIHAO_JOB));
+                    dispatch((new AutoArticleAiHaoJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_CHAPTER_AIHAO_JOB));
                     break;
             }
         }
