@@ -54,7 +54,6 @@ class AnalyseController extends Controller
                 ['date' => $date],
                 ['rule_counter' => $taskLog]
             );
-
         }
     }
 
