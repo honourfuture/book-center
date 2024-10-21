@@ -92,6 +92,7 @@ class ErrorArticleService
      */
     public function is_error_chapter($content)
     {
+        return 1;
         if (strpos($content, "正在手打") !== false) {
             return 1;
         }
