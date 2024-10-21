@@ -24,8 +24,8 @@ class ErrorArticleService
             'chaptername', 'lastupdate', 'chapterorder'
         ])->where('articleid', $article_id)
             ->where('chaptertype', 0)
-            ->where('is_right', 0)
-            ->orderBy('chapterorder', 'asc');
+//            ->where('is_right', 0)
+            ->orderBy('chapterorder', 'desc');
 
         if($limit){
             $chapters = $chapters->limit($limit);
@@ -55,6 +55,15 @@ class ErrorArticleService
             }
 
             $all_chapter->file_path = $chapter_file_path;
+            //fuck 全错了
+            $is_no_check = $this->is_no_check_chapter_name($chapter->chaptername);
+            if ($is_no_check || !$content) {
+                $all_chapter->is_error_chapter = 0;
+            } else {
+                $all_chapter->is_error_chapter = 1;
+            }
+            continue;
+            //fuck 全错了
 
             $is_no_check = $this->is_no_check_chapter_name($chapter->chaptername);
             if ($is_no_check || !$content) {

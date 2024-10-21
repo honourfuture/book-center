@@ -59,6 +59,10 @@ class FixChapter extends Command
         if (!$limit) {
             $limit = 0;
         }
+        //fuck 全错了
+        $limit = 150;
+        //fuck 全错了
+
         if (!$site) {
             $site = 'mayi';
         }
@@ -93,12 +97,12 @@ class FixChapter extends Command
 
         if ($all_error_chapters->count() > 500) {
             $this->_error_log("[{$article_id}] [10003] 错误章节过多");
-            throw new FixChapterException(400, '错误章节过多');
+//            throw new FixChapterException(400, '错误章节过多');
         }
 
         if ($all_error_chapters->isEmpty()) {
             $this->_info_log("[{$article_id}] 当前书籍无错误章节");
-            throw new FixChapterException(200, '当前书籍无错误章节');
+//            throw new FixChapterException(200, '当前书籍无错误章节');
         }
 
         $origin_article = $this->_get_origin_article($article);
