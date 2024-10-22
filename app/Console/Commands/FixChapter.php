@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Exceptions\FixChapterException;
 use App\Models\Article;
 use App\Models\Chapter;
+use App\Models\ChapterFix;
 use App\Services\ErrorArticleService;
 use App\Services\LoggerService;
 use App\Services\SpiderService;
@@ -86,6 +87,9 @@ class FixChapter extends Command
         $error_article_service = app('ErrorArticleService');
         $chapters = $error_article_service->check_error_chapters($article, $limit);
 
+        $chapter_ids = array_pluck($chapters, 'chapterid');
+        $chapterFixes = ChapterFix::whereIn('chapter_id', $chapter_ids)->where('site', $site)->get();
+
         $right_chapters = $chapters->where('is_error_chapter', 0);
         $right_chapter_ids = $right_chapters->pluck('chapterid')->toArray();
         if ($right_chapter_ids) {
@@ -146,8 +150,17 @@ class FixChapter extends Command
 
         $error_chapter_ids = $change_chapter_ids = [];
         $storage = Storage::disk('article');
+
+
         foreach ($chapters as $chapter) {
+            $chapterFix = $chapterFixes->where('chapter_id', $chapter->chapterid)->first();
+            if ($chapterFix->md5_content == $chapter->md5_content) {
+                $this->_info_log("[{$article_id}] [{$chapter->chapterid} - {$chapter->chaptername}] md5验证无需修复");
+                continue;
+            }
+
             if ($chapter->is_error_chapter == 0) {
+                $this->_info_log("[{$article_id}] [{$chapter->chapterid} - {$chapter->chaptername}] 章节名忽略无需修复");
                 continue;
             }
 
@@ -163,12 +176,14 @@ class FixChapter extends Command
 
             $chapter_name = clear_text($chapter->chaptername);
 
+
             if (isset($full_origin_chapters[$chapter_name])) {
                 $url = $full_origin_chapters[$chapter_name]['url'];
                 $url = str_replace('http://m.', 'http://www.', $url);
                 $this->_line_log("[{$article_id}] 开始修复章节[{$chapter->chapterid}]: {$chapter->chaptername}");
 
                 $text = $this->_get_origin_chapter($url);
+                $md5_content = md5($text);
                 $is_error = $error_article_service->is_error_chapter($text);
                 if (!$is_error) {
                     $storage->get($chapter->file_path);
@@ -178,12 +193,19 @@ class FixChapter extends Command
                     $change_chapter_ids[] = $chapter->chapterid;
                     $this->_info_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 成功");
                     $this->errorNums = 0;
+                    ChapterFix::updateOrCreate([
+                        'chapter_id' => $chapter->chapterid,
+                        'site' => $site,
+                    ], [
+                        'md5_content' => $md5_content,
+                    ]);
                     continue;
                 } else {
                     $this->errorNums++;
                     $this->_error_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 失败, 源站章节错误[{}]");
                     continue;
                 }
+
             }
 
 

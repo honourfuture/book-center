@@ -47,6 +47,7 @@ class ErrorArticleService
             $all_chapter = $chapter;
 
             $chapter_file = $storage->get($chapter_file_path);
+            $all_chapter->md5_content = md5($chapter_file);
 
             try{
                 $content = iconv('gbk', 'utf-8//IGNORE', $chapter_file);
@@ -101,7 +102,6 @@ class ErrorArticleService
      */
     public function is_error_chapter($content)
     {
-        return 1;
         if (strpos($content, "正在手打") !== false) {
             return 1;
         }
