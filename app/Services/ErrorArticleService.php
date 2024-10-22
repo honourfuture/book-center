@@ -27,10 +27,11 @@ class ErrorArticleService
 //            ->where('is_right', 0)
             ->orderBy('chapterorder', 'desc');
 
-        if($limit){
+        if ($limit) {
             $chapters = $chapters->limit($limit);
         }
         $chapters = $chapters->get();
+
 
         $short_id = intval($article->articleid / 1000);
 
@@ -41,6 +42,7 @@ class ErrorArticleService
         foreach ($chapters as $chapter) {
             $chapter_file_path = "{$short_id}/{$article->articleid}/$chapter->chapterid.txt";
             if (!$storage->exists($chapter_file_path)) {
+                echo(1);
                 continue;
             }
 
@@ -49,9 +51,9 @@ class ErrorArticleService
             $chapter_file = $storage->get($chapter_file_path);
             $all_chapter->md5_content = md5($chapter_file);
 
-            try{
+            try {
                 $content = iconv('gbk', 'utf-8//IGNORE', $chapter_file);
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $content = mb_convert_encoding($chapter_file, 'utf-8', 'GBK');
             }
 
@@ -63,6 +65,7 @@ class ErrorArticleService
             } else {
                 $all_chapter->is_error_chapter = 1;
             }
+            $all_chapters[] = $all_chapter;
             continue;
             //fuck 全错了
 
@@ -73,7 +76,7 @@ class ErrorArticleService
                 $all_chapter->is_error_chapter = $this->is_error_chapter($content);
             }
 
-            $all_chapters[] = $all_chapter;
+
         }
 
         return $all_chapters;
@@ -132,7 +135,7 @@ class ErrorArticleService
         if (strpos($content, "也杀死了多位八阶强者") !== false) {
             return 1;
         }
-        if(strpos($content, "LqOFWfg2cmn") !== false){
+        if (strpos($content, "LqOFWfg2cmn") !== false) {
             return 1;
         }
         $str_len = mb_strlen($content);
@@ -145,7 +148,7 @@ class ErrorArticleService
 
     public function is_special_error_chapter($content)
     {
-        if(strpos($content, "LqOFWfg2cmn") !== false){
+        if (strpos($content, "LqOFWfg2cmn") !== false) {
             return 1;
         }
         $str_len = mb_strlen($content);

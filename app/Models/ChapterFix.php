@@ -12,4 +12,6 @@ class ChapterFix extends Model
     protected $table = 'jieqi_chapter_fixes';
 
     protected $primaryKey = 'id';
+
+    protected $guarded = [];
 }

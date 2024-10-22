@@ -87,8 +87,8 @@ class FixChapter extends Command
         $error_article_service = app('ErrorArticleService');
         $chapters = $error_article_service->check_error_chapters($article, $limit);
 
-        $chapter_ids = array_pluck($chapters, 'chapterid');
-        $chapterFixes = ChapterFix::whereIn('chapter_id', $chapter_ids)->where('site', $site)->get();
+        $chapter_ids = $chapters->pluck('chapterid');
+        $chapterFixes = ChapterFix::whereIn('chapter_id', $chapter_ids)->get();
 
         $right_chapters = $chapters->where('is_error_chapter', 0);
         $right_chapter_ids = $right_chapters->pluck('chapterid')->toArray();
@@ -153,8 +153,8 @@ class FixChapter extends Command
 
 
         foreach ($chapters as $chapter) {
-            $chapterFix = $chapterFixes->where('chapter_id', $chapter->chapterid)->first();
-            if ($chapterFix->md5_content == $chapter->md5_content) {
+            $chapterFixContents = $chapterFixes->where('chapter_id', $chapter->chapterid)->pluck(['md5_content'])->toArray();
+            if ($chapterFixContents && in_array($chapter->md5_content, $chapterFixContents)) {
                 $this->_info_log("[{$article_id}] [{$chapter->chapterid} - {$chapter->chaptername}] md5验证无需修复");
                 continue;
             }
@@ -183,12 +183,12 @@ class FixChapter extends Command
                 $this->_line_log("[{$article_id}] 开始修复章节[{$chapter->chapterid}]: {$chapter->chaptername}");
 
                 $text = $this->_get_origin_chapter($url);
-                $md5_content = md5($text);
                 $is_error = $error_article_service->is_error_chapter($text);
                 if (!$is_error) {
                     $storage->get($chapter->file_path);
                     $text = iconv('utf-8', 'gbk//IGNORE', $text);
                     $text = $textTypeSetService->doTypeSet($text);
+                    $md5_content = md5($text);
                     $storage->put($chapter->file_path, $text);
                     $change_chapter_ids[] = $chapter->chapterid;
                     $this->_info_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 成功");
@@ -221,10 +221,18 @@ class FixChapter extends Command
                     $storage->get($chapter->file_path);
                     $text = iconv('utf-8', 'gbk//IGNORE', $text);
                     $text = $textTypeSetService->doTypeSet($text);
+                    $md5_content = md5($text);
+
                     $storage->put($chapter->file_path, $text);
                     $change_chapter_ids[] = $chapter->chapterid;
                     $this->_info_log("[{$article_id}] 修复章节[{$chapter->chapterid}]: {$chapter->chaptername} 成功");
                     $this->errorNums = 0;
+                    ChapterFix::updateOrCreate([
+                        'chapter_id' => $chapter->chapterid,
+                        'site' => $site,
+                    ], [
+                        'md5_content' => $md5_content,
+                    ]);
                     continue;
                 } else {
                     $this->errorNums++;
