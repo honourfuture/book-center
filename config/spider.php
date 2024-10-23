@@ -77,13 +77,6 @@ return [
         'article_url' => "http://101.42.27.27/tieshuw.php?url=https://www.yingxiongxs.com/book/{--article_id--}",
 
         'content_preg' => function ($text) {
-            $text = str_replace([
-                '</p>',
-                '<br/>',
-                '<br />',
-                '<br>'
-            ], '', $text);
-
             return $text;
         }
     ],
