@@ -28,4 +28,6 @@ class QueueNameEnum
 
     const UPDATE_CHAPTER_AIHAO_JOB = 'updateChapterAiHaoJob';
 
+    const UPDATE_CHAPTER_YINGXIONG_JOB = 'updateChapterYingXiongJob';
+
 }

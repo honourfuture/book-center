@@ -111,7 +111,6 @@ class FixChapter extends Command
 
         $origin_article = $this->_get_origin_article($article);
         $origin_article = isset($origin_article[0]) ? $origin_article[0] : [];
-
         $origin_chapters = [];
         $full_origin_chapters = [];
         $repeat_chapter_count = 0;
@@ -173,9 +172,7 @@ class FixChapter extends Command
                 $this->_error_log("[{$article_id}] [10004] [{$chapter->chapterid} - {$chapter->chaptername}]连续错误次数过多跳出");
 //                break;
             }
-
             $chapter_name = clear_text($chapter->chaptername);
-
 
             if (isset($full_origin_chapters[$chapter_name])) {
                 $url = $full_origin_chapters[$chapter_name]['url'];
@@ -183,6 +180,7 @@ class FixChapter extends Command
                 $this->_line_log("[{$article_id}] 开始修复章节[{$chapter->chapterid}]: {$chapter->chaptername}");
 
                 $text = $this->_get_origin_chapter($url);
+
                 $is_error = $error_article_service->is_error_chapter($text);
                 if (!$is_error) {
                     $storage->get($chapter->file_path);
@@ -207,7 +205,6 @@ class FixChapter extends Command
                 }
 
             }
-
 
             if (isset($origin_chapters[$chapter_name])) {
                 $url = $origin_chapters[$chapter_name]['url'];
@@ -284,7 +281,6 @@ class FixChapter extends Command
         $this->_line_log("[{$article->articleid}] 获取远程站点");
 
         $url = $this->spiderService->get_origin_url($article);
-
         if (!$url) {
             $this->_error_log("[{$article->articleid}] 未找到远程url");
             throw new FixChapterException(400, '未找到远程url');

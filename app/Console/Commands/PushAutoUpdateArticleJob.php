@@ -8,8 +8,8 @@ use App\Jobs\AutoArticleAiHaoJob;
 use App\Jobs\AutoArticleMayiJob;
 use App\Jobs\AutoArticleTTJob;
 use App\Jobs\AutoArticle69ShuJob;
-
 use App\Jobs\AutoArticleXWBiQuGeJob;
+use App\Jobs\AutoArticleYingXiongJob;
 use Illuminate\Console\Command;
 
 class PushAutoUpdateArticleJob extends Command
@@ -78,6 +78,9 @@ class PushAutoUpdateArticleJob extends Command
                     break;
                 case 'aihao':
                     dispatch((new AutoArticleAiHaoJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_CHAPTER_AIHAO_JOB));
+                    break;
+                case 'yingxiong':
+                    dispatch((new AutoArticleYingxiongJob($article_id, $site, $limit))->onQueue(QueueNameEnum::UPDATE_CHAPTER_YINGXIONG_JOB));
                     break;
             }
         }

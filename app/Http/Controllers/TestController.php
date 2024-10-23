@@ -21,6 +21,11 @@ class TestController extends Controller
 {
     public function test()
     {
+        Artisan::call("fix:chapter", [
+            '--article_id' => 93685,
+            '--site' => 'yingxiong',
+        ]);
+        echo 1;die;
         $key = '3d5007f6cc4763d314194b114f7d73a1';
         $domains = [
             "yuanwenba.com","5ccc.tw","soshukan.com","lewen55.net","zhanlianxue.net","qxs.la","l511.com","minishuwu.com","zwdu.app"

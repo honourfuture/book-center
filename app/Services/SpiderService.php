@@ -57,6 +57,7 @@ class SpiderService
         ]);
         $rt = $rt->rules($rules)->query()->getData();
 
+
         return $rt->all();
     }
 
@@ -68,7 +69,7 @@ class SpiderService
             'timeout' => 6.0
         ]);
 
-        $options =[
+        $options = [
             'query' => [
                 'time' => time(),
             ]
@@ -89,7 +90,7 @@ class SpiderService
             'timeout' => 6.0
         ]);
 
-        $options =[
+        $options = [
             'query' => [
                 'time' => time(),
             ]
@@ -102,33 +103,27 @@ class SpiderService
 
     public function get_article($url)
     {
-        if($this->config['is_proxy']){
+        if ($this->config['is_proxy']) {
             $html = $this->get_proxy($url);
-        }else{
+        } else {
             $html = $this->get_other($url);
         }
 
         if ($this->config['charset'] == 'gbk') {
-            try{
+            try {
                 $html = iconv('gbk', 'utf-8//IGNORE', $html);
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $html = mb_convert_encoding($html, 'utf-8', 'GBK');
             }
         }
-        // 元数据DOM解析规则
-        $rules = [
-            // DOM解析文章标题
-            'chapters' => ['a', 'texts'],
-            // DOM解析链接
-            'chapter_hrefs' => ['a', 'attrs(href)'],
-        ];
+        if($this->config['name'] == 'yingxiong'){
+            $html = preg_replace('/<meta\s+http-equiv=["\']Content-Type["\']\s+content=["\']text\/html;\s*charset=gbk["\']\s*\/?>/i', '', $html);
+        }
 
         $rules = $this->config['get_article_rule'];
         $range = $this->config['get_article_range'];
-
         $rt = QueryList::html($html)->rules($rules)
             ->range($range)->query()->getData();
-
         $data = $rt->all();
 
         if ($data) {
@@ -136,18 +131,16 @@ class SpiderService
                 $href = $this->config['url'] . $href;
             }
         }
-
         return $data;
     }
 
     public function get_chapter($url, $content = '')
     {
-        if($this->config['is_proxy']){
+        if ($this->config['is_proxy']) {
             $html = $this->get_proxy($url);
-        }else{
+        } else {
             $html = $this->get_other($url);
         }
-
         if ($this->config['charset'] == 'gbk') {
             $html = iconv('gbk', 'utf-8//IGNORE', $html);
         }
@@ -159,20 +152,34 @@ class SpiderService
         if (isset($this->config['next_page'])) {
             $next_page = $this->config['next_page'];
             $next_info = QueryList::html($html)->rules($next_page['rule'])->range($next_page['range'])->query()->getData();
-            if($next_info[0]['text'][0] == $this->config['next_page']['has_text']){
+            if ($next_info[0]['text'][0] == $this->config['next_page']['has_text']) {
                 $next_url = $this->config['next_url'] . $next_info[0]['url'][0];
                 $content = $this->get_chapter($next_url, $content);
             }
         }
         sleep(2);
 
-        if($this->source != 'tt'){
+        if ($this->source != 'tt') {
             sleep(3);
         }
 
         return $content;
     }
+    /**
+     * @param $article_id
+     * @return string
+     */
+    public function build_url($article_id)
+    {
+        $index = intval($article_id / 1000);
+        $url = $this->config['url'];
+        if (strpos('{--index--}', $url) !== false) {
 
+        }
+        $url = str_replace('{--index--}', $index, $url);
+        $url = str_replace('{--article_id--}', $article_id, $url);
+        $this->config['url'] = $url;
+    }
     /**
      * @param $article_id
      * @return string
@@ -199,8 +206,7 @@ class SpiderService
         $key = $this->config['name'];
 
         $source_article = SourceArticle::where('local_article_id', $article['articleid'])->where('source', $key)->first();
-
-        if(!$source_article){
+        if (!$source_article) {
             $source_article = SourceArticle::where('article_name', $article->articlename)
                 ->where('author', $article->author)
                 ->where('source', $key)->first();
@@ -209,7 +215,7 @@ class SpiderService
         if (!$source_article) {
             return false;
         }
-
+        $this->build_url($source_article->article_id);
         return $this->build_article_url($source_article->article_id);
 
         $origin_articles = SourceArticle::where('article_name', $article->articlename)->get();

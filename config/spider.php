@@ -53,7 +53,40 @@ return [
             return $text;
         }
     ],
+    'yingxiong' => [
+        'name' => 'yingxiong',
+        'charset' => 'gbk',
+        'domain' => 'http://www.jiuhongbao.com/a1a0html/q.php?url=https://www.yingxiongxs.com',
+        'url' => 'http://43.252.160.33/9sct_com.php?url=https://www.yingxiongxs.com/book/{--article_id--}/',
+        'next_url' => 'https://www.mayiwsk.com',
+        'get_article_info_rule' => [
+            'book_name' => ['meta:eq(8)', 'content'],
+            'author' => ['meta:eq(11)', 'content'],
+            'desc' => ['#intro', 'text']
+        ],
+        'is_proxy' => true,
+        'get_article_rule' => [
+            'chapters' => ['a', 'texts'],
+            // DOM解析链接
+            'chapter_hrefs' => ['a', 'attrs(href)'],
+        ],
+        'get_article_range' => '.book-chapter-list',
 
+        'get_chapter_find' => 'content',
+
+        'article_url' => "http://101.42.27.27/tieshuw.php?url=https://www.yingxiongxs.com/book/{--article_id--}",
+
+        'content_preg' => function ($text) {
+            $text = str_replace([
+                '</p>',
+                '<br/>',
+                '<br />',
+                '<br>'
+            ], '', $text);
+
+            return $text;
+        }
+    ],
     'tt' => [
         'name' => 'tt',
         'charset' => 'utf-8',
