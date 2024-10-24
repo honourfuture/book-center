@@ -19,12 +19,22 @@ use function Livewire\str;
 
 class ArticleController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function hand_articles(Request $request)
     {
         $articles = HandArticle::orderBy('order', 'desc')->get();
         return view('hand-article', ['articles' => $articles]);
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     public function article($id, Request $request)
     {
         $page_size = $request->get('chapter_num', 50);
@@ -55,9 +65,9 @@ class ArticleController extends Controller
             $chapter->size = $storage->size($chapter_file_path);
             $chapter_file = $storage->get($chapter_file_path);
 
-            try{
+            try {
                 $chapter->content = iconv('gbk', 'utf-8//IGNORE', $chapter_file);
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $chapter->content = mb_convert_encoding($chapter_file, 'utf-8', 'GBK');
             }
 
@@ -70,6 +80,10 @@ class ArticleController extends Controller
         return view('chapter', ['article' => $article, 'chapters' => $chapters, 'source_articles' => $source_articles]);
     }
 
+    /**
+     * @param $article_id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function create_source_article($article_id)
     {
         $article = Article::find($article_id);
@@ -78,6 +92,10 @@ class ArticleController extends Controller
         return view('create-source', ['sources' => $sources, 'article' => $article]);
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     */
     public function do_create_source_article(Request $request)
     {
         $article_id = $request->get('article_id');
@@ -96,6 +114,11 @@ class ArticleController extends Controller
 
     }
 
+    /**
+     * @param $content
+     * @param $str_len
+     * @return array
+     */
     private function _check_chapter($content, $str_len)
     {
         $error_message = [];
@@ -136,7 +159,9 @@ class ArticleController extends Controller
         return $error_message;
     }
 
-
+    /**
+     * @return void
+     */
     public function list()
     {
         /** @var ExcellentArticleService $excellentArticleService */
@@ -149,6 +174,10 @@ class ArticleController extends Controller
         echo "</ul>";
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     */
     public function book(Request $request)
     {
         $book_name = $request->get('book_name');
@@ -170,6 +199,10 @@ class ArticleController extends Controller
         echo "</ul>";
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     */
     public function chapter(Request $request)
     {
         $id = $request->get('chapter_id');
@@ -183,6 +216,10 @@ class ArticleController extends Controller
         echo "<p id=\"content\">{$info['chapters'][$id]['text']}</p>";
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     */
     public function check_articles(Request $request)
     {
         $article_ids = $request->get('article_ids');
@@ -203,6 +240,12 @@ class ArticleController extends Controller
         }
     }
 
+    /**
+     * @param $chapters
+     * @param $article
+     * @return array
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     private function _check_chapters($chapters, $article)
     {
         $short_id = intval($article->articleid / 1000);
@@ -240,6 +283,10 @@ class ArticleController extends Controller
         return $error_chapters;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function error_articles(Request $request)
     {
         $article_ids = $request->get('article_ids');

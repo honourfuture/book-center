@@ -25,6 +25,7 @@ class CrontabUpdateArticleJob implements ShouldQueue
     {
         try {
             Artisan::call("collect:article", []);
+            Artisan::call("collect:article", ['--site' => 'yingxiong']);
         }catch (\Exception $e){
             logger('8888-Crontab', []);
             logger($e);

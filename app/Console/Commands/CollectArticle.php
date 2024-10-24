@@ -61,28 +61,35 @@ class CollectArticle extends Command
         $html = $this->get_proxy($page['url']);
         if ($config['charset'] == 'gbk') {
             $html = iconv('gbk', 'utf-8//IGNORE', $html);
+            if ($site == 'yingxiong') {
+                $html = preg_replace('/<meta\s+http-equiv=["\']Content-Type["\']\s+content=["\']text\/html;\s*charset=gbk["\']\s*\/?>/i', '', $html);
+            }
         }
 
         $rules = $page['rule'];
         $range = $page['range'];
 
-        $rt = QueryList::html($html)->rules($rules)
-            ->range($range)->query()->getData();
+        $rt = QueryList::html($html)
+            ->rules($rules)
+            ->range($range)
+            ->query()
+            ->getData();
 
         $update_articles = $rt->all();
-
         $rules = $page['add_rule'];
         $range = $page['add_range'];
 
         if ($rules) {
             $rt = QueryList::html($html)->rules($rules)
-                ->range($range)->query()->getData();
+                ->range($range)
+                ->query()
+                ->getData();
             $add_articles = $rt->all();
         }
 
         $insert_articles = [];
 
-        $update_articles = $site == 'mayi' ? $update_articles[0] : $update_articles;
+        $update_articles = in_array($site, ['mayi', 'yingxiong']) ? $update_articles[0] : $update_articles;
 
         switch ($site) {
             case 'mayi':
@@ -91,10 +98,11 @@ class CollectArticle extends Command
                 break;
             case 'biquduwx':
                 $insert_articles = $this->_biquduwx($update_articles);
-
+                break;
+            case 'yingxiong':
+                $insert_articles = $this->_yingxiong($update_articles);
                 break;
         }
-
 
         $article_ids = array_column($insert_articles, 'article_id');
         $article_names = array_column($insert_articles, 'article_name');
@@ -102,7 +110,7 @@ class CollectArticle extends Command
 
         // 新增至source_article
         $source_articles = SourceArticle::whereIn('article_id', $article_ids)
-            ->where('source', 'mayi')
+            ->where('source', $site)
             ->get()->keyBy(function ($article) {
                 return md5($article->article_name . '-' . $article->author);
             })->toArray();
@@ -158,6 +166,11 @@ class CollectArticle extends Command
         return $promise->wait();
     }
 
+    private function _match_yingxiong_id($url)
+    {
+        return str_replace('/', '', str_replace('book', '', $url));
+    }
+
     private function _match_article_id($url)
     {
         preg_match('/\/\d+_(\d+)/', $url, $matches);
@@ -208,8 +221,8 @@ class CollectArticle extends Command
             })->toArray();
 
 
-        foreach ($insert_articles as $key => $insert_article){
-            if(isset($source_articles[$key])){
+        foreach ($insert_articles as $key => $insert_article) {
+            if (isset($source_articles[$key])) {
                 $article_id = $source_articles[$key]['article_id'];
                 $index = intval($article_id / 1000);
                 $href = "/{$index}_{$article_id}/";
@@ -266,6 +279,36 @@ class CollectArticle extends Command
                 'unique_md5' => md5($add_article_name),
                 'site' => $this->site,
                 'type' => 2,
+            ];
+        }
+        return $insert_articles;
+    }
+
+    private function _yingxiong($update_articles)
+    {
+        $insert_articles = [];
+        for ($i = 0; $i < 15; $i++) {
+            $article_name = $update_articles['article_names'][$i];
+            $article_url = $update_articles['article_urls'][$i];
+            $author = $update_articles['authors'][$i];
+            $last_chapter = $update_articles['last_chapters'][$i];
+
+            $article_id = $this->_match_yingxiong_id($article_url);
+
+            if ($last_chapter == '该章节已被锁定') {
+                continue;
+            }
+
+            $key = md5($article_name . '-' . $author);
+            $insert_articles[$key] = [
+                'article_name' => $article_name,
+                'article_url' => $article_url,
+                'author' => $author,
+                'last_chapter' => $last_chapter,
+                'article_id' => $article_id,
+                'unique_md5' => md5($article_name . '-' . $author),
+                'site' => $this->site,
+                'type' => 1,
             ];
         }
         return $insert_articles;
